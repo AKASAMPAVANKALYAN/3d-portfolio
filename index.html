@@ -141,10 +141,6 @@
             border-radius: 1rem;
             overflow: hidden;
         }
-        #visitor-count {
-            transition: all 0.3s ease;
-            display: inline-block;
-        }
     </style>
 </head>
 <body class="w-full">
@@ -385,9 +381,6 @@
                 <a href="mailto:apavanpkalyan@gmail.com" class="text-gray-400 hover:text-indigo-400 transition-colors"><i class="fas fa-envelope text-2xl"></i></a>
             </div>
             <p>&copy; 2025 Pavankalyan Akasam | QA Engineer</p>
-            <p class="text-white text-lg mt-4">
-                Total Visitors: <span id="visitor-count">Loading...</span>
-            </p>
         </footer>
     </div>
 
@@ -474,20 +467,6 @@
             if (mobileMenuButton && mobileMenu) {
                 mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
                 mobileNavLinks.forEach(link => link.addEventListener('click', () => mobileMenu.classList.add('hidden')));
-            }
-            
-            // --- Visitor Counter using counterapi.dev ---
-            const counterElement = document.getElementById('visitor-count');
-            if (counterElement) {
-                fetch('https://api.counterapi.dev/v1/counter/pavan-portfolio/increase')
-                    .then(response => response.json())
-                    .then(data => {
-                        counterElement.innerText = data.value.toLocaleString();
-                    })
-                    .catch(error => {
-                        console.error('Counter API failed:', error);
-                        counterElement.innerText = 'N/A';
-                    });
             }
         });
     </script>
