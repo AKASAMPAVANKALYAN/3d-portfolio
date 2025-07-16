@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +15,7 @@
             background-color: #0a0a0a;
             color: #e5e5e5;
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
         #bg-canvas {
             position: fixed;
@@ -35,7 +35,7 @@
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
             transition: all 0.3s ease;
         }
-        .glass-card:hover {
+        .glass-card:hover:not(.non-interactive) {
             border: 1px solid rgba(255, 255, 255, 0.2);
             transform: translateY(-5px);
         }
@@ -126,14 +126,14 @@
         .timeline-dot {
             position: absolute;
             left: -8px;
-            top: 0;
+            top: 5px;
             width: 18px;
             height: 18px;
             border-radius: 50%;
             background: #4f46e5;
             border: 3px solid #c026d3;
         }
-        .project-card {
+        .project-card, .cert-card {
             transition: all 0.3s ease;
         }
         .project-image-container {
@@ -144,10 +144,6 @@
         #visitor-count {
             transition: all 0.3s ease;
             display: inline-block;
-        }
-        #visitor-count:hover {
-            transform: scale(1.1);
-            color: #ec4899 !important;
         }
     </style>
 </head>
@@ -163,25 +159,27 @@
 
         <header class="fixed top-0 left-0 right-0 z-50 p-4">
             <div class="container mx-auto max-w-6xl">
-                <nav class="glass-card p-4 flex justify-between items-center">
+                <nav class="glass-card non-interactive p-4 flex justify-between items-center">
                     <a href="#home" class="text-xl font-bold tracking-wider hover:text-indigo-400 transition-colors">PKA</a>
                     <div class="hidden md:flex space-x-8">
                         <a href="#about" class="hover:text-indigo-400 transition-colors">About</a>
                         <a href="#skills" class="hover:text-indigo-400 transition-colors">Skills</a>
                         <a href="#projects" class="hover:text-indigo-400 transition-colors">Projects</a>
                         <a href="#education" class="hover:text-indigo-400 transition-colors">Education</a>
+                        <a href="#certifications" class="hover:text-indigo-400 transition-colors">Certifications</a>
                         <a href="#contact" class="hover:text-indigo-400 transition-colors">Contact</a>
                     </div>
                     <button class="md:hidden text-xl" id="mobile-menu-button">
                         <i class="fas fa-bars"></i>
                     </button>
                 </nav>
-                <div id="mobile-menu" class="hidden glass-card mt-2 p-4 md:hidden">
+                <div id="mobile-menu" class="hidden glass-card non-interactive mt-2 p-4 md:hidden">
                     <div class="flex flex-col space-y-4 text-center">
                         <a href="#about" class="hover:text-indigo-400 transition-colors mobile-nav-link">About</a>
                         <a href="#skills" class="hover:text-indigo-400 transition-colors mobile-nav-link">Skills</a>
                         <a href="#projects" class="hover:text-indigo-400 transition-colors mobile-nav-link">Projects</a>
                         <a href="#education" class="hover:text-indigo-400 transition-colors mobile-nav-link">Education</a>
+                        <a href="#certifications" class="hover:text-indigo-400 transition-colors mobile-nav-link">Certifications</a>
                         <a href="#contact" class="hover:text-indigo-400 transition-colors mobile-nav-link">Contact</a>
                     </div>
                 </div>
@@ -207,7 +205,7 @@
             </section>
 
             <section id="about" class="py-32 scroll-animate">
-                <div class="glass-card p-8 md:p-12 lg:p-16">
+                <div class="glass-card non-interactive p-8 md:p-12 lg:p-16">
                     <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center">About Me</h2>
                     <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
                         <div class="flex flex-col items-center">
@@ -247,7 +245,7 @@
             </section>
 
             <section id="skills" class="py-20 scroll-animate">
-                <div class="glass-card p-8 md:p-12">
+                <div class="glass-card non-interactive p-8 md:p-12">
                     <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center">Technical Skills</h2>
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                         <div class="skill-box"><i class="fas fa-search-plus text-2xl mb-2 text-indigo-400"></i><span>Manual Testing</span></div>
@@ -267,7 +265,7 @@
             </section>
 
             <section id="projects" class="py-20 scroll-animate">
-                <div class="glass-card p-8 md:p-12">
+                <div class="glass-card non-interactive p-8 md:p-12">
                     <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center">Projects</h2>
                     <div class="grid grid-cols-1 gap-8 max-w-4xl mx-auto">
                         <div class="project-card glass-card p-6 hover:border-indigo-400">
@@ -278,17 +276,10 @@
                                 <div class="md:w-2/3">
                                     <h3 class="text-2xl font-bold mb-3">AutomationExercise E-Commerce</h3>
                                     <p class="text-gray-400 mb-4">Automated signup, login, search, cart, and checkout using Java + Selenium.</p>
-                                    <div class="flex flex-wrap gap-2">
-                                        <span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Java</span>
-                                        <span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Selenium</span>
-                                        <span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">TestNG</span>
-                                        <span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Maven</span>
-                                        <span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">POM</span>
-                                    </div>
+                                    <div class="flex flex-wrap gap-2"><span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Java</span><span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Selenium</span><span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">TestNG</span><span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Maven</span><span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">POM</span></div>
                                 </div>
                             </div>
                         </div>
-
                         <div class="project-card glass-card p-6 hover:border-indigo-400">
                              <div class="flex flex-col md:flex-row gap-6 items-center">
                                 <div class="project-image-container md:w-1/3 flex items-center justify-center p-4">
@@ -297,16 +288,10 @@
                                 <div class="md:w-2/3">
                                     <h3 class="text-2xl font-bold mb-3">OBSERVR_POM</h3>
                                     <p class="text-gray-400 mb-4">End-to-end automation for Obzervr.com using a data-driven approach with Apache POI.</p>
-                                    <div class="flex flex-wrap gap-2">
-                                         <span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Selenium</span>
-                                         <span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">TestNG</span>
-                                         <span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Apache POI</span>
-                                         <span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Data-Driven</span>
-                                    </div>
+                                    <div class="flex flex-wrap gap-2"><span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Selenium</span><span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">TestNG</span><span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Apache POI</span><span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Data-Driven</span></div>
                                 </div>
                             </div>
                         </div>
-
                         <div class="project-card glass-card p-6 hover:border-indigo-400">
                              <div class="flex flex-col md:flex-row gap-6 items-center">
                                 <div class="project-image-container md:w-1/3 flex items-center justify-center p-4">
@@ -315,12 +300,7 @@
                                 <div class="md:w-2/3">
                                     <h3 class="text-2xl font-bold mb-3">SAUCEDEMO_AUTOMATION</h3>
                                     <p class="text-gray-400 mb-4">Data-driven automation of SauceDemo with Cucumber, POM, and JUnit.</p>
-                                     <div class="flex flex-wrap gap-2">
-                                         <span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Java</span>
-                                         <span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Cucumber</span>
-                                         <span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">JUnit</span>
-                                         <span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">BDD</span>
-                                    </div>
+                                     <div class="flex flex-wrap gap-2"><span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Java</span><span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Cucumber</span><span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">JUnit</span><span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">BDD</span></div>
                                 </div>
                             </div>
                         </div>
@@ -329,7 +309,7 @@
             </section>
 
             <section id="education" class="py-20 scroll-animate">
-                <div class="glass-card p-8 md:p-12">
+                <div class="glass-card non-interactive p-8 md:p-12">
                     <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center">Education</h2>
                     <div class="relative max-w-3xl mx-auto">
                         <div class="timeline-item">
@@ -341,7 +321,6 @@
                                 <span class="inline-block bg-gray-800 text-gray-300 px-3 py-1 rounded-full text-sm">GPA: 7.9/10</span>
                             </div>
                         </div>
-                        
                         <div class="timeline-item">
                             <div class="timeline-dot"></div>
                             <div class="glass-card p-6 hover:border-indigo-400">
@@ -355,21 +334,38 @@
                 </div>
             </section>
 
+            <section id="certifications" class="py-20 scroll-animate">
+                <div class="glass-card non-interactive p-8 md:p-12">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center">Certifications</h2>
+                    <div class="max-w-3xl mx-auto">
+                        <a href="https://www.hackerrank.com/certificates/iframe/b38d1a9f1fbe" target="_blank" rel="noopener noreferrer" class="cert-card glass-card p-6 flex items-center gap-6 hover:border-indigo-400 block">
+                            <div class="text-4xl text-indigo-400">
+                                <i class="fas fa-certificate"></i>
+                            </div>
+                            <div class="flex-grow">
+                                <h3 class="text-xl font-bold text-indigo-300">SQL (Basic)</h3>
+                                <p class="text-gray-400">HackerRank</p>
+                            </div>
+                            <div class="text-xl text-gray-500">
+                                <i class="fas fa-external-link-alt"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
             <section id="contact" class="py-20 scroll-animate">
-                <div class="glass-card p-8 md:p-12">
+                <div class="glass-card non-interactive p-8 md:p-12">
                     <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center">Get In Touch</h2>
                     <p class="text-center text-gray-300 mb-8 max-w-2xl mx-auto">
                         I'm actively looking for new opportunities in QA Engineering. Feel free to reach out for collaborations or just to say hello!
                     </p>
-                    
                     <div class="flex justify-center">
                         <form action="https://formspree.io/f/your_unique_id" method="POST" class="space-y-4 w-full max-w-md">
                             <input type="text" name="name" placeholder="Your Name" required class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
                             <input type="email" name="email" placeholder="Your Email" required class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
                             <textarea name="message" placeholder="Your Message" rows="5" required class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
-                            <button type="submit" class="btn-primary w-full text-white font-bold py-3 px-8 rounded-lg text-lg">
-                                Send Message
-                            </button>
+                            <button type="submit" class="btn-primary w-full text-white font-bold py-3 px-8 rounded-lg text-lg">Send Message</button>
                         </form>
                     </div>
                 </div>
@@ -378,22 +374,16 @@
 
         <footer class="text-center py-8 text-gray-500">
             <div class="flex justify-center items-center space-x-6 mb-4">
-                <a href="https://www.linkedin.com/in/pavankalyan-akasamm-1a5668216" target="_blank" class="text-gray-400 hover:text-indigo-400 transition-colors">
-                    <i class="fab fa-linkedin text-2xl"></i>
-                </a>
-                <a href="https://github.com/AKASAMPAVANKALYAN" target="_blank" class="text-gray-400 hover:text-indigo-400 transition-colors">
-                    <i class="fab fa-github text-2xl"></i>
-                </a>
-                <a href="mailto:apavanpkalyan@gmail.com" class="text-gray-400 hover:text-indigo-400 transition-colors">
-                    <i class="fas fa-envelope text-2xl"></i>
-                </a>
+                <a href="https://www.linkedin.com/in/pavankalyan-akasamm-1a5668216" target="_blank" class="text-gray-400 hover:text-indigo-400 transition-colors"><i class="fab fa-linkedin text-2xl"></i></a>
+                <a href="https://github.com/AKASAMPAVANKALYAN" target="_blank" class="text-gray-400 hover:text-indigo-400 transition-colors"><i class="fab fa-github text-2xl"></i></a>
+                <a href="mailto:apavanpkalyan@gmail.com" class="text-gray-400 hover:text-indigo-400 transition-colors"><i class="fas fa-envelope text-2xl"></i></a>
             </div>
-            <p>&copy; 2024 Pavankalyan Akasam | QA Engineer</p>
+            <p>&copy; 2025 Pavankalyan Akasam | QA Engineer</p>
              <div class="mt-4 flex items-center justify-center space-x-2">
                 <span class="text-sm text-gray-400">Visitors:</span>
                 <div class="bg-gray-800 rounded-full px-3 py-1 flex items-center">
                     <i class="fas fa-users text-xs text-indigo-400 mr-2"></i>
-                    <span id="visitor-count" class="font-medium text-pink-400">0</span>
+                    <span id="visitor-count" class="font-medium text-pink-400 w-10 text-center">--</span>
                 </div>
             </div>
         </footer>
@@ -426,16 +416,9 @@
                     let starGeometry = new THREE.BufferGeometry();
                     starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
                     
-                    let starMaterial = new THREE.PointsMaterial({
-                        color: 0xffffff,
-                        size: 0.7,
-                        transparent: true,
-                        opacity: 0.8
-                    });
-
+                    let starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.7, transparent: true, opacity: 0.8 });
                     stars = new THREE.Points(starGeometry, starMaterial);
                     scene.add(stars);
-
                     animateBackground();
                 } catch (e) {
                     console.error("3D background initialization failed:", e);
@@ -450,7 +433,7 @@
                 renderer.render(scene, camera);
             }
             
-            window.addEventListener('resize', function() {
+            window.addEventListener('resize', () => {
                 if (camera && renderer) {
                     camera.aspect = window.innerWidth / window.innerHeight;
                     camera.updateProjectionMatrix();
@@ -473,8 +456,7 @@
             const animatedElements = document.querySelectorAll('.scroll-animate');
             const revealOnScroll = () => {
                 animatedElements.forEach(el => {
-                    const rect = el.getBoundingClientRect();
-                    if (rect.top < window.innerHeight - 100) {
+                    if (el.getBoundingClientRect().top < window.innerHeight - 100) {
                         el.classList.add('visible');
                     }
                 });
@@ -488,21 +470,14 @@
             const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
 
             if (mobileMenuButton && mobileMenu) {
-                mobileMenuButton.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('hidden');
-                });
-                // Hide menu when a link is clicked
-                mobileNavLinks.forEach(link => {
-                    link.addEventListener('click', () => {
-                         mobileMenu.classList.add('hidden');
-                    });
-                });
+                mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+                mobileNavLinks.forEach(link => link.addEventListener('click', () => mobileMenu.classList.add('hidden')));
             }
             
             // --- Visitor Counter ---
             const counterElement = document.getElementById('visitor-count');
             if(counterElement){
-                const namespace = "pka_portfolio_v3"; // Use a unique namespace
+                const namespace = "pka_portfolio_v3";
                 const countKey = "visitor_count";
                 fetch(`https://api.countapi.xyz/hit/${namespace}/${countKey}`)
                     .then(res => res.json())
@@ -510,7 +485,7 @@
                         counterElement.textContent = data.value.toLocaleString();
                     })
                     .catch(() => {
-                        counterElement.textContent = "1,000+"; // Fallback
+                        counterElement.textContent = "N/A"; // Display N/A on failure
                     });
             }
         });
