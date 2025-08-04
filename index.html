@@ -7,12 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Bug Cursor */
-        html {
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%234f46e5" d="M12 2c-3 0-5 1-5 1v2h2v1H7v1h2v1H7v1h2v1H7v1h2v1H7v3h2v1H7v1h2v1H7v1h2v1H7v1h10v-1h-2v-1h2v-1h-2v-1h2v-3h-2v-1h2v-1h-2v-1h2v-1h-2v-1h2v-1h-2V5h2V3h-2V2s-2-1-5-1zm0 2c1.5 0 2 .5 2 1h-4c0-.5.5-1 2-1zm-4 4h2v1H8V8zm4 0h2v1h-2V8zm-4 3h2v1H8v-1zm4 0h2v1h-2v-1z"/></svg>'), auto;
-        }
-        
-        /* Testing Theme Colors */
+        /* Base Styles */
         :root {
             --bug-red: #e53e3e;
             --test-pass: #48bb78;
@@ -20,23 +15,46 @@
             --test-warning: #ed8936;
             --test-blue: #4299e1;
             --test-purple: #9f7aea;
+            --dark-bg: #2d3748;
+            --light-bg: #f7fafc;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%234f46e5" d="M12 2c-3 0-5 1-5 1v2h2v1H7v1h2v1H7v1h2v1H7v1h2v1H7v3h2v1H7v1h2v1H7v1h2v1H7v1h10v-1h-2v-1h2v-1h-2v-1h2v-3h-2v-1h2v-1h-2v-1h2v-1h-2v-1h2v-1h-2V5h2V3h-2V2s-2-1-5-1zm0 2c1.5 0 2 .5 2 1h-4c0-.5.5-1 2-1zm-4 4h2v1H8V8zm4 0h2v1h-2V8zm-4 3h2v1H8v-1zm4 0h2v1h-2v-1z"/></svg>'), auto;
+            scroll-behavior: smooth;
         }
         
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f7fafc;
+            background-color: var(--light-bg);
             color: #2d3748;
-            overflow-x: hidden;
-            margin: 0;
-            padding: 0;
+            line-height: 1.6;
         }
         
-        /* Terminal-like Header */
+        /* Header Styles */
         header {
-            background: #2d3748;
+            background: var(--dark-bg);
             color: white;
-            padding: 1.5rem 1rem;
-            border-bottom: 3px solid var(--test-pass);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
             position: relative;
         }
         
@@ -49,16 +67,51 @@
             color: var(--test-pass);
         }
         
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding-top: 1.5rem;
+        }
+        
+        /* Navigation */
+        nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: var(--test-blue);
+        }
+        
+        .mobile-menu-button {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
         /* Test Case Cards */
         .test-case {
             background: white;
             border-left: 5px solid var(--test-blue);
+            border-radius: 0.25rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             margin: 1.5rem 0;
             padding: 1.5rem;
             position: relative;
             transition: all 0.3s ease;
-            border-radius: 0.25rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .test-case:hover {
@@ -86,6 +139,7 @@
             font-size: 0.75rem;
             font-weight: bold;
             display: inline-block;
+            margin-right: 0.5rem;
         }
         
         .status-pass {
@@ -93,19 +147,20 @@
             color: white;
         }
         
-        .status-fail {
-            background: var(--test-fail);
-            color: white;
+        .tech-badge {
+            background: #edf2f7;
+            color: #2d3748;
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            display: inline-block;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
         }
         
-        .status-warning {
-            background: var(--test-warning);
-            color: white;
-        }
-        
-        /* Console-like Sections */
+        /* Console Section */
         .console {
-            background: #2d3748;
+            background: var(--dark-bg);
             color: #e2e8f0;
             padding: 1.5rem;
             border-radius: 0.5rem;
@@ -155,29 +210,7 @@
             100% { transform: translateX(calc(100vw + 50px)) translateY(0) rotate(360deg); }
         }
         
-        /* Add some floating bugs */
-        .bug:nth-child(1) {
-            top: 20%;
-            left: -50px;
-            animation-delay: 0s;
-            animation-duration: 20s;
-        }
-        
-        .bug:nth-child(2) {
-            top: 40%;
-            left: -50px;
-            animation-delay: 5s;
-            animation-duration: 25s;
-        }
-        
-        .bug:nth-child(3) {
-            top: 70%;
-            left: -50px;
-            animation-delay: 10s;
-            animation-duration: 18s;
-        }
-        
-        /* Test Report Style Timeline */
+        /* Timeline */
         .timeline {
             position: relative;
             padding-left: 2rem;
@@ -212,323 +245,492 @@
             border: 3px solid var(--test-blue);
         }
         
-        /* Test Tool Icons */
+        /* Test Tools */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .tool-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+        }
+        
         .tool-icon {
             width: 50px;
             height: 50px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
             margin: 0 auto 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
         }
         
-        .selenium-icon {
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%2348BB78" d="M4 4h16v16H4V4zm2 2v12h12V6H6zm2 2h8v8H8V8z"/></svg>');
+        /* Contact Form */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         
-        .testng-icon {
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23E53E3E" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><path fill="%23E53E3E" d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 8c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/></svg>');
+        .form-group {
+            margin-bottom: 1.5rem;
         }
         
-        /* Blinking cursor */
-        .blink {
-            animation: blink 1s step-end infinite;
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
         }
         
-        @keyframes blink {
-            from, to { opacity: 1; }
-            50% { opacity: 0; }
-        }
-        
-        /* Container */
-        .container {
+        .form-input {
             width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.25rem;
+            font-family: inherit;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--test-blue);
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+        }
+        
+        .submit-btn {
+            background: var(--test-blue);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.25rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+        }
+        
+        .submit-btn:hover {
+            background: #3182ce;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark-bg);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.25rem;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--test-blue);
+        }
+        
+        /* Utility Classes */
+        .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 1rem;
         }
         
+        .section {
+            padding: 3rem 0;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -0.5rem;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--test-blue);
+        }
+        
+        .bg-light {
+            background: #edf2f7;
+        }
+        
         /* Responsive Design */
         @media (max-width: 768px) {
-            .test-case::before {
-                font-size: 0.6rem;
-                padding: 0.1rem 0.3rem;
-            }
-            
-            .tool-icon {
-                width: 40px;
-                height: 40px;
-            }
-            
-            .console {
+            nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--dark-bg);
+                flex-direction: column;
                 padding: 1rem;
-                font-size: 0.9rem;
+                gap: 1rem;
+            }
+            
+            nav.active {
+                display: flex;
+            }
+            
+            .mobile-menu-button {
+                display: block;
+            }
+            
+            .tools-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
             }
         }
     </style>
 </head>
 <body>
     <!-- Floating Bugs -->
-    <div class="bug"></div>
-    <div class="bug"></div>
-    <div class="bug"></div>
+    <div class="bug" style="top:20%;animation-delay:0s;animation-duration:20s"></div>
+    <div class="bug" style="top:40%;animation-delay:5s;animation-duration:25s"></div>
+    <div class="bug" style="top:70%;animation-delay:10s;animation-duration:18s"></div>
 
     <header>
-        <div class="container">
+        <div class="header-container">
             <div class="header-terminal">QA_TERMINAL > ./portfolio.sh</div>
-            <div class="flex justify-between items-center pt-6">
-                <h1 class="text-2xl font-bold">Pavankalyan Akasam</h1>
-                <nav class="hidden md:flex space-x-6">
-                    <a href="#test-cases" class="hover:text-blue-500">Test Cases</a>
-                    <a href="#test-reports" class="hover:text-blue-500">Test Reports</a>
-                    <a href="#test-tools" class="hover:text-blue-500">Test Tools</a>
-                    <a href="#contact-qa" class="hover:text-blue-500">Contact QA</a>
-                </nav>
-                <button class="md:hidden text-xl">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
+            <div class="logo">PKA</div>
+            <nav id="main-nav">
+                <a href="#test-cases">Test Cases</a>
+                <a href="#test-reports">Test Reports</a>
+                <a href="#test-tools">Test Tools</a>
+                <a href="#contact">Contact QA</a>
+            </nav>
+            <button class="mobile-menu-button" id="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </header>
 
-    <main class="container py-8">
+    <main>
         <!-- Hero Section -->
-        <section class="text-center py-12">
-            <div class="console">
-                <div class="console-output">
-                    <div class="console-line">$ ./run_tests.sh</div>
-                    <div class="console-line">Running test suite... <span class="blink">|</span></div>
-                    <div class="console-line console-success">All tests passed! (37/37)</div>
+        <section class="section">
+            <div class="container">
+                <div class="console">
+                    <div class="console-output">
+                        <div class="console-line">$ ./run_tests.sh</div>
+                        <div class="console-line">Running test suite... <span class="blink">|</span></div>
+                        <div class="console-line console-success">All tests passed! (37/37)</div>
+                    </div>
                 </div>
+                <h1 class="text-center text-4xl font-bold mb-4">Pavankalyan Akasam</h1>
+                <p class="text-center text-xl text-gray-600 max-w-2xl mx-auto">
+                    QA Automation Engineer specializing in Selenium, TestNG, and Cucumber frameworks
+                </p>
             </div>
-            <h1 class="text-4xl md:text-5xl font-bold mb-4">QA Automation Engineer</h1>
-            <p class="text-xl text-gray-600 max-w-2xl mx-auto">Specializing in building robust test automation frameworks with Selenium, TestNG, and Cucumber</p>
         </section>
 
         <!-- Test Cases (Projects) -->
-        <section id="test-cases" class="py-12">
-            <h2 class="text-3xl font-bold mb-8 text-center border-b-2 border-blue-500 pb-2 inline-block">Test Cases</h2>
-            
-            <div class="test-case">
-                <h3 class="text-xl font-bold mb-2">AutomationExercise E-Commerce</h3>
-                <div class="flex flex-wrap gap-2 mb-4">
-                    <span class="status-badge status-pass">PASSED</span>
-                    <span class="bg-gray-200 px-2 py-1 rounded text-xs">Java</span>
-                    <span class="bg-gray-200 px-2 py-1 rounded text-xs">Selenium</span>
-                    <span class="bg-gray-200 px-2 py-1 rounded text-xs">TestNG</span>
-                    <span class="bg-gray-200 px-2 py-1 rounded text-xs">POM</span>
+        <section id="test-cases" class="section">
+            <div class="container">
+                <h2 class="section-title">Test Cases</h2>
+                
+                <div class="test-case">
+                    <h3 class="text-xl font-bold mb-2">AutomationExercise E-Commerce</h3>
+                    <div class="mb-4">
+                        <span class="status-badge status-pass">PASSED</span>
+                        <span class="tech-badge">Java</span>
+                        <span class="tech-badge">Selenium</span>
+                        <span class="tech-badge">TestNG</span>
+                        <span class="tech-badge">POM</span>
+                    </div>
+                    <p class="text-gray-700 mb-4">
+                        Developed end-to-end automation framework for automationexercise using Selenium WebDriver with TestNG. 
+                        Automated key user flows like registration, cart, checkout, and account deletion.
+                    </p>
+                    <a href="https://github.com/AKASAMPAVANKALYAN/automationexercise_ecommercedemo" 
+                       target="_blank" 
+                       class="text-blue-500 hover:underline inline-flex items-center">
+                        <i class="fab fa-github mr-1"></i> View Source Code
+                    </a>
                 </div>
-                <p class="text-gray-700 mb-4">Developed end-to-end automation framework for automationexercise using Selenium WebDriver with TestNG. Automated key user flows like registration, cart, checkout, and account deletion.</p>
-                <a href="https://github.com/AKASAMPAVANKALYAN/automationexercise_ecommercedemo" target="_blank" class="text-blue-500 hover:underline inline-flex items-center">
-                    <i class="fab fa-github mr-1"></i> View Test Scripts
-                </a>
-            </div>
-            
-            <div class="test-case">
-                <h3 class="text-xl font-bold mb-2">OBZERVR_POM</h3>
-                <div class="flex flex-wrap gap-2 mb-4">
-                    <span class="status-badge status-pass">PASSED</span>
-                    <span class="bg-gray-200 px-2 py-1 rounded text-xs">Selenium</span>
-                    <span class="bg-gray-200 px-2 py-1 rounded text-xs">TestNG</span>
-                    <span class="bg-gray-200 px-2 py-1 rounded text-xs">Apache POI</span>
-                    <span class="bg-gray-200 px-2 py-1 rounded text-xs">Data-Driven</span>
+                
+                <div class="test-case">
+                    <h3 class="text-xl font-bold mb-2">OBZERVR_POM</h3>
+                    <div class="mb-4">
+                        <span class="status-badge status-pass">PASSED</span>
+                        <span class="tech-badge">Selenium</span>
+                        <span class="tech-badge">TestNG</span>
+                        <span class="tech-badge">Apache POI</span>
+                        <span class="tech-badge">Data-Driven</span>
+                    </div>
+                    <p class="text-gray-700 mb-4">
+                        Automated UI testing of obzervr using Selenium WebDriver with Page Object Model. 
+                        Integrated data-driven testing with Excel and dynamic Extent Reports. 
+                        Implemented TestNG Listeners for auto screenshot capture.
+                    </p>
+                    <a href="https://github.com/AKASAMPAVANKALYAN/obzervr_pom" 
+                       target="_blank" 
+                       class="text-blue-500 hover:underline inline-flex items-center">
+                        <i class="fab fa-github mr-1"></i> View Source Code
+                    </a>
                 </div>
-                <p class="text-gray-700 mb-4">Automated UI testing of obzervr using Selenium WebDriver with Page Object Model. Integrated data-driven testing with Excel and dynamic Extent Reports. Implemented TestNG Listeners for auto screenshot capture.</p>
-                <a href="https://github.com/AKASAMPAVANKALYAN/obzervr_pom" target="_blank" class="text-blue-500 hover:underline inline-flex items-center">
-                    <i class="fab fa-github mr-1"></i> View Test Scripts
-                </a>
-            </div>
-            
-            <div class="test-case">
-                <h3 class="text-xl font-bold mb-2">SAUCEDEMO_AUTOMATION</h3>
-                <div class="flex flex-wrap gap-2 mb-4">
-                    <span class="status-badge status-pass">PASSED</span>
-                    <span class="bg-gray-200 px-2 py-1 rounded text-xs">Java</span>
-                    <span class="bg-gray-200 px-2 py-1 rounded text-xs">Cucumber</span>
-                    <span class="bg-gray-200 px-2 py-1 rounded text-xs">JUnit</span>
-                    <span class="bg-gray-200 px-2 py-1 rounded text-xs">BDD</span>
+                
+                <div class="test-case">
+                    <h3 class="text-xl font-bold mb-2">SAUCEDEMO_AUTOMATION</h3>
+                    <div class="mb-4">
+                        <span class="status-badge status-pass">PASSED</span>
+                        <span class="tech-badge">Java</span>
+                        <span class="tech-badge">Cucumber</span>
+                        <span class="tech-badge">JUnit</span>
+                        <span class="tech-badge">BDD</span>
+                    </div>
+                    <p class="text-gray-700 mb-4">
+                        Developed data-driven automation framework for saucedemo using Selenium, JUnit and Cucumber BDD. 
+                        Automated end-to-end user flows including login, product selection, and checkout with Excel-based input.
+                    </p>
+                    <a href="https://github.com/AKASAMPAVANKALYAN/saucedemo_automation" 
+                       target="_blank" 
+                       class="text-blue-500 hover:underline inline-flex items-center">
+                        <i class="fab fa-github mr-1"></i> View Source Code
+                    </a>
                 </div>
-                <p class="text-gray-700 mb-4">Developed data-driven automation framework for saucedemo using Selenium, JUnit and Cucumber BDD. Automated end-to-end user flows including login, product selection, and checkout with Excel-based input.</p>
-                <a href="https://github.com/AKASAMPAVANKALYAN/saucedemo_automation" target="_blank" class="text-blue-500 hover:underline inline-flex items-center">
-                    <i class="fab fa-github mr-1"></i> View Test Scripts
-                </a>
             </div>
         </section>
 
-        <!-- Test Reports (Experience/Education) -->
-        <section id="test-reports" class="py-12 bg-gray-50 rounded-lg px-6">
-            <h2 class="text-3xl font-bold mb-8 text-center border-b-2 border-blue-500 pb-2 inline-block">Test Reports</h2>
-            
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <p class="text-sm text-gray-500 mb-1">Sep 2020 - May 2024</p>
-                        <h3 class="text-xl font-bold mb-2">Bachelor of Technology, Computer Science</h3>
-                        <p class="text-gray-600 mb-2">Vel Tech Rangarajan Dr. Sagunthala R&D Institute, Chennai</p>
-                        <span class="bg-gray-200 px-2 py-1 rounded-full text-xs">GPA: 7.9/10</span>
-                    </div>
-                </div>
+        <!-- Test Reports (Education) -->
+        <section id="test-reports" class="section bg-light">
+            <div class="container">
+                <h2 class="section-title">Test Reports</h2>
                 
-                <div class="timeline-item">
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <p class="text-sm text-gray-500 mb-1">Jun 2018 - Mar 2020</p>
-                        <h3 class="text-xl font-bold mb-2">Intermediate (MPC)</h3>
-                        <p class="text-gray-600 mb-2">Narayana Junior College, Andhra Pradesh</p>
-                        <span class="bg-gray-200 px-2 py-1 rounded-full text-xs">GPA: 8.46/10</span>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="test-case">
+                            <p class="text-sm text-gray-500 mb-1">Sep 2020 - May 2024</p>
+                            <h3 class="text-xl font-bold mb-2">Bachelor of Technology, Computer Science</h3>
+                            <p class="text-gray-600 mb-2">Vel Tech Rangarajan Dr. Sagunthala R&D Institute, Chennai</p>
+                            <span class="tech-badge">GPA: 7.9/10</span>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="test-case">
+                            <p class="text-sm text-gray-500 mb-1">Jun 2018 - Mar 2020</p>
+                            <h3 class="text-xl font-bold mb-2">Intermediate (MPC)</h3>
+                            <p class="text-gray-600 mb-2">Narayana Junior College, Andhra Pradesh</p>
+                            <span class="tech-badge">GPA: 8.46/10</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Test Tools (Skills) -->
-        <section id="test-tools" class="py-12">
-            <h2 class="text-3xl font-bold mb-8 text-center border-b-2 border-blue-500 pb-2 inline-block">Test Tools</h2>
-            
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-                <div class="bg-white p-4 rounded-lg shadow-sm text-center">
-                    <div class="tool-icon selenium-icon"></div>
-                    <p>Selenium</p>
-                </div>
+        <section id="test-tools" class="section">
+            <div class="container">
+                <h2 class="section-title">Test Tools</h2>
                 
-                <div class="bg-white p-4 rounded-lg shadow-sm text-center">
-                    <div class="tool-icon testng-icon"></div>
-                    <p>TestNG</p>
-                </div>
-                
-                <div class="bg-white p-4 rounded-lg shadow-sm text-center">
-                    <i class="fas fa-database text-4xl text-purple-500 mb-2"></i>
-                    <p>SQL</p>
-                </div>
-                
-                <div class="bg-white p-4 rounded-lg shadow-sm text-center">
-                    <i class="fab fa-java text-4xl text-orange-500 mb-2"></i>
-                    <p>Java</p>
-                </div>
-                
-                <div class="bg-white p-4 rounded-lg shadow-sm text-center">
-                    <i class="fab fa-jira text-4xl text-blue-500 mb-2"></i>
-                    <p>JIRA</p>
-                </div>
-                
-                <div class="bg-white p-4 rounded-lg shadow-sm text-center">
-                    <i class="fab fa-github text-4xl text-gray-800 mb-2"></i>
-                    <p>GitHub</p>
+                <div class="tools-grid">
+                    <div class="tool-card">
+                        <div class="tool-icon">
+                            <i class="fab fa-java text-orange-500"></i>
+                        </div>
+                        <p>Java</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <div class="tool-icon">
+                            <i class="fas fa-robot text-green-500"></i>
+                        </div>
+                        <p>Selenium</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <div class="tool-icon">
+                            <i class="fas fa-vial text-red-500"></i>
+                        </div>
+                        <p>TestNG</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <div class="tool-icon">
+                            <i class="fas fa-leaf text-green-600"></i>
+                        </div>
+                        <p>Cucumber</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <div class="tool-icon">
+                            <i class="fas fa-database text-purple-500"></i>
+                        </div>
+                        <p>SQL</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <div class="tool-icon">
+                            <i class="fab fa-jira text-blue-500"></i>
+                        </div>
+                        <p>JIRA</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <div class="tool-icon">
+                            <i class="fab fa-github text-gray-800"></i>
+                        </div>
+                        <p>GitHub</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <div class="tool-icon">
+                            <i class="fas fa-server text-blue-400"></i>
+                        </div>
+                        <p>Jenkins</p>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Contact QA -->
-        <section id="contact-qa" class="py-12 bg-gray-50 rounded-lg px-6">
-            <h2 class="text-3xl font-bold mb-8 text-center border-b-2 border-blue-500 pb-2 inline-block">Contact QA</h2>
-            
-            <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-sm">
-                <div class="mb-6">
-                    <h3 class="text-xl font-bold mb-4">Submit Bug Report</h3>
-                    <p class="text-gray-600">Found an issue? Send me a message!</p>
-                </div>
+        <section id="contact" class="section bg-light">
+            <div class="container">
+                <h2 class="section-title">Contact QA</h2>
                 
-                <form class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Your Email</label>
-                        <input type="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    </div>
+                <div class="contact-form">
+                    <form>
+                        <div class="form-group">
+                            <label class="form-label">Your Name</label>
+                            <input type="text" class="form-input" placeholder="Enter your name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Your Email</label>
+                            <input type="email" class="form-input" placeholder="Enter your email">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Priority</label>
+                            <select class="form-input">
+                                <option>Low</option>
+                                <option>Medium</option>
+                                <option>High</option>
+                                <option>Critical</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Message</label>
+                            <textarea class="form-input" rows="4" placeholder="Describe the issue..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">
+                            Submit Bug Report
+                        </button>
+                    </form>
                     
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Priority</label>
-                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                            <option>Low</option>
-                            <option>Medium</option>
-                            <option>High</option>
-                            <option>Critical</option>
-                        </select>
-                    </div>
-                    
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
-                        <textarea rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
-                    </div>
-                    
-                    <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition">
-                        Submit Report
-                    </button>
-                </form>
-                
-                <div class="mt-8 pt-6 border-t border-gray-200">
-                    <h4 class="text-sm font-medium text-gray-500 mb-2">Alternative Contact Methods</h4>
-                    <div class="flex flex-wrap gap-4 justify-center">
-                        <a href="mailto:apavanpkalyan@gmail.com" class="text-blue-500 hover:underline inline-flex items-center">
-                            <i class="fas fa-envelope mr-1"></i> Email
-                        </a>
-                        <a href="https://linkedin.com/in/pavankalyan-akasamm-1a5668216" target="_blank" class="text-blue-500 hover:underline inline-flex items-center">
-                            <i class="fab fa-linkedin mr-1"></i> LinkedIn
-                        </a>
-                        <a href="tel:+918341653388" class="text-blue-500 hover:underline inline-flex items-center">
-                            <i class="fas fa-phone mr-1"></i> Call
-                        </a>
+                    <div class="mt-8 pt-6 border-t border-gray-200 text-center">
+                        <h4 class="text-sm font-medium text-gray-500 mb-2">Direct Contact</h4>
+                        <div class="flex flex-wrap justify-center gap-4">
+                            <a href="mailto:apavanpkalyan@gmail.com" class="text-blue-500 hover:underline">
+                                <i class="fas fa-envelope mr-1"></i> Email
+                            </a>
+                            <a href="tel:+918341653388" class="text-blue-500 hover:underline">
+                                <i class="fas fa-phone mr-1"></i> +91 8341653388
+                            </a>
+                            <a href="https://linkedin.com/in/pavankalyan-akasamm-1a5668216" 
+                               target="_blank" 
+                               class="text-blue-500 hover:underline">
+                                <i class="fab fa-linkedin mr-1"></i> LinkedIn
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="bg-gray-800 text-white py-8">
-        <div class="container text-center">
+    <footer>
+        <div class="container">
             <p class="mb-4">Pavankalyan Akasam | QA Automation Engineer</p>
-            <div class="flex justify-center space-x-6">
-                <a href="https://github.com/AKASAMPAVANKALYAN" target="_blank" class="hover:text-blue-300">
-                    <i class="fab fa-github text-xl"></i>
+            <div class="social-links">
+                <a href="https://github.com/AKASAMPAVANKALYAN" target="_blank">
+                    <i class="fab fa-github"></i>
                 </a>
-                <a href="https://www.linkedin.com/in/pavankalyan-akasamm-1a5668216" target="_blank" class="hover:text-blue-300">
-                    <i class="fab fa-linkedin text-xl"></i>
+                <a href="https://www.linkedin.com/in/pavankalyan-akasamm-1a5668216" target="_blank">
+                    <i class="fab fa-linkedin"></i>
                 </a>
-                <a href="mailto:apavanpkalyan@gmail.com" class="hover:text-blue-300">
-                    <i class="fas fa-envelope text-xl"></i>
+                <a href="mailto:apavanpkalyan@gmail.com">
+                    <i class="fas fa-envelope"></i>
                 </a>
             </div>
-            <p class="mt-4 text-sm text-gray-400">&copy; 2024 All tests passed. No bugs detected.</p>
+            <p class="text-sm text-gray-400 mt-4">
+                &copy; 2024 All tests passed. No bugs detected.
+            </p>
         </div>
     </footer>
 
     <script>
-        // Mobile menu toggle functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const menuButton = document.querySelector('header button');
-            const navLinks = document.querySelector('header nav');
-            
-            if (menuButton) {
-                menuButton.addEventListener('click', function() {
-                    navLinks.classList.toggle('hidden');
-                    navLinks.classList.toggle('flex');
-                    navLinks.classList.toggle('flex-col');
-                    navLinks.classList.toggle('absolute');
-                    navLinks.classList.toggle('top-full');
-                    navLinks.classList.toggle('left-0');
-                    navLinks.classList.toggle('right-0');
-                    navLinks.classList.toggle('bg-gray-800');
-                    navLinks.classList.toggle('p-4');
-                    navLinks.classList.toggle('space-y-4');
-                    navLinks.classList.toggle('space-x-0');
-                });
-            }
-            
-            // Smooth scrolling for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                        
-                        // Close mobile menu if open
-                        if (!navLinks.classList.contains('hidden')) {
-                            menuButton.click();
-                        }
-                    }
-                });
+        // Mobile menu toggle
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            const nav = document.getElementById('main-nav');
+            nav.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('#main-nav a').forEach(link => {
+            link.addEventListener('click', function() {
+                const nav = document.getElementById('main-nav');
+                if (nav.classList.contains('active')) {
+                    nav.classList.remove('active');
+                }
             });
         });
+
+        // Blinking cursor effect
+        const blink = document.querySelector('.blink');
+        if (blink) {
+            setInterval(() => {
+                blink.style.visibility = blink.style.visibility === 'hidden' ? 'visible' : 'hidden';
+            }, 500);
+        }
+        
     </script>
+    <!-- Bug cursor image -->
+<img id="bug-cursor" src="https://i.ibb.co/NpQr1G7/bug-cursor.png" alt="bug" style="position: fixed; top: 0; left: 0; width: 32px; height: 32px; pointer-events: none; z-index: 9999; transition: transform 0.1s linear;">
+
+<!-- Bug Cursor Script -->
+<script>
+  const bug = document.getElementById('bug-cursor');
+  document.body.style.cursor = 'none';
+
+  document.addEventListener('mousemove', e => {
+    bug.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+  });
+</script>
+
 </body>
 </html>
