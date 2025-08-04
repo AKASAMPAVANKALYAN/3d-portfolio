@@ -3,472 +3,568 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pavankalyan Akasam | QA Engineer Portfolio</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Space Portfolio</title>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0a0a0a;
-            color: #e5e5e5;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
-        #bg-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1b 100%);
-        }
-        .glass-card {
-            background: rgba(15, 15, 27, 0.4);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 1.5rem;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            transition: all 0.3s ease;
-        }
-        .glass-card:hover:not(.non-interactive) {
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transform: translateY(-5px);
-        }
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0a0a0a;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #4a4a58;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #6a6a78;
-        }
-        .scroll-animate {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-        .scroll-animate.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .btn-primary {
-            background: linear-gradient(90deg, #4f46e5, #c026d3);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px 0 rgba(192, 38, 211, 0.35);
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px 0 rgba(192, 38, 211, 0.45);
-        }
-        #loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #0a0a0a;
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.5s ease;
-        }
-        .spinner {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            border: 6px solid rgba(255, 255, 255, 0.2);
-            border-top-color: #4f46e5;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        .skill-box {
-            background: rgba(15, 15, 27, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 0.75rem;
-            padding: 1.5rem 1rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: default;
-        }
-        .skill-box:hover {
-            border-color: rgba(79, 70, 229, 0.5);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-        .timeline-item {
-            position: relative;
-            padding-left: 2rem;
-            margin-bottom: 2rem;
-        }
-        .timeline-item:before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 2px;
-            height: 100%;
-            background: linear-gradient(to bottom, #4f46e5, #c026d3);
-        }
-        .timeline-dot {
-            position: absolute;
-            left: -8px;
-            top: 5px;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: #4f46e5;
-            border: 3px solid #c026d3;
-        }
-        .project-card, .cert-card {
-            transition: all 0.3s ease;
-        }
-        .project-image-container {
-            background: linear-gradient(135deg, #4f46e5, #c026d3);
-            border-radius: 1rem;
+        body { 
+            margin: 0;
             overflow: hidden;
+            background-color: #000;
+            color: white;
+            font-family: 'Arial', sans-serif;
+        }
+        #canvas-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        #info {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            z-index: 100;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            font-size: 18px;
+        }
+        #loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: #4fc3f7;
+            z-index: 100;
+            text-align: center;
+        }
+        .planet-info {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 10, 20, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #4fc3f7;
+            max-width: 600px;
+            width: 80%;
+            display: none;
+            z-index: 100;
+            box-shadow: 0 0 20px rgba(79, 195, 247, 0.5);
+        }
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            cursor: pointer;
+            color: #4fc3f7;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .planet-title {
+            color: #4fc3f7;
+            margin-top: 0;
+            font-size: 28px;
+        }
+        .project-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .project-list li {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(79, 195, 247, 0.1);
+            border-left: 3px solid #4fc3f7;
+        }
+        .project-list a {
+            color: #4fc3f7;
+            text-decoration: none;
+        }
+        .project-list a:hover {
+            text-decoration: underline;
+        }
+        .planet-label {
+            position: absolute;
+            color: white;
+            font-size: 14px;
+            background: rgba(0,0,0,0.7);
+            padding: 2px 6px;
+            border-radius: 3px;
+            pointer-events: none;
+            transform: translateY(-50%);
+            white-space: nowrap;
         }
     </style>
 </head>
-<body class="w-full">
-
-    <div id="loader">
-        <div class="spinner"></div>
+<body>
+    <div id="canvas-container"></div>
+    <div id="loading">
+        <h2>Initializing Space Engine...</h2>
+        <div style="width: 300px; height: 10px; background: #333; margin: 20px auto;">
+            <div id="progress" style="height: 100%; width: 0%; background: #4fc3f7;"></div>
+        </div>
+    </div>
+    <div id="info">Click on planets to explore my portfolio</div>
+    
+    <!-- Portfolio Section Panels -->
+    <div id="about" class="planet-info">
+        <span class="close-btn" onclick="hideInfo('about')">✕</span>
+        <h2 class="planet-title">About Me</h2>
+        <p>Welcome to my cosmic portfolio! I'm a creative developer with expertise in:</p>
+        <ul class="project-list">
+            <li>Frontend Development</li>
+            <li>3D Web Experiences</li>
+            <li>UI/UX Design</li>
+            <li>Interactive Media</li>
+        </ul>
     </div>
     
-    <canvas id="bg-canvas"></canvas>
-
-    <div class="relative z-10">
-
-        <header class="fixed top-0 left-0 right-0 z-50 p-4">
-            <div class="container mx-auto max-w-6xl">
-                <nav class="glass-card non-interactive p-4 flex justify-between items-center">
-                    <a href="#home" class="text-xl font-bold tracking-wider hover:text-indigo-400 transition-colors">PKA</a>
-                    <div class="hidden md:flex space-x-8">
-                        <a href="#about" class="hover:text-indigo-400 transition-colors">About</a>
-                        <a href="#skills" class="hover:text-indigo-400 transition-colors">Skills</a>
-                        <a href="#projects" class="hover:text-indigo-400 transition-colors">Projects</a>
-                        <a href="#education" class="hover:text-indigo-400 transition-colors">Education</a>
-                        <a href="#certifications" class="hover:text-indigo-400 transition-colors">Certifications</a>
-                        <a href="#contact" class="hover:text-indigo-400 transition-colors">Contact</a>
-                    </div>
-                    <button class="md:hidden text-xl" id="mobile-menu-button">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </nav>
-                <div id="mobile-menu" class="hidden glass-card non-interactive mt-2 p-4 md:hidden">
-                    <div class="flex flex-col space-y-4 text-center">
-                        <a href="#about" class="hover:text-indigo-400 transition-colors mobile-nav-link">About</a>
-                        <a href="#skills" class="hover:text-indigo-400 transition-colors mobile-nav-link">Skills</a>
-                        <a href="#projects" class="hover:text-indigo-400 transition-colors mobile-nav-link">Projects</a>
-                        <a href="#education" class="hover:text-indigo-400 transition-colors mobile-nav-link">Education</a>
-                        <a href="#certifications" class="hover:text-indigo-400 transition-colors mobile-nav-link">Certifications</a>
-                        <a href="#contact" class="hover:text-indigo-400 transition-colors mobile-nav-link">Contact</a>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <main class="container mx-auto max-w-6xl px-4 pt-20">
-            
-            <section id="home" class="min-h-screen flex items-center justify-center text-center">
-                <div class="space-y-6">
-                    <h1 class="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-tight">
-                        <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-fuchsia-500">
-                            PAVAN KALYAN AKASAM
-                        </span>
-                    </h1>
-                    <p class="text-lg md:text-2xl text-gray-300 max-w-3xl mx-auto">
-                        Motivated and detail-oriented engineering graduate seeking an entry-level position as a Quality Assurance Engineer/Test Engineer.
-                    </p>
-                    <a href="#projects" class="btn-primary inline-block text-white font-bold py-3 px-8 rounded-full text-lg">
-                        View My Work
-                    </a>
-                </div>
-            </section>
-
-            <section id="about" class="py-32 scroll-animate">
-                <div class="glass-card non-interactive p-8 md:p-12 lg:p-16">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center">About Me</h2>
-                    <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-                        <div class="flex flex-col items-center">
-                            <img src="https://placehold.co/240x240/1a1a2e/c026d3?text=PKA" alt="Pavankalyan Akasam" 
-                                 class="w-48 h-48 md:w-60 md:h-60 rounded-full border-4 border-indigo-500 object-cover mb-6 shadow-lg">
-                            <a href="https://example.com/path/to/your/resume.pdf" download="Pavankalyan_Akasam_Resume.pdf"
-                               class="download-btn btn-primary inline-block text-white font-bold py-3 px-8 rounded-full text-lg hover:scale-105 transition-transform">
-                                <i class="fas fa-download mr-2"></i> Download Resume
-                            </a>
-                        </div>
-                        <div class="text-lg text-gray-300 space-y-4 text-center md:text-left">
-                            <div>
-                                <h1 class="text-2xl md:text-3xl font-bold">Pavankalyan Akasam</h1>
-                                <p class="text-indigo-300 text-xl mb-4">Entry-Level QA Engineer</p>
-                            </div>
-                            <p>
-                                Motivated and detail-oriented engineering graduate with expertise in both manual and automated testing methodologies.
-                                Proven ability to design and implement robust test automation frameworks.
-                            </p>
-                            <div class="contact-links flex flex-wrap justify-center md:justify-start gap-4 mt-6">
-                                <a href="mailto:apavanpkalyan@gmail.com" class="flex items-center hover:text-indigo-400 transition-colors">
-                                    <i class="fas fa-envelope mr-2 text-indigo-400"></i> Email
-                                </a>
-                                <a href="tel:+918341653388" class="flex items-center hover:text-indigo-400 transition-colors">
-                                    <i class="fas fa-phone mr-2 text-indigo-400"></i> Call
-                                </a>
-                                <a href="https://www.linkedin.com/in/pavankalyan-akasamm-1a5668216" target="_blank" class="flex items-center hover:text-indigo-400 transition-colors">
-                                    <i class="fab fa-linkedin mr-2 text-indigo-400"></i> LinkedIn
-                                </a>
-                                <a href="https://github.com/AKASAMPAVANKALYAN" target="_blank" class="flex items-center hover:text-indigo-400 transition-colors">
-                                    <i class="fab fa-github mr-2 text-indigo-400"></i> GitHub
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="skills" class="py-20 scroll-animate">
-                <div class="glass-card non-interactive p-8 md:p-12">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center">Technical Skills</h2>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                        <div class="skill-box"><i class="fas fa-search-plus text-2xl mb-2 text-indigo-400"></i><span>Manual Testing</span></div>
-                        <div class="skill-box"><i class="fas fa-check-double text-2xl mb-2 text-indigo-400"></i><span>Functional Testing</span></div>
-                        <div class="skill-box"><i class="fas fa-undo text-2xl mb-2 text-indigo-400"></i><span>Regression Testing</span></div>
-                        <div class="skill-box"><i class="fas fa-link text-2xl mb-2 text-indigo-400"></i><span>Integration Testing</span></div>
-                        <div class="skill-box"><i class="fas fa-desktop text-2xl mb-2 text-indigo-400"></i><span>System Testing</span></div>
-                        <div class="skill-box"><i class="fas fa-smoking text-2xl mb-2 text-indigo-400"></i><span>Smoke Testing</span></div>
-                        <div class="skill-box"><i class="fas fa-stethoscope text-2xl mb-2 text-indigo-400"></i><span>Sanity Testing</span></div>
-                        <div class="skill-box"><i class="fas fa-project-diagram text-2xl mb-2 text-indigo-400"></i><span>SDLC/STLC</span></div>
-                        <div class="skill-box"><i class="fab fa-java text-2xl mb-2 text-indigo-400"></i><span>Core Java</span></div>
-                        <div class="skill-box"><i class="fas fa-robot text-2xl mb-2 text-indigo-400"></i><span>Selenium</span></div>
-                        <div class="skill-box"><i class="fas fa-vial text-2xl mb-2 text-indigo-400"></i><span>TestNG</span></div>
-                        <div class="skill-box"><i class="fas fa-tasks text-2xl mb-2 text-indigo-400"></i><span>JUnit</span></div>
-                        <div class="skill-box"><i class="fas fa-leaf text-2xl mb-2 text-indigo-400"></i><span>Cucumber</span></div>
-                        <div class="skill-box"><i class="fas fa-layer-group text-2xl mb-2 text-indigo-400"></i><span>POM</span></div>
-                        <div class="skill-box"><i class="fas fa-chart-bar text-2xl mb-2 text-indigo-400"></i><span>ExtentReports</span></div>
-                        <div class="skill-box"><i class="fas fa-database text-2xl mb-2 text-indigo-400"></i><span>SQL</span></div>
-                        <div class="skill-box"><i class="fab fa-jira text-2xl mb-2 text-indigo-400"></i><span>JIRA</span></div>
-                        <div class="skill-box"><i class="fab fa-github text-2xl mb-2 text-indigo-400"></i><span>GitHub</span></div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="projects" class="py-20 scroll-animate">
-                <div class="glass-card non-interactive p-8 md:p-12">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center">Projects</h2>
-                    <div class="grid grid-cols-1 gap-8 max-w-4xl mx-auto">
-                        <div class="project-card glass-card p-6 hover:border-indigo-400">
-                            <div class="flex flex-col md:flex-row gap-6 items-center">
-                                <div class="project-image-container md:w-1/3 flex items-center justify-center p-4">
-                                    <img src="https://placehold.co/200x100/1a1a2e/FFFFFF?text=Project+1" alt="Automation Exercise" class="w-full h-auto object-contain">
-                                </div>
-                                <div class="md:w-2/3">
-                                    <h3 class="text-2xl font-bold mb-3">AutomationExercise E-Commerce</h3>
-                                    <p class="text-gray-400 mb-4">Developed an end-to-end automation framework for automationexercise using Selenium WebDriver, TestNG, and POM design. Automated key user flows like registration, cart, checkout, and account deletion with real-world test data.</p>
-                                    <div class="flex flex-wrap gap-2"><span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Java</span><span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Selenium</span><span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">TestNG</span><span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Maven</span><span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">POM</span></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="project-card glass-card p-6 hover:border-indigo-400">
-                             <div class="flex flex-col md:flex-row gap-6 items-center">
-                                <div class="project-image-container md:w-1/3 flex items-center justify-center p-4">
-                                    <img src="https://placehold.co/200x100/1a1a2e/FFFFFF?text=Project+2" alt="Obzervr Logo" class="w-full h-auto object-contain">
-                                </div>
-                                <div class="md:w-2/3">
-                                    <h3 class="text-2xl font-bold mb-3">OBSERVR_POM</h3>
-                                    <p class="text-gray-400 mb-4">Automated end-to-end UI testing of obzervr using Selenium WebDriver, TestNG, and Page Object Model (POM).  Integrated data-driven testing with Excel (Apache POI) and dynamic Extent Reports. Implemented TestNG Listeners for auto screenshot capture and enhanced failure debugging</p>
-                                    <div class="flex flex-wrap gap-2"><span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Selenium</span><span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">TestNG</span><span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Apache POI</span><span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Data-Driven</span></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="project-card glass-card p-6 hover:border-indigo-400">
-                             <div class="flex flex-col md:flex-row gap-6 items-center">
-                                <div class="project-image-container md:w-1/3 flex items-center justify-center p-4">
-                                    <img src="https://placehold.co/200x100/1a1a2e/FFFFFF?text=Project+3" alt="SauceDemo Automation" class="w-full h-auto object-contain">
-                                </div>
-                                <div class="md:w-2/3">
-                                    <h3 class="text-2xl font-bold mb-3">SAUCEDEMO_AUTOMATION</h3>
-                                    <p class="text-gray-400 mb-4">Developed a data-driven automation framework for saucedemo using Selenium, JUnit and Cucumber BDD. Automated end-to-end user flows including login, product selection, and checkout with Excel-based input. Implemented POM, Maven for dependency management.</p>
-                                     <div class="flex flex-wrap gap-2"><span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Java</span><span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Cucumber</span><span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">JUnit</span><span class="bg-gray-800 text-indigo-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">BDD</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="education" class="py-20 scroll-animate">
-                <div class="glass-card non-interactive p-8 md:p-12">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center">Education</h2>
-                    <div class="relative max-w-3xl mx-auto">
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <div class="glass-card p-6 hover:border-indigo-400">
-                                <p class="text-gray-400 text-sm mb-1">Sep 2020 - May 2024</p>
-                                <h3 class="text-xl font-bold text-indigo-300">Bachelor of Technology, Computer Science</h3>
-                                <p class="text-gray-400 mb-2">Vel Tech Rangarajan Dr. Sagunthala R&D Institute, Chennai</p>
-                                <span class="inline-block bg-gray-800 text-gray-300 px-3 py-1 rounded-full text-sm">GPA: 7.9/10</span>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <div class="glass-card p-6 hover:border-indigo-400">
-                                <p class="text-gray-400 text-sm mb-1">Jun 2018 - Mar 2020</p>
-                                <h3 class="text-xl font-bold text-indigo-300">Intermediate (MPC)</h3>
-                                <p class="text-gray-400 mb-2">Narayana Junior College, Andhra Pradesh</p>
-                                <span class="inline-block bg-gray-800 text-gray-300 px-3 py-1 rounded-full text-sm">GPA: 8.46/10</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="certifications" class="py-20 scroll-animate">
-                <div class="glass-card non-interactive p-8 md:p-12">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center">Certifications</h2>
-                    <div class="max-w-3xl mx-auto">
-                        <a href="https://www.hackerrank.com/certificates/iframe/b38d1a9f1fbe" target="_blank" rel="noopener noreferrer" class="cert-card glass-card p-6 flex items-center gap-6 hover:border-indigo-400 block">
-                            <div class="text-4xl text-indigo-400">
-                                <i class="fas fa-certificate"></i>
-                            </div>
-                            <div class="flex-grow">
-                                <h3 class="text-xl font-bold text-indigo-300">SQL (Basic)</h3>
-                                <p class="text-gray-400">HackerRank</p>
-                            </div>
-                            <div class="text-xl text-gray-500">
-                                <i class="fas fa-external-link-alt"></i>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <section id="contact" class="py-20 scroll-animate">
-                <div class="glass-card non-interactive p-8 md:p-12">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center">Get In Touch</h2>
-                    <p class="text-center text-gray-300 mb-8 max-w-2xl mx-auto">
-                        I'm actively looking for new opportunities in QA Engineering. Feel free to reach out for collaborations or just to say hello!
-                    </p>
-                    <div class="flex justify-center">
-                        <form action="https://formspree.io/f/your_unique_id" method="POST" class="space-y-4 w-full max-w-md">
-                            <input type="text" name="name" placeholder="Your Name" required class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                            <input type="email" name="email" placeholder="Your Email" required class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                            <textarea name="message" placeholder="Your Message" rows="5" required class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
-                            <button type="submit" class="btn-primary w-full text-white font-bold py-3 px-8 rounded-lg text-lg">Send Message</button>
-                        </form>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <footer class="text-center py-8 text-gray-500">
-            <div class="flex justify-center items-center space-x-6 mb-4">
-                <a href="https://www.linkedin.com/in/pavankalyan-akasamm-1a5668216" target="_blank" class="text-gray-400 hover:text-indigo-400 transition-colors"><i class="fab fa-linkedin text-2xl"></i></a>
-                <a href="https://github.com/AKASAMPAVANKALYAN" target="_blank" class="text-gray-400 hover:text-indigo-400 transition-colors"><i class="fab fa-github text-2xl"></i></a>
-                <a href="mailto:apavanpkalyan@gmail.com" class="text-gray-400 hover:text-indigo-400 transition-colors"><i class="fas fa-envelope text-2xl"></i></a>
-            </div>
-            <p>&copy; 2025 Pavankalyan Akasam | QA Engineer</p>
-        </footer>
+    <div id="projects" class="planet-info">
+        <span class="close-btn" onclick="hideInfo('projects')">✕</span>
+        <h2 class="planet-title">Featured Projects</h2>
+        <ul class="project-list">
+            <li><a href="#">Galaxy Explorer - Interactive 3D Visualization</a></li>
+            <li><a href="#">Cosmic Dashboard - Data Visualization Platform</a></li>
+            <li><a href="#">Stellar Portfolio - VR Exhibition</a></li>
+            <li><a href="#">Nebula UI Kit - Design System</a></li>
+        </ul>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <div id="skills" class="planet-info">
+        <span class="close-btn" onclick="hideInfo('skills')">✕</span>
+        <h2 class="planet-title">Technical Skills</h2>
+        <ul class="project-list">
+            <li>Three.js, Babylon.js, WebGL</li>
+            <li>React, Vue, Angular</li>
+            <li>Blender, Maya, Cinema4D</li>
+            <li>Node.js, Python, C#</li>
+        </ul>
+    </div>
+
+    <div id="experience" class="planet-info">
+        <span class="close-btn" onclick="hideInfo('experience')">✕</span>
+        <h2 class="planet-title">Professional Experience</h2>
+        <ul class="project-list">
+            <li>Senior Developer @ SpaceTech (2020-Present)</li>
+            <li>3D Artist @ DigitalCosmos (2018-2020)</li>
+            <li>UI Designer @ WebOrbit (2016-2018)</li>
+        </ul>
+    </div>
+
+    <div id="contact" class="planet-info">
+        <span class="close-btn" onclick="hideInfo('contact')">✕</span>
+        <h2 class="planet-title">Contact Me</h2>
+        <ul class="project-list">
+            <li>Email: contact@cosmicportfolio.com</li>
+            <li>LinkedIn: linkedin.com/in/cosmicdev</li>
+            <li>GitHub: github.com/cosmicdev</li>
+            <li>Twitter: @cosmic_dev</li>
+        </ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/TextureLoader.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // --- Background Animation ---
-            let scene, camera, renderer, stars;
+        // Main variables
+        let scene, camera, renderer, solarSystem, raycaster, mouse;
+        let planets = [];
+        let sunLight;
+        let labels = [];
+        
+        // Planet textures (using NASA images)
+        const textureUrls = {
+            mercury: 'https://solarsystem.nasa.gov/system/resources/detail_files/644_PIA15162_800.jpg',
+            venus: 'https://solarsystem.nasa.gov/system/resources/detail_files/610_PIA00104_800.jpg',
+            earth: 'https://solarsystem.nasa.gov/system/resources/detail_files/786_global_earth_1_800.jpg',
+            mars: 'https://solarsystem.nasa.gov/system/resources/detail_files/645_mars_globe_1_800.jpg',
+            jupiter: 'https://solarsystem.nasa.gov/system/resources/detail_files/2486_stsci-h-p1936a_1800.jpg',
+            saturn: 'https://solarsystem.nasa.gov/system/resources/detail_files/2490_stsci-h-p1943a-f_1200.jpg',
+            uranus: 'https://solarsystem.nasa.gov/system/resources/detail_files/598_PIA18182_800.jpg',
+            neptune: 'https://solarsystem.nasa.gov/system/resources/detail_files/611_PIA01492_800.jpg'
+        };
 
-            function initBackground() {
-                try {
-                    scene = new THREE.Scene();
-                    camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
-                    camera.position.z = 1;
-                    camera.rotation.x = Math.PI / 2;
-
-                    renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), antialias: true, alpha: true });
-                    renderer.setSize(window.innerWidth, window.innerHeight);
-
-                    let starVertices = [];
-                    for (let i = 0; i < 6000; i++) {
-                        let x = (Math.random() - 0.5) * 2000;
-                        let y = (Math.random() - 0.5) * 2000;
-                        let z = (Math.random() - 0.5) * 2000;
-                        starVertices.push(x, y, z);
-                    }
-                    
-                    let starGeometry = new THREE.BufferGeometry();
-                    starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
-                    
-                    let starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.7, transparent: true, opacity: 0.8 });
-                    stars = new THREE.Points(starGeometry, starMaterial);
-                    scene.add(stars);
-                    animateBackground();
-                } catch (e) {
-                    console.error("3D background initialization failed:", e);
-                    document.getElementById('bg-canvas').style.display = 'none';
-                }
-            }
-
-            function animateBackground() {
-                requestAnimationFrame(animateBackground);
-                stars.rotation.x += 0.0001;
-                stars.rotation.y += 0.0001;
-                renderer.render(scene, camera);
+        // Initialize the scene
+        function init() {
+            // Create scene
+            scene = new THREE.Scene();
+            
+            // Create camera
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 50;
+            
+            // Create renderer with better antialiasing
+            renderer = new THREE.WebGLRenderer({ 
+                antialias: true,
+                alpha: true
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.shadowMap.enabled = true;
+            document.getElementById('canvas-container').appendChild(renderer.domElement);
+            
+            // Add lighting
+            addLighting();
+            
+            // Add controls
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.minDistance = 30;
+            controls.maxDistance = 150;
+            
+            // Raycaster for planet interaction
+            raycaster = new THREE.Raycaster();
+            mouse = new THREE.Vector2();
+            
+            // Create stars
+            createStars();
+            
+            // Create solar system
+            createSolarSystem();
+            
+            // Simulate loading progress
+            simulateLoading();
+            
+            // Event listeners
+            window.addEventListener('resize', onWindowResize);
+            window.addEventListener('click', onMouseClick);
+            window.addEventListener('mousemove', onMouseMove);
+            
+            // Start animation loop
+            animate();
+        }
+        
+        // Add lighting to the scene
+        function addLighting() {
+            // Sun light (main directional light)
+            sunLight = new THREE.PointLight(0xffee88, 1, 100, 2);
+            sunLight.position.set(0, 0, 0);
+            sunLight.castShadow = true;
+            scene.add(sunLight);
+            
+            // Ambient light to soften shadows
+            const ambientLight = new THREE.AmbientLight(0x333333);
+            scene.add(ambientLight);
+            
+            // Hemisphere light for natural illumination
+            const hemisphereLight = new THREE.HemisphereLight(0x4488ff, 0xff8844, 0.2);
+            scene.add(hemisphereLight);
+        }
+        
+        // Create starfield background
+        function createStars() {
+            const starsGeometry = new THREE.BufferGeometry();
+            const starsMaterial = new THREE.PointsMaterial({
+                color: 0xffffff,
+                size: 0.2,
+                transparent: true,
+                opacity: 0.8,
+                sizeAttenuation: true
+            });
+            
+            const starsVertices = [];
+            for (let i = 0; i < 5000; i++) {
+                const x = (Math.random() - 0.5) * 2000;
+                const y = (Math.random() - 0.5) * 2000;
+                const z = (Math.random() - 0.5) * 2000;
+                starsVertices.push(x, y, z);
             }
             
-            window.addEventListener('resize', () => {
-                if (camera && renderer) {
-                    camera.aspect = window.innerWidth / window.innerHeight;
-                    camera.updateProjectionMatrix();
-                    renderer.setSize(window.innerWidth, window.innerHeight);
-                }
+            starsGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starsVertices, 3));
+            const starField = new THREE.Points(starsGeometry, starsMaterial);
+            scene.add(starField);
+        }
+        
+        // Create solar system with textured planets
+        function createSolarSystem() {
+            solarSystem = new THREE.Group();
+            scene.add(solarSystem);
+            
+            // Sun (with glow effect)
+            const sunGeometry = new THREE.SphereGeometry(5, 64, 64);
+            const sunMaterial = new THREE.MeshBasicMaterial({
+                color: 0xffdd55,
+                emissive: 0xffaa00,
+                emissiveIntensity: 1
             });
-
-            initBackground();
-
-            // --- Hide Loader ---
-            const loader = document.getElementById('loader');
-            if (loader) {
-                setTimeout(() => {
-                    loader.style.opacity = '0';
-                    setTimeout(() => loader.style.display = 'none', 500);
-                }, 800);
-            }
-
-            // --- Scroll Animations ---
-            const animatedElements = document.querySelectorAll('.scroll-animate');
-            const revealOnScroll = () => {
-                animatedElements.forEach(el => {
-                    if (el.getBoundingClientRect().top < window.innerHeight - 100) {
-                        el.classList.add('visible');
-                    }
+            const sun = new THREE.Mesh(sunGeometry, sunMaterial);
+            solarSystem.add(sun);
+            
+            // Portfolio sections mapped to planets
+            const planetData = [
+                { 
+                    name: "about", 
+                    section: "About Me",
+                    size: 1.5, 
+                    texture: textureUrls.mercury,
+                    distance: 15, 
+                    speed: 0.02,
+                    color: 0xcccccc
+                },
+                { 
+                    name: "projects", 
+                    section: "Projects",
+                    size: 2, 
+                    texture: textureUrls.venus,
+                    distance: 20, 
+                    speed: 0.015,
+                    color: 0xffcc99
+                },
+                { 
+                    name: "skills", 
+                    section: "Skills",
+                    size: 2.5, 
+                    texture: textureUrls.earth,
+                    distance: 25, 
+                    speed: 0.01,
+                    color: 0x4477ff
+                },
+                { 
+                    name: "experience", 
+                    section: "Experience",
+                    size: 2, 
+                    texture: textureUrls.mars,
+                    distance: 30, 
+                    speed: 0.008,
+                    color: 0xff6633
+                },
+                { 
+                    name: "contact", 
+                    section: "Contact",
+                    size: 3, 
+                    texture: textureUrls.neptune,
+                    distance: 40, 
+                    speed: 0.005,
+                    color: 0x3366ff
+                }
+            ];
+            
+            // Create orbit paths first
+            planetData.forEach((data, i) => {
+                createOrbit(data.distance);
+            });
+            
+            // Load textures and create planets
+            const textureLoader = new THREE.TextureLoader();
+            planetData.forEach((data, i) => {
+                textureLoader.load(data.texture, (texture) => {
+                    const geometry = new THREE.SphereGeometry(data.size, 64, 64);
+                    const material = new THREE.MeshPhongMaterial({ 
+                        map: texture,
+                        specular: 0x111111,
+                        shininess: 30,
+                        emissive: data.color,
+                        emissiveIntensity: 0.1
+                    });
+                    const planet = new THREE.Mesh(geometry, material);
+                    planet.castShadow = true;
+                    planet.receiveShadow = true;
+                    
+                    // Position planet in orbit
+                    const angle = (i / planetData.length) * Math.PI * 2;
+                    planet.position.x = Math.cos(angle) * data.distance;
+                    planet.position.z = Math.sin(angle) * data.distance;
+                    
+                    planet.userData = { 
+                        name: data.name, 
+                        section: data.section,
+                        speed: data.speed, 
+                        angle: angle, 
+                        distance: data.distance,
+                        originalColor: data.color
+                    };
+                    
+                    // Add hover effect
+                    planet.onHover = function() {
+                        this.material.emissiveIntensity = 0.5;
+                    };
+                    
+                    planet.onUnhover = function() {
+                        this.material.emissiveIntensity = 0.1;
+                    };
+                    
+                    planets.push(planet);
+                    solarSystem.add(planet);
+                    
+                    // Create label for planet
+                    createLabel(planet, data.section);
                 });
-            };
-            window.addEventListener('scroll', revealOnScroll);
-            revealOnScroll();
-
-            // --- Mobile Menu Toggle ---
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-
-            if (mobileMenuButton && mobileMenu) {
-                mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-                mobileNavLinks.forEach(link => link.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+            });
+        }
+        
+        // Create orbit path
+        function createOrbit(radius) {
+            const orbitGeometry = new THREE.BufferGeometry();
+            const points = [];
+            const segments = 64;
+            
+            for (let i = 0; i <= segments; i++) {
+                const theta = (i / segments) * Math.PI * 2;
+                points.push(
+                    new THREE.Vector3(
+                        Math.cos(theta) * radius,
+                        0,
+                        Math.sin(theta) * radius
+                    )
+                );
             }
-        });
+            
+            orbitGeometry.setFromPoints(points);
+            const orbitMaterial = new THREE.LineBasicMaterial({ 
+                color: 0x444444,
+                transparent: true,
+                opacity: 0.3
+            });
+            const orbit = new THREE.Line(orbitGeometry, orbitMaterial);
+            orbit.rotation.x = Math.PI / 2;
+            solarSystem.add(orbit);
+        }
+        
+        // Create label for planet
+        function createLabel(planet, text) {
+            const label = document.createElement('div');
+            label.className = 'planet-label';
+            label.textContent = text;
+            document.body.appendChild(label);
+            labels.push({ planet, label });
+        }
+        
+        // Update label positions
+        function updateLabels() {
+            labels.forEach(item => {
+                const planetPosition = item.planet.position.clone();
+                planetPosition.project(camera);
+                
+                const x = (planetPosition.x * 0.5 + 0.5) * window.innerWidth;
+                const y = (- (planetPosition.y * 0.5 + 0.5)) * window.innerHeight;
+                
+                item.label.style.transform = `translate(${x}px, ${y}px)`;
+                item.label.style.zIndex = (-planetPosition.z * 0.5 + 0.5) * 100000 | 0;
+                
+                // Hide labels if planet is behind the sun
+                const distanceToSun = planetPosition.length();
+                item.label.style.display = distanceToSun > 0.1 ? 'block' : 'none';
+            });
+        }
+        
+        // Simulate loading progress
+        function simulateLoading() {
+            let progress = 0;
+            const progressBar = document.getElementById('progress');
+            const loadingInterval = setInterval(() => {
+                progress += Math.random() * 10;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(loadingInterval);
+                    setTimeout(() => {
+                        document.getElementById('loading').style.opacity = '0';
+                        setTimeout(() => {
+                            document.getElementById('loading').style.display = 'none';
+                        }, 500);
+                    }, 500);
+                }
+                progressBar.style.width = progress + '%';
+            }, 100);
+        }
+        
+        // Handle window resize
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        
+        // Handle mouse movement for hover effects
+        function onMouseMove(event) {
+            // Calculate mouse position in normalized device coordinates
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+            
+            // Update the raycaster
+            raycaster.setFromCamera(mouse, camera);
+            
+            // Calculate objects intersecting the ray
+            const intersects = raycaster.intersectObjects(planets);
+            
+            // Reset all planets to unhovered state
+            planets.forEach(planet => {
+                if (planet.onUnhover) planet.onUnhover();
+            });
+            
+            // Highlight hovered planet
+            if (intersects.length > 0) {
+                const planet = intersects[0].object;
+                if (planet.onHover) planet.onHover();
+                document.body.style.cursor = 'pointer';
+            } else {
+                document.body.style.cursor = 'auto';
+            }
+        }
+        
+        // Handle mouse clicks
+        function onMouseClick(event) {
+            // Calculate mouse position in normalized device coordinates
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+            
+            // Update the raycaster
+            raycaster.setFromCamera(mouse, camera);
+            
+            // Calculate objects intersecting the ray
+            const intersects = raycaster.intersectObjects(planets);
+            
+            if (intersects.length > 0) {
+                const planet = intersects[0].object;
+                showInfo(planet.userData.name);
+                
+                // Pulse effect when clicked
+                planet.material.emissiveIntensity = 1;
+                setTimeout(() => {
+                    planet.material.emissiveIntensity = 0.1;
+                }, 300);
+            }
+        }
+        
+        // Show planet info panel
+        function showInfo(planetName) {
+            document.getElementById(planetName).style.display = 'block';
+        }
+        
+        // Hide planet info panel
+        function hideInfo(planetName) {
+            document.getElementById(planetName).style.display = 'none';
+        }
+        
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            // Rotate planets
+            planets.forEach(planet => {
+                planet.userData.angle += planet.userData.speed;
+                planet.position.x = Math.cos(planet.userData.angle) * planet.userData.distance;
+                planet.position.z = Math.sin(planet.userData.angle) * planet.userData.distance;
+                
+                // Add subtle rotation to planets
+                planet.rotation.y += 0.005;
+            });
+            
+            // Rotate solar system
+            solarSystem.rotation.y += 0.001;
+            
+            // Pulsing sun effect
+            const time = Date.now() * 0.001;
+            sunLight.intensity = 0.8 + Math.sin(time * 2) * 0.2;
+            
+            // Update labels
+            updateLabels();
+            
+            renderer.render(scene, camera);
+        }
+        
+        // Start the app
+        init();
     </script>
 </body>
 </html>
