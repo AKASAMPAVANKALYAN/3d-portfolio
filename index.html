@@ -1,738 +1,719 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pavankalyan Akasam | QA Automation Engineer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Base Styles */
-        :root {
-            --bug-red: #e53e3e;
-            --test-pass: #48bb78;
-            --test-fail: #e53e3e;
-            --test-warning: #ed8936;
-            --test-blue: #4299e1;
-            --test-purple: #9f7aea;
-            --dark-bg: #2d3748;
-            --light-bg: #f7fafc;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        html {
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%234f46e5" d="M12 2c-3 0-5 1-5 1v2h2v1H7v1h2v1H7v1h2v1H7v1h2v1H7v3h2v1H7v1h2v1H7v1h2v1H7v1h10v-1h-2v-1h2v-1h-2v-1h2v-3h-2v-1h2v-1h-2v-1h2v-1h-2v-1h2v-1h-2V5h2V3h-2V2s-2-1-5-1zm0 2c1.5 0 2 .5 2 1h-4c0-.5.5-1 2-1zm-4 4h2v1H8V8zm4 0h2v1h-2V8zm-4 3h2v1H8v-1zm4 0h2v1h-2v-1z"/></svg>'), auto;
-            scroll-behavior: smooth;
-        }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--light-bg);
-            color: #2d3748;
-            line-height: 1.6;
-        }
-        
-        /* Header Styles */
-        header {
-            background: var(--dark-bg);
-            color: white;
-            padding: 1rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.5rem 1rem;
-            position: relative;
-        }
-        
-        .header-terminal {
-            position: absolute;
-            left: 1rem;
-            top: 0.5rem;
-            font-family: 'Courier New', monospace;
-            font-size: 0.8rem;
-            color: var(--test-pass);
-        }
-        
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            padding-top: 1.5rem;
-        }
-        
-        /* Navigation */
-        nav {
-            display: flex;
-            gap: 1.5rem;
-        }
-        
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-        
-        nav a:hover {
-            color: var(--test-blue);
-        }
-        
-        .mobile-menu-button {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-        
-        /* Test Case Cards */
-        .test-case {
-            background: white;
-            border-left: 5px solid var(--test-blue);
-            border-radius: 0.25rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            margin: 1.5rem 0;
-            padding: 1.5rem;
-            position: relative;
-            transition: all 0.3s ease;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .test-case:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
-        
-        .test-case::before {
-            content: "TEST CASE";
-            position: absolute;
-            top: 0;
-            right: 0;
-            background: var(--test-blue);
-            color: white;
-            padding: 0.2rem 0.5rem;
-            font-size: 0.7rem;
-            font-weight: bold;
-            border-bottom-left-radius: 0.25rem;
-        }
-        
-        /* Status Badges */
-        .status-badge {
-            padding: 0.2rem 0.5rem;
-            border-radius: 0.25rem;
-            font-size: 0.75rem;
-            font-weight: bold;
-            display: inline-block;
-            margin-right: 0.5rem;
-        }
-        
-        .status-pass {
-            background: var(--test-pass);
-            color: white;
-        }
-        
-        .tech-badge {
-            background: #edf2f7;
-            color: #2d3748;
-            padding: 0.2rem 0.5rem;
-            border-radius: 0.25rem;
-            font-size: 0.75rem;
-            display: inline-block;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        /* Console Section */
-        .console {
-            background: var(--dark-bg);
-            color: #e2e8f0;
-            padding: 1.5rem;
-            border-radius: 0.5rem;
-            font-family: 'Courier New', monospace;
-            position: relative;
-            max-width: 800px;
-            margin: 0 auto 2rem;
-        }
-        
-        .console::before {
-            content: ">_";
-            position: absolute;
-            left: 0.5rem;
-            top: 0.5rem;
-            color: var(--test-pass);
-        }
-        
-        .console-output {
-            margin-left: 1.5rem;
-        }
-        
-        .console-line {
-            margin: 0.5rem 0;
-        }
-        
-        .console-success {
-            color: var(--test-pass);
-        }
-        
-        /* Bug Elements */
-        .bug {
-            position: fixed;
-            width: 30px;
-            height: 30px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23e53e3e" d="M12 2c-3 0-5 1-5 1v2h2v1H7v1h2v1H7v1h2v1H7v1h2v1H7v3h2v1H7v1h2v1H7v1h2v1H7v1h10v-1h-2v-1h2v-1h-2v-1h2v-3h-2v-1h2v-1h-2v-1h2v-1h-2v-1h2v-1h-2V5h2V3h-2V2s-2-1-5-1zm0 2c1.5 0 2 .5 2 1h-4c0-.5.5-1 2-1zm-4 4h2v1H8V8zm4 0h2v1h-2V8zm-4 3h2v1H8v-1zm4 0h2v1h-2v-1z"/></svg>');
-            background-size: contain;
-            background-repeat: no-repeat;
-            z-index: -1;
-            pointer-events: none;
-            opacity: 0.7;
-            animation: crawl 15s linear infinite;
-        }
-        
-        @keyframes crawl {
-            0% { transform: translateX(-50px) translateY(0) rotate(0deg); }
-            50% { transform: translateX(calc(50vw + 100px)) translateY(100px) rotate(180deg); }
-            100% { transform: translateX(calc(100vw + 50px)) translateY(0) rotate(360deg); }
-        }
-        
-        /* Timeline */
-        .timeline {
-            position: relative;
-            padding-left: 2rem;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        
-        .timeline::before {
-            content: "";
-            position: absolute;
-            left: 7px;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: var(--test-blue);
-        }
-        
-        .timeline-item {
-            position: relative;
-            margin-bottom: 2rem;
-        }
-        
-        .timeline-item::before {
-            content: "";
-            position: absolute;
-            left: -2rem;
-            top: 0.3rem;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: white;
-            border: 3px solid var(--test-blue);
-        }
-        
-        /* Test Tools */
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 1.5rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .tool-card {
-            background: white;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            text-align: center;
-            transition: transform 0.3s;
-        }
-        
-        .tool-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .tool-icon {
-            width: 50px;
-            height: 50px;
-            margin: 0 auto 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-        }
-        
-        /* Contact Form */
-        .contact-form {
-            max-width: 600px;
-            margin: 0 auto;
-            background: white;
-            padding: 2rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-        
-        .form-input {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #e2e8f0;
-            border-radius: 0.25rem;
-            font-family: inherit;
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: var(--test-blue);
-            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
-        }
-        
-        .submit-btn {
-            background: var(--test-blue);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.25rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background 0.3s;
-            width: 100%;
-        }
-        
-        .submit-btn:hover {
-            background: #3182ce;
-        }
-        
-        /* Footer */
-        footer {
-            background: var(--dark-bg);
-            color: white;
-            padding: 2rem 1rem;
-            text-align: center;
-            margin-top: 3rem;
-        }
-        
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin: 1rem 0;
-        }
-        
-        .social-links a {
-            color: white;
-            font-size: 1.25rem;
-            transition: color 0.3s;
-        }
-        
-        .social-links a:hover {
-            color: var(--test-blue);
-        }
-        
-        /* Utility Classes */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-        
-        .section {
-            padding: 3rem 0;
-        }
-        
-        .section-title {
-            font-size: 2rem;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 2rem;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .section-title::after {
-            content: "";
-            position: absolute;
-            bottom: -0.5rem;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--test-blue);
-        }
-        
-        .bg-light {
-            background: #edf2f7;
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            nav {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: var(--dark-bg);
-                flex-direction: column;
-                padding: 1rem;
-                gap: 1rem;
-            }
-            
-            nav.active {
-                display: flex;
-            }
-            
-            .mobile-menu-button {
-                display: block;
-            }
-            
-            .tools-grid {
-                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            }
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pavankalyan Akasam | QA Automation Engineer</title>
+
+  <!-- Inter + Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="" crossorigin="anonymous"/>
+
+  <!-- Three.js for starfield -->
+  <script src="https://unpkg.com/three@0.155.0/build/three.min.js"></script>
+
+  <style>
+    :root{
+      --bg-dark: #0b1220;
+      --light-bg: #f7fafc;
+      --card: #ffffff;
+      --muted: #94a3b8;
+      --accent: #4299e1;
+      --success: #48bb78;
+      --danger: #e53e3e;
+    }
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      background: linear-gradient(180deg,#0b1220 0%, #071029 60%);
+      color:#e6eef8;
+      overflow-x:hidden;
+    }
+
+    /* Layout */
+    header{
+      position: sticky;
+      top:0;
+      z-index:40;
+      background: rgba(13, 22, 34, 0.85);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .header-container{
+      max-width:1200px;
+      margin:0 auto;
+      padding:0.6rem 1rem;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+    }
+    .logo{
+      font-weight:700;
+      font-size:1.25rem;
+      color:#e6eef8;
+      letter-spacing:0.6px;
+    }
+    nav a{
+      color:#cfe8ff;
+      margin-left:1rem;
+      text-decoration:none;
+      font-weight:500;
+    }
+    nav a:hover{ color:var(--accent); }
+
+    /* container */
+    .container{ max-width:1200px; margin:0 auto; padding:1rem; }
+
+    /* Hero / console */
+    .hero{
+      padding:3rem 1rem 2rem;
+      text-align:center;
+      position:relative;
+    }
+    .name{
+      font-size:2.25rem;
+      font-weight:700;
+      margin:0.75rem 0 0.5rem;
+      color:#f0f6ff;
+    }
+    .subtitle{ color: #cbd9ea; margin-bottom:1rem; font-size:1.05rem; }
+
+    .console{
+      width:100%;
+      max-width:920px;
+      margin:0 auto 1.25rem;
+      background: rgba(8, 11, 16, 0.7);
+      border-radius:10px;
+      padding:1rem 1.25rem;
+      text-align:left;
+      box-shadow: 0 6px 20px rgba(2,6,23,0.6);
+      border: 1px solid rgba(255,255,255,0.02);
+      font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, "Courier New", monospace;
+      color:#bfe6c9;
+    }
+    .console .line{ margin:0.15rem 0; font-size:0.95rem; color:#c8f7d1; }
+    .console .muted{ color:#7fb18b; }
+    .blink { display:inline-block; width:8px; }
+
+    /* sections */
+    section.section{ padding:3rem 0; position:relative; z-index:10; }
+
+    /* Test case card (keeps original design) */
+    .test-case{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-left: 5px solid var(--accent);
+      border-radius: 10px;
+      padding:1.25rem;
+      margin:1rem 0;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .test-case:hover{ transform: translateY(-6px); box-shadow: 0 18px 40px rgba(2,6,23,0.7); }
+
+    .status-badge{ display:inline-block; padding:0.25rem 0.5rem; border-radius:6px; font-weight:700; font-size:0.8rem; margin-right:0.5rem; }
+    .status-pass{ background:var(--success); color:#062014; }
+    .tech-badge{ background: rgba(255,255,255,0.03); color:#dbeffd; padding:0.2rem 0.5rem; border-radius:6px; font-size:0.82rem; margin-right:0.45rem; }
+
+    /* Skills grid */
+    #skills { padding:2.5rem 0; }
+    .skills-grid{
+      display:grid;
+      grid-template-columns: repeat(1,1fr);
+      gap:1rem;
+    }
+    @media(min-width:768px){
+      .skills-grid{ grid-template-columns: repeat(3,1fr); }
+    }
+    .skill-card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.015));
+      border-radius:12px;
+      padding:1.1rem;
+      transition: transform 0.28s cubic-bezier(.2,.9,.3,1), box-shadow 0.28s;
+      box-shadow: 0 8px 30px rgba(2,6,23,0.55);
+      border:1px solid rgba(255,255,255,0.02);
+    }
+    .skill-card:hover{ transform: translateY(-6px) scale(1.01); box-shadow: 0 20px 50px rgba(2,6,23,0.65); }
+    .skill-head{ display:flex; align-items:center; gap:0.9rem; margin-bottom:0.75rem; }
+    .skill-icon{
+      width:48px; height:48px; display:flex; align-items:center; justify-content:center; border-radius:10px; font-size:1.25rem;
+      background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      color:#e6f7ff;
+      transition: transform .28s ease;
+    }
+    .skill-card:hover .skill-icon{ transform: translateY(-4px) rotate(-6deg); filter: drop-shadow(0 6px 20px rgba(66,153,225,0.18)); }
+
+    .skill-list{ color:#cfe6ff; line-height:1.7; margin:0; padding-left:1rem; list-style-type: none; }
+    .skill-list li:before{ content:"•"; color:var(--accent); display:inline-block; width:1rem; margin-left:-1rem; margin-right:0.35rem; }
+
+    /* Contact form */
+    .contact-card{ background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:1.1rem; border-radius:12px; max-width:700px; margin:0 auto; border:1px solid rgba(255,255,255,0.02); }
+    label{ display:block; font-weight:600; margin-bottom:0.35rem; color:#d8eaff; }
+    input[type="text"], input[type="email"], select, textarea{
+      width:100%; padding:0.7rem; border-radius:8px; border:1px solid rgba(255,255,255,0.04); background: rgba(255,255,255,0.01); color:#e6f7ff; font-size:0.95rem;
+    }
+    input:focus, textarea:focus, select:focus{ outline:none; box-shadow: 0 6px 18px rgba(66,153,225,0.12); border-color:var(--accent); }
+    .submit-btn{ width:100%; padding:0.75rem 1rem; background:var(--accent); color:#041428; border:none; font-weight:700; border-radius:8px; cursor:pointer; margin-top:0.6rem; }
+    .submit-btn:hover{ background:#2b82b8; }
+
+    /* footer */
+    footer{ text-align:center; padding:2rem 1rem; color:#a8c9e6; margin-top:2rem; }
+
+    /* starfield canvas */
+    #starfield{ position:fixed; inset:0; z-index:0; pointer-events:none; }
+
+    /* crawling bugs */
+    .bug{
+      position:fixed;
+      width:36px;height:36px;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23e53e3e" d="M12 2c-3 0-5 1-5 1v2h2v1H7v1h2v1H7v1h2v1H7v3h2v1H7v1h2v1H7v1h2v1H7v1h10v-1h-2v-1h2v-1h-2v-1h2v-3h-2v-1h2v-1h-2v-1h2v-1h-2v-1h2v-1h-2V5h2V3h-2V2s-2-1-5-1zm0 2c1.5 0 2 .5 2 1h-4c0-.5.5-1 2-1zm-4 4h2v1H8V8zm4 0h2v1h-2V8zm-4 3h2v1H8v-1zm4 0h2v1h-2v-1z"/></svg>');
+      background-size:contain; background-repeat:no-repeat;
+      transform: translate(-100px,-100px);
+      pointer-events:none; opacity:0.85; z-index:5;
+      filter: drop-shadow(0 6px 14px rgba(0,0,0,0.45));
+      transition: transform 0.25s linear;
+    }
+
+    /* small utilities */
+    .sr-only{ position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
+    .section-title{ font-size:1.6rem; font-weight:700; color:#e6f7ff; margin-bottom:0.75rem; display:inline-block; position:relative; }
+    .muted-small{ color:#9fb8d9; font-size:0.95rem; }
+
+    /* scroll reveal helper */
+    .reveal{ opacity:0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.show{ opacity:1; transform: translateY(0); }
+
+  </style>
 </head>
 <body>
-    <!-- Floating Bugs -->
-    <div class="bug" style="top:20%;animation-delay:0s;animation-duration:20s"></div>
-    <div class="bug" style="top:40%;animation-delay:5s;animation-duration:25s"></div>
-    <div class="bug" style="top:70%;animation-delay:10s;animation-duration:18s"></div>
 
-    <header>
-        <div class="header-container">
-            <div class="header-terminal">QA_TERMINAL > ./portfolio.sh</div>
-            <div class="logo">PKA</div>
-            <nav id="main-nav">
-                <a href="#test-cases">Test Cases</a>
-                <a href="#test-reports">Test Reports</a>
-                <a href="#test-tools">Test Tools</a>
-                <a href="#contact">Contact QA</a>
-            </nav>
-            <button class="mobile-menu-button" id="menu-toggle">
-                <i class="fas fa-bars"></i>
-            </button>
+  <!-- starfield canvas (Three.js) -->
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <!-- floating bugs (initially off-screen, will be animated via JS) -->
+  <div class="bug" id="bug1" aria-hidden="true"></div>
+  <div class="bug" id="bug2" aria-hidden="true"></div>
+  <div class="bug" id="bug3" aria-hidden="true"></div>
+
+  <header>
+    <div class="header-container">
+      <div class="logo">PKA</div>
+      <nav aria-label="Main navigation" id="main-nav">
+        <a href="#test-cases">Test Cases</a>
+        <a href="#test-reports">Test Reports</a>
+        <a href="#test-tools">Test Tools</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact QA</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="container">
+        <div class="console" role="status" aria-live="polite">
+          <div class="line">$ ./run_tests.sh</div>
+          <div class="line">Running test suite... <span class="blink">|</span></div>
+          <div class="line muted">All tests passed! (37/37)</div>
         </div>
-    </header>
 
-    <main>
-        <!-- Hero Section -->
-        <section class="section">
-            <div class="container">
-                <div class="console">
-                    <div class="console-output">
-                        <div class="console-line">$ ./run_tests.sh</div>
-                        <div class="console-line">Running test suite... <span class="blink">|</span></div>
-                        <div class="console-line console-success">All tests passed! (37/37)</div>
-                    </div>
-                </div>
-                <h1 class="text-center text-4xl font-bold mb-4">Pavankalyan Akasam</h1>
-                <p class="text-center text-xl text-gray-600 max-w-2xl mx-auto">
-                    QA Automation Engineer specializing in Selenium, TestNG, and Cucumber frameworks
-                </p>
-            </div>
-        </section>
+        <h1 id="hero-heading" class="name">Pavankalyan Akasam</h1>
+        <p class="subtitle">QA Automation Engineer — Selenium, TestNG, Cucumber, Java</p>
+      </div>
+    </section>
 
-        <!-- Test Cases (Projects) -->
-        <section id="test-cases" class="section">
-            <div class="container">
-                <h2 class="section-title">Test Cases</h2>
-                
-                <div class="test-case">
-                    <h3 class="text-xl font-bold mb-2">AutomationExercise E-Commerce</h3>
-                    <div class="mb-4">
-                        <span class="status-badge status-pass">PASSED</span>
-                        <span class="tech-badge">Java</span>
-                        <span class="tech-badge">Selenium</span>
-                        <span class="tech-badge">TestNG</span>
-                        <span class="tech-badge">POM</span>
-                    </div>
-                    <p class="text-gray-700 mb-4">
-                        Developed end-to-end automation framework for automationexercise using Selenium WebDriver with TestNG. 
-                        Automated key user flows like registration, cart, checkout, and account deletion.
-                    </p>
-                    <a href="https://github.com/AKASAMPAVANKALYAN/automationexercise_ecommercedemo" 
-                       target="_blank" 
-                       class="text-blue-500 hover:underline inline-flex items-center">
-                        <i class="fab fa-github mr-1"></i> View Source Code
-                    </a>
-                </div>
-                
-                <div class="test-case">
-                    <h3 class="text-xl font-bold mb-2">OBZERVR_POM</h3>
-                    <div class="mb-4">
-                        <span class="status-badge status-pass">PASSED</span>
-                        <span class="tech-badge">Selenium</span>
-                        <span class="tech-badge">TestNG</span>
-                        <span class="tech-badge">Apache POI</span>
-                        <span class="tech-badge">Data-Driven</span>
-                    </div>
-                    <p class="text-gray-700 mb-4">
-                        Automated UI testing of obzervr using Selenium WebDriver with Page Object Model. 
-                        Integrated data-driven testing with Excel and dynamic Extent Reports. 
-                        Implemented TestNG Listeners for auto screenshot capture.
-                    </p>
-                    <a href="https://github.com/AKASAMPAVANKALYAN/obzervr_pom" 
-                       target="_blank" 
-                       class="text-blue-500 hover:underline inline-flex items-center">
-                        <i class="fab fa-github mr-1"></i> View Source Code
-                    </a>
-                </div>
-                
-                <div class="test-case">
-                    <h3 class="text-xl font-bold mb-2">SAUCEDEMO_AUTOMATION</h3>
-                    <div class="mb-4">
-                        <span class="status-badge status-pass">PASSED</span>
-                        <span class="tech-badge">Java</span>
-                        <span class="tech-badge">Cucumber</span>
-                        <span class="tech-badge">JUnit</span>
-                        <span class="tech-badge">BDD</span>
-                    </div>
-                    <p class="text-gray-700 mb-4">
-                        Developed data-driven automation framework for saucedemo using Selenium, JUnit and Cucumber BDD. 
-                        Automated end-to-end user flows including login, product selection, and checkout with Excel-based input.
-                    </p>
-                    <a href="https://github.com/AKASAMPAVANKALYAN/saucedemo_automation" 
-                       target="_blank" 
-                       class="text-blue-500 hover:underline inline-flex items-center">
-                        <i class="fab fa-github mr-1"></i> View Source Code
-                    </a>
-                </div>
+    <!-- TEST CASES / Projects -->
+    <section id="test-cases" class="section" aria-labelledby="cases-title">
+      <div class="container">
+        <h2 id="cases-title" class="section-title reveal">Test Cases</h2>
+        <div class="reveal" style="margin-top:1rem;">
+          <!-- Project cards (kept from your original) -->
+          <div class="test-case" role="article">
+            <h3 style="margin:0 0 0.5rem;">AutomationExercise E-Commerce</h3>
+            <div style="margin-bottom:0.6rem;">
+              <span class="status-badge status-pass">PASSED</span>
+              <span class="tech-badge">Java</span>
+              <span class="tech-badge">Selenium</span>
+              <span class="tech-badge">TestNG</span>
+              <span class="tech-badge">POM</span>
             </div>
-        </section>
+            <p style="color:#cfe6ff; margin-bottom:0.5rem;">Developed end-to-end automation for AutomationExercise. Automation of registration, cart, checkout flows with robust POM structure.</p>
+            <a href="https://github.com/AKASAMPAVANKALYAN/automationexercise_ecommercedemo" target="_blank" rel="noopener" style="color:var(--accent);"> <i class="fab fa-github"></i> View Source</a>
+          </div>
 
-        <!-- Test Reports (Education) -->
-        <section id="test-reports" class="section bg-light">
-            <div class="container">
-                <h2 class="section-title">Test Reports</h2>
-                
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="test-case">
-                            <p class="text-sm text-gray-500 mb-1">Sep 2020 - May 2024</p>
-                            <h3 class="text-xl font-bold mb-2">Bachelor of Technology, Computer Science</h3>
-                            <p class="text-gray-600 mb-2">Vel Tech Rangarajan Dr. Sagunthala R&D Institute, Chennai</p>
-                            <span class="tech-badge">GPA: 7.9/10</span>
-                        </div>
-                    </div>
-                    
-                    <div class="timeline-item">
-                        <div class="test-case">
-                            <p class="text-sm text-gray-500 mb-1">Jun 2018 - Mar 2020</p>
-                            <h3 class="text-xl font-bold mb-2">Intermediate (MPC)</h3>
-                            <p class="text-gray-600 mb-2">Narayana Junior College, Andhra Pradesh</p>
-                            <span class="tech-badge">GPA: 8.46/10</span>
-                        </div>
-                    </div>
-                </div>
+          <div class="test-case" role="article">
+            <h3 style="margin:0 0 0.5rem;">OBZERVR_POM</h3>
+            <div style="margin-bottom:0.6rem;">
+              <span class="status-badge status-pass">PASSED</span>
+              <span class="tech-badge">Selenium</span>
+              <span class="tech-badge">TestNG</span>
+              <span class="tech-badge">Apache POI</span>
             </div>
-        </section>
+            <p style="color:#cfe6ff; margin-bottom:0.5rem;">UI automation with POM + Excel-driven data and dynamic Extent Reports. TestNG listeners for screenshots on failure.</p>
+            <a href="https://github.com/AKASAMPAVANKALYAN/obzervr_pom" target="_blank" rel="noopener" style="color:var(--accent);"> <i class="fab fa-github"></i> View Source</a>
+          </div>
 
-        <!-- Test Tools (Skills) -->
-        <section id="test-tools" class="section">
-            <div class="container">
-                <h2 class="section-title">Test Tools</h2>
-                
-                <div class="tools-grid">
-                    <div class="tool-card">
-                        <div class="tool-icon">
-                            <i class="fab fa-java text-orange-500"></i>
-                        </div>
-                        <p>Java</p>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <div class="tool-icon">
-                            <i class="fas fa-robot text-green-500"></i>
-                        </div>
-                        <p>Selenium</p>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <div class="tool-icon">
-                            <i class="fas fa-vial text-red-500"></i>
-                        </div>
-                        <p>TestNG</p>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <div class="tool-icon">
-                            <i class="fas fa-leaf text-green-600"></i>
-                        </div>
-                        <p>Cucumber</p>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <div class="tool-icon">
-                            <i class="fas fa-database text-purple-500"></i>
-                        </div>
-                        <p>SQL</p>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <div class="tool-icon">
-                            <i class="fab fa-jira text-blue-500"></i>
-                        </div>
-                        <p>JIRA</p>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <div class="tool-icon">
-                            <i class="fab fa-github text-gray-800"></i>
-                        </div>
-                        <p>GitHub</p>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <div class="tool-icon">
-                            <i class="fas fa-server text-blue-400"></i>
-                        </div>
-                        <p>Jenkins</p>
-                    </div>
-                </div>
+          <div class="test-case" role="article">
+            <h3 style="margin:0 0 0.5rem;">SAUCEDEMO_AUTOMATION</h3>
+            <div style="margin-bottom:0.6rem;">
+              <span class="status-badge status-pass">PASSED</span>
+              <span class="tech-badge">Cucumber</span>
+              <span class="tech-badge">JUnit</span>
+              <span class="tech-badge">Selenium</span>
             </div>
-        </section>
+            <p style="color:#cfe6ff; margin-bottom:0.5rem;">BDD-style, data-driven automation for Saucedemo with Excel input and JUnit integration.</p>
+            <a href="https://github.com/AKASAMPAVANKALYAN/saucedemo_automation" target="_blank" rel="noopener" style="color:var(--accent);"> <i class="fab fa-github"></i> View Source</a>
+          </div>
 
-        <!-- Contact QA -->
-        <section id="contact" class="section bg-light">
-            <div class="container">
-                <h2 class="section-title">Contact QA</h2>
-                
-                <div class="contact-form">
-                    <form>
-                        <div class="form-group">
-                            <label class="form-label">Your Name</label>
-                            <input type="text" class="form-input" placeholder="Enter your name">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">Your Email</label>
-                            <input type="email" class="form-input" placeholder="Enter your email">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">Priority</label>
-                            <select class="form-input">
-                                <option>Low</option>
-                                <option>Medium</option>
-                                <option>High</option>
-                                <option>Critical</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">Message</label>
-                            <textarea class="form-input" rows="4" placeholder="Describe the issue..."></textarea>
-                        </div>
-                        
-                        <button type="submit" class="submit-btn">
-                            Submit Bug Report
-                        </button>
-                    </form>
-                    
-                    <div class="mt-8 pt-6 border-t border-gray-200 text-center">
-                        <h4 class="text-sm font-medium text-gray-500 mb-2">Direct Contact</h4>
-                        <div class="flex flex-wrap justify-center gap-4">
-                            <a href="mailto:apavanpkalyan@gmail.com" class="text-blue-500 hover:underline">
-                                <i class="fas fa-envelope mr-1"></i> Email
-                            </a>
-                            <a href="tel:+918341653388" class="text-blue-500 hover:underline">
-                                <i class="fas fa-phone mr-1"></i> +91 8341653388
-                            </a>
-                            <a href="https://linkedin.com/in/pavankalyan-akasamm-1a5668216" 
-                               target="_blank" 
-                               class="text-blue-500 hover:underline">
-                                <i class="fab fa-linkedin mr-1"></i> LinkedIn
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
+        </div>
+      </div>
+    </section>
 
-    <footer>
-        <div class="container">
-            <p class="mb-4">Pavankalyan Akasam | QA Automation Engineer</p>
-            <div class="social-links">
-                <a href="https://github.com/AKASAMPAVANKALYAN" target="_blank">
-                    <i class="fab fa-github"></i>
-                </a>
-                <a href="https://www.linkedin.com/in/pavankalyan-akasamm-1a5668216" target="_blank">
-                    <i class="fab fa-linkedin"></i>
-                </a>
-                <a href="mailto:apavanpkalyan@gmail.com">
-                    <i class="fas fa-envelope"></i>
-                </a>
+    <!-- REPORTS / Education -->
+    <section id="test-reports" class="section bg-light" aria-labelledby="reports-title" style="background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));">
+      <div class="container">
+        <h2 id="reports-title" class="section-title reveal">Test Reports</h2>
+
+        <div style="margin-top:1rem;">
+          <div class="test-case reveal" style="margin-bottom:1rem;">
+            <p class="muted-small">Sep 2020 - May 2024</p>
+            <h3 style="margin:0 0 0.25rem;">Bachelor of Technology, Computer Science</h3>
+            <p class="muted-small">Vel Tech Rangarajan Dr. Sagunthala R&D Institute, Chennai • GPA: 7.9/10</p>
+          </div>
+
+          <div class="test-case reveal">
+            <p class="muted-small">Jun 2018 - Mar 2020</p>
+            <h3 style="margin:0 0 0.25rem;">Intermediate (MPC)</h3>
+            <p class="muted-small">Narayana Junior College, Andhra Pradesh • GPA: 8.46/10</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tools / Skills (updated grouped skills) -->
+    <section id="test-tools" class="section" aria-labelledby="tools-title">
+      <div class="container">
+        <h2 id="tools-title" class="section-title reveal">Test Tools</h2>
+        <div class="tools-grid reveal" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:1rem;margin-top:1rem;">
+          <!-- small tool cards -->
+          <div class="skill-card" role="img" aria-label="Java">
+            <div style="text-align:center;">
+              <div class="skill-icon" aria-hidden="true"><i class="fab fa-java"></i></div>
+              <div style="margin-top:0.6rem;color:#dbeffd;">Java</div>
             </div>
-            <p class="text-sm text-gray-400 mt-4">
-                &copy; 2024 All tests passed. No bugs detected.
+          </div>
+
+          <div class="skill-card" role="img" aria-label="Selenium">
+            <div style="text-align:center;">
+              <div class="skill-icon" aria-hidden="true"><i class="fas fa-robot"></i></div>
+              <div style="margin-top:0.6rem;color:#dbeffd;">Selenium</div>
+            </div>
+          </div>
+
+          <div class="skill-card" role="img" aria-label="TestNG">
+            <div style="text-align:center;">
+              <div class="skill-icon" aria-hidden="true"><i class="fas fa-vial"></i></div>
+              <div style="margin-top:0.6rem;color:#dbeffd;">TestNG</div>
+            </div>
+          </div>
+
+          <div class="skill-card" role="img" aria-label="Cucumber">
+            <div style="text-align:center;">
+              <div class="skill-icon" aria-hidden="true"><i class="fas fa-leaf"></i></div>
+              <div style="margin-top:0.6rem;color:#dbeffd;">Cucumber</div>
+            </div>
+          </div>
+
+          <div class="skill-card" role="img" aria-label="SQL">
+            <div style="text-align:center;">
+              <div class="skill-icon" aria-hidden="true"><i class="fas fa-database"></i></div>
+              <div style="margin-top:0.6rem;color:#dbeffd;">SQL</div>
+            </div>
+          </div>
+
+          <div class="skill-card" role="img" aria-label="GitHub">
+            <div style="text-align:center;">
+              <div class="skill-icon" aria-hidden="true"><i class="fab fa-github"></i></div>
+              <div style="margin-top:0.6rem;color:#dbeffd;">GitHub</div>
+            </div>
+          </div>
+
+          <div class="skill-card" role="img" aria-label="JIRA">
+            <div style="text-align:center;">
+              <div class="skill-icon" aria-hidden="true"><i class="fab fa-jira"></i></div>
+              <div style="margin-top:0.6rem;color:#dbeffd;">JIRA</div>
+            </div>
+          </div>
+
+          <div class="skill-card" role="img" aria-label="Jenkins">
+            <div style="text-align:center;">
+              <div class="skill-icon" aria-hidden="true"><i class="fas fa-server"></i></div>
+              <div style="margin-top:0.6rem;color:#dbeffd;">Jenkins</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS (grouped detailed) -->
+    <section id="skills" class="section" aria-labelledby="skills-title">
+      <div class="container">
+        <h2 id="skills-title" class="section-title reveal">Skills</h2>
+
+        <div class="skills-grid" style="margin-top:1rem;">
+          <!-- Testing Skills -->
+          <div class="skill-card reveal" aria-labelledby="testing-skills">
+            <div class="skill-head">
+              <div class="skill-icon" aria-hidden="true"><i class="fas fa-clipboard-check"></i></div>
+              <div>
+                <h3 id="testing-skills" style="margin:0;color:#e6f7ff;">Testing Skills</h3>
+                <div class="muted-small">Core QA capabilities</div>
+              </div>
+            </div>
+            <ul class="skill-list" aria-hidden="false">
+              <li>Manual Testing</li>
+              <li>Automation Testing</li>
+              <li>Functional Testing</li>
+              <li>Regression Testing</li>
+              <li>Smoke Testing</li>
+              <li>Sanity Testing</li>
+              <li>Test Case Design</li>
+              <li>Defect Reporting</li>
+              <li>Bug Life Cycle</li>
+            </ul>
+          </div>
+
+          <!-- Methodologies & Tools -->
+          <div class="skill-card reveal" aria-labelledby="process-skills">
+            <div class="skill-head">
+              <div class="skill-icon" aria-hidden="true"><i class="fas fa-list-check"></i></div>
+              <div>
+                <h3 id="process-skills" style="margin:0;color:#e6f7ff;">Process & Methodologies</h3>
+                <div class="muted-small">How you approach testing</div>
+              </div>
+            </div>
+            <ul class="skill-list">
+              <li>SDLC / STLC</li>
+              <li>JIRA</li>
+            </ul>
+          </div>
+
+          <!-- Automation Frameworks -->
+          <div class="skill-card reveal" aria-labelledby="automation-skills">
+            <div class="skill-head">
+              <div class="skill-icon" aria-hidden="true"><i class="fas fa-cogs"></i></div>
+              <div>
+                <h3 id="automation-skills" style="margin:0;color:#e6f7ff;">Automation Tools & Frameworks</h3>
+                <div class="muted-small">The tools you use</div>
+              </div>
+            </div>
+            <ul class="skill-list">
+              <li>Selenium WebDriver</li>
+              <li>TestNG</li>
+              <li>Page Object Model (POM)</li>
+              <li>Cucumber</li>
+              <li>JUnit</li>
+              <li>Git / GitHub</li>
+            </ul>
+          </div>
+
+          <!-- Programming & DB -->
+          <div class="skill-card reveal" aria-labelledby="prog-skills">
+            <div class="skill-head">
+              <div class="skill-icon" aria-hidden="true"><i class="fas fa-code"></i></div>
+              <div>
+                <h3 id="prog-skills" style="margin:0;color:#e6f7ff;">Programming & Databases</h3>
+                <div class="muted-small">Core language & DB</div>
+              </div>
+            </div>
+            <ul class="skill-list">
+              <li>Core Java</li>
+              <li>SQL</li>
+            </ul>
+          </div>
+
+          <!-- Version Control -->
+          <div class="skill-card reveal" aria-labelledby="vc-skills">
+            <div class="skill-head">
+              <div class="skill-icon" aria-hidden="true"><i class="fab fa-git-alt"></i></div>
+              <div>
+                <h3 id="vc-skills" style="margin:0;color:#e6f7ff;">Version Control</h3>
+                <div class="muted-small">Source management</div>
+              </div>
+            </div>
+            <ul class="skill-list">
+              <li>Git / GitHub</li>
+            </ul>
+          </div>
+
+          <!-- Extras placeholder (keeps layout balanced) -->
+          <div class="skill-card reveal" aria-hidden="true" style="opacity:0.98;">
+            <div class="skill-head">
+              <div class="skill-icon" aria-hidden="true"><i class="fas fa-wrench"></i></div>
+              <div>
+                <h3 style="margin:0;color:#e6f7ff;">Other</h3>
+                <div class="muted-small">Tools & workflows</div>
+              </div>
+            </div>
+            <ul class="skill-list">
+              <li>JIRA</li>
+              <li>Basic DevOps familiarity</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section bg-light" aria-labelledby="contact-title" style="background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));">
+      <div class="container">
+        <h2 id="contact-title" class="section-title reveal">Contact QA</h2>
+
+        <div class="contact-card reveal" style="margin-top:1rem;">
+          <!-- FORM: Replace FORMSPREE_ENDPOINT with your formspree url (see instructions below) -->
+          <form id="contactForm" method="POST" action="__FORMSPREE_ENDPOINT__" aria-label="Contact Form">
+            <div style="display:grid;grid-template-columns:1fr 1fr; gap:0.8rem;">
+              <div>
+                <label for="name">Your Name</label>
+                <input id="name" name="name" type="text" class="" placeholder="Enter your name" required aria-required="true"/>
+              </div>
+              <div>
+                <label for="email">Your Email</label>
+                <input id="email" name="email" type="email" class="" placeholder="Enter your email" required aria-required="true"/>
+              </div>
+            </div>
+
+            <div style="margin-top:0.8rem;">
+              <label for="priority">Priority</label>
+              <select id="priority" name="priority" aria-label="Priority" required>
+                <option>Low</option>
+                <option>Medium</option>
+                <option>High</option>
+                <option>Critical</option>
+              </select>
+            </div>
+
+            <div style="margin-top:0.8rem;">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="5" placeholder="Describe the issue..." required></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn" aria-label="Submit Bug Report">Submit Bug Report</button>
+
+            <p class="muted-small" style="margin-top:0.6rem;">
+              Or contact directly:
+              <a href="mailto:apavanpkalyan@gmail.com" style="color:var(--accent); text-decoration:none;"> <i class="fas fa-envelope"></i> Email</a>
+              &nbsp;•&nbsp;
+              <a href="tel:+918341653388" style="color:var(--accent); text-decoration:none;"> <i class="fas fa-phone"></i> +91 8341653388</a>
+              &nbsp;•&nbsp;
+              <a href="https://www.linkedin.com/in/pavankalyan-akasamm-1a5668216" target="_blank" rel="noopener" style="color:var(--accent);"> <i class="fab fa-linkedin"></i> LinkedIn</a>
             </p>
+
+            <input type="hidden" name="_subject" value="New bug report from portfolio">
+            <!-- Honeypot anti-spam -->
+            <div style="position:absolute; left:-9999px; top:auto;">
+              <label>Don’t fill this</label>
+              <input name="_gotcha" tabindex="-1" autocomplete="off"/>
+            </div>
+          </form>
         </div>
-    </footer>
+      </div>
+    </section>
 
-    <script>
-        // Mobile menu toggle
-        document.getElementById('menu-toggle').addEventListener('click', function() {
-            const nav = document.getElementById('main-nav');
-            nav.classList.toggle('active');
+  </main>
+
+  <footer aria-labelledby="footer-heading">
+    <div class="container">
+      <p id="footer-heading" style="margin:0 0 0.6rem;">Pavankalyan Akasam | QA Automation Engineer</p>
+      <div style="display:flex;gap:1rem;justify-content:center;align-items:center;">
+        <a href="https://github.com/AKASAMPAVANKALYAN" target="_blank" rel="noopener" style="color:#cfe6ff;"><i class="fab fa-github fa-lg"></i></a>
+        <a href="https://www.linkedin.com/in/pavankalyan-akasamm-1a5668216" target="_blank" rel="noopener" style="color:#cfe6ff;"><i class="fab fa-linkedin fa-lg"></i></a>
+        <a href="mailto:apavanpkalyan@gmail.com" style="color:#cfe6ff;"><i class="fas fa-envelope fa-lg"></i></a>
+      </div>
+      <p style="margin-top:0.9rem; color:#9fb8d9; font-size:0.9rem;">&copy; 2024 Pavankalyan Akasam — All tests passed (for now 😉)</p>
+    </div>
+  </footer>
+
+  <!-- JS -->
+  <script>
+    /* ---------------------------
+       Small helpers: reveal on scroll
+       --------------------------- */
+    (function(){
+      const revealEls = document.querySelectorAll('.reveal');
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting) e.target.classList.add('show');
         });
+      }, {threshold:0.12});
+      revealEls.forEach(el=>io.observe(el));
+    })();
 
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('#main-nav a').forEach(link => {
-            link.addEventListener('click', function() {
-                const nav = document.getElementById('main-nav');
-                if (nav.classList.contains('active')) {
-                    nav.classList.remove('active');
-                }
-            });
+    /* ---------------------------
+       STARFIELD (Three.js)
+       simple, optimized starfield
+       --------------------------- */
+    (function(){
+      const canvas = document.getElementById('starfield');
+      if(!canvas) return;
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha:true, antialias:true });
+      const fov = 60;
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(fov, window.innerWidth / window.innerHeight, 1, 2000);
+      camera.position.z = 1;
+
+      // star geometry
+      const starCount = Math.min(1600, Math.floor(window.innerWidth * 0.9));
+      const positions = new Float32Array(starCount * 3);
+      for(let i=0;i<starCount;i++){
+        const r = 800 + Math.random() * 1600;
+        const theta = Math.random() * 2 * Math.PI;
+        const phi = Math.acos(2 * Math.random() - 1);
+        positions[i*3] = r * Math.sin(phi) * Math.cos(theta);
+        positions[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
+        positions[i*3+2] = r * Math.cos(phi);
+      }
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions,3));
+      const material = new THREE.PointsMaterial({ size:1, color:0xcfe6ff, opacity:0.85, transparent:true });
+      const points = new THREE.Points(geometry, material);
+      scene.add(points);
+
+      function onResize(){
+        const w = window.innerWidth, h = window.innerHeight;
+        renderer.setSize(w,h);
+        camera.aspect = w/h;
+        camera.updateProjectionMatrix();
+      }
+      window.addEventListener('resize', onResize);
+      onResize();
+
+      let rot = 0;
+      function animate(){
+        rot += 0.0008 * (1 + Math.sin(Date.now()*0.0002));
+        points.rotation.y = rot;
+        points.rotation.x = Math.sin(rot*0.3) * 0.05;
+        renderer.render(scene, camera);
+        requestAnimationFrame(animate);
+      }
+      animate();
+    })();
+
+    /* ---------------------------
+       Crawling bugs behavior
+       - subtle wandering
+       - move away slightly when the mouse is near
+       --------------------------- */
+    (function(){
+      const bugs = [
+        document.getElementById('bug1'),
+        document.getElementById('bug2'),
+        document.getElementById('bug3')
+      ].filter(Boolean);
+
+      // init positions (off screen)
+      const vw = () => Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+      const vh = () => Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+
+      const state = bugs.map((b,i)=>{
+        const x = Math.random() * vw();
+        const y = (0.15 + Math.random()*0.7) * vh();
+        b.style.transform = `translate(${x}px, ${y}px)`;
+        return { el:b, x, y, vx:(Math.random()-0.5)*0.35, vy:(Math.random()-0.5)*0.35, phase: Math.random()*1000 };
+      });
+
+      let mouse = {x:-9999, y:-9999};
+      window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+
+      function step(){
+        const width = vw(), height = vh();
+        state.forEach(s=>{
+          // slight wandering motion
+          s.phase += 0.01 + Math.random()*0.015;
+          s.vx += Math.sin(s.phase) * 0.004;
+          s.vy += Math.cos(s.phase) * 0.004;
+
+          // update position
+          s.x += s.vx;
+          s.y += s.vy;
+
+          // keep inside bounds with gentle bounce
+          if(s.x < 10){ s.x = 10; s.vx *= -0.6; }
+          if(s.y < height*0.08) { s.y = height*0.08; s.vy *= -0.6; }
+          if(s.x > width - 40){ s.x = width - 40; s.vx *= -0.6; }
+          if(s.y > height - 40){ s.y = height - 40; s.vy *= -0.6; }
+
+          // react if mouse near (within 120px)
+          const dx = s.x - mouse.x, dy = s.y - mouse.y;
+          const dist = Math.hypot(dx, dy);
+          if(dist < 120){
+            // move away smoothly
+            const factor = (120 - dist) / 120;
+            s.vx += (dx / (dist + 0.001)) * 0.8 * factor;
+            s.vy += (dy / (dist + 0.001)) * 0.8 * factor;
+            s.el.style.transform = `translate(${s.x}px, ${s.y}px) scale(${1 + factor*0.05}) rotate(${factor*20}deg)`;
+            s.el.style.opacity = 1;
+          } else {
+            s.el.style.transform = `translate(${s.x}px, ${s.y}px)`;
+            s.el.style.opacity = 0.85;
+          }
         });
+        requestAnimationFrame(step);
+      }
+      // start with staggered delays so they don't all jump at once
+      setTimeout(() => { step(); }, 300);
+    })();
 
-        // Blinking cursor effect
-        const blink = document.querySelector('.blink');
-        if (blink) {
-            setInterval(() => {
-                blink.style.visibility = blink.style.visibility === 'hidden' ? 'visible' : 'hidden';
-            }, 500);
+    /* ---------------------------
+       Contact form handling:
+       - If __FORMSPREE_ENDPOINT__ not replaced, fallback to mailto (client opens email)
+       - If form action is set (you replaced it), let it submit normally
+       --------------------------- */
+    (function(){
+      const form = document.getElementById('contactForm');
+      const endpointPlaceholder = '__FORMSPREE_ENDPOINT__';
+      // Replace placeholder server-side path early so HTML shows correct action
+      // If user did not replace, fallback.
+      if(form.getAttribute('action') === endpointPlaceholder || form.getAttribute('action') === '' || form.getAttribute('action') === '__FORMSPREE_ENDPOINT__'){
+        form.setAttribute('action', '#');
+        form.addEventListener('submit', function(e){
+          e.preventDefault();
+          // Build mailto fallback if user hasn't configured Formspree
+          const name = encodeURIComponent(document.getElementById('name').value || 'No name');
+          const email = encodeURIComponent(document.getElementById('email').value || 'no-email');
+          const priority = encodeURIComponent(document.getElementById('priority').value || 'Medium');
+          const message = encodeURIComponent(document.getElementById('message').value || '');
+          const subject = encodeURIComponent('Bug Report from Portfolio — ' + priority);
+          const body = encodeURIComponent(`Name: ${name}%0AEmail: ${email}%0APriority: ${priority}%0A%0AMessage:%0A${message}`);
+          // Open mail client
+          window.location.href = `mailto:apavanpkalyan@gmail.com?subject=${subject}&body=${body}`;
+        });
+      } else {
+        // you provided a Formspree endpoint — keep default submission behavior
+        // ensure we still show a small client-side success message (optional)
+        form.addEventListener('submit', function(){
+          // allow default submit; you can add after-submit UX here
+        });
+      }
+    })();
+
+    /* ---------------------------
+       small accessibility: keyboard focus outline
+       --------------------------- */
+    (function(){
+      document.addEventListener('keyup', function(e){
+        if(e.key === 'Tab'){
+          document.documentElement.classList.add('show-focus');
         }
-        
-    </script>
-    <!-- Bug cursor image -->
-<img id="bug-cursor" src="bug.png" alt="bug" style="position: fixed; top: 0; left: 0; width: 32px; height: 32px; pointer-events: none; z-index: 9999; transition: transform 0.1s linear;">
+      });
+    })();
 
-<!-- Bug Cursor Script -->
-<script>
-  const bug = document.getElementById('bug-cursor');
-  document.body.style.cursor = 'none';
-
-  document.addEventListener('mousemove', e => {
-    bug.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-  });
-</script>
-
+  </script>
 </body>
 </html>
-
-
