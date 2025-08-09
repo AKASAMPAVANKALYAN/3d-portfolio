@@ -1,570 +1,738 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Pavankalyan Akasam | QA Engineer Portfolio</title>
-
-  <!-- Tailwind CDN for quick styling -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-  <style>
-    :root{
-      --bg: #071022;
-      --card: rgba(255,255,255,0.03);
-      --glass-border: rgba(255,255,255,0.06);
-      --muted: #9fb0c8;
-      --accent-start: #06b6d4;
-      --accent-end: #7c3aed;
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    }
-
-    html,body { height:100%; margin:0; background: var(--bg); color:#e6eef8; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
-    .glass { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.04)); border: 1px solid var(--glass-border); backdrop-filter: blur(6px); }
-    .glass-strong { background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.06)); border:1px solid rgba(255,255,255,0.06); backdrop-filter: blur(8px); }
-
-    /* canvas background covers full screen */
-    #dashboard-bg { position: fixed; inset: 0; z-index: 0; width:100%; height:100%; display:block; }
-
-    /* layout */
-    header { position: fixed; width: 100%; z-index: 30; top: 12px; left: 0; right: 0; padding: 0 1.5rem; }
-    main { position: relative; z-index: 10; min-height: 100vh; padding: 6.5rem 1.5rem 4rem; }
-    nav .glass { display:flex; align-items:center; justify-content:space-between; padding: .5rem .75rem; border-radius: 14px; }
-
-    /* custom cursor */
-    .cursor { position: fixed; z-index: 60; pointer-events:none; width: 14px; height: 14px; border-radius: 999px; transform: translate(-50%,-50%); transition: transform .12s linear, width .12s linear, height .12s linear, background .12s linear; background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.6)); box-shadow: 0 8px 28px rgba(3,7,18,0.6); mix-blend-mode: screen; }
-
-    /* sections & cards */
-    .hero-grid { display:grid; grid-template-columns: 1fr 420px; gap: 1.5rem; align-items:center; }
-    .hero-title { font-weight:800; font-size: clamp(2.1rem, 4vw, 3.4rem); line-height:1; }
-    .skill-row { display:flex; gap:12px; overflow:auto; padding:10px; scrollbar-width:none; -ms-overflow-style:none; }
-    .skill-row::-webkit-scrollbar { display:none; }
-
-    .project-card { transition: transform .32s cubic-bezier(.2,.9,.2,1), box-shadow .32s; }
-    .project-card:hover { transform: translateY(-8px); box-shadow: 0 28px 60px rgba(2,6,23,0.6); }
-
-    /* subtle footer */
-    footer { opacity: .9; color: var(--muted); }
-
-    @media (max-width: 1000px) {
-      .hero-grid { grid-template-columns: 1fr; }
-      header { padding: 0 .75rem; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pavankalyan Akasam | QA Automation Engineer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Base Styles */
+        :root {
+            --bug-red: #e53e3e;
+            --test-pass: #48bb78;
+            --test-fail: #e53e3e;
+            --test-warning: #ed8936;
+            --test-blue: #4299e1;
+            --test-purple: #9f7aea;
+            --dark-bg: #2d3748;
+            --light-bg: #f7fafc;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%234f46e5" d="M12 2c-3 0-5 1-5 1v2h2v1H7v1h2v1H7v1h2v1H7v1h2v1H7v3h2v1H7v1h2v1H7v1h2v1H7v1h10v-1h-2v-1h2v-1h-2v-1h2v-3h-2v-1h2v-1h-2v-1h2v-1h-2v-1h2v-1h-2V5h2V3h-2V2s-2-1-5-1zm0 2c1.5 0 2 .5 2 1h-4c0-.5.5-1 2-1zm-4 4h2v1H8V8zm4 0h2v1h-2V8zm-4 3h2v1H8v-1zm4 0h2v1h-2v-1z"/></svg>'), auto;
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        
+        /* Header Styles */
+        header {
+            background: var(--dark-bg);
+            color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            position: relative;
+        }
+        
+        .header-terminal {
+            position: absolute;
+            left: 1rem;
+            top: 0.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            color: var(--test-pass);
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding-top: 1.5rem;
+        }
+        
+        /* Navigation */
+        nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: var(--test-blue);
+        }
+        
+        .mobile-menu-button {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Test Case Cards */
+        .test-case {
+            background: white;
+            border-left: 5px solid var(--test-blue);
+            border-radius: 0.25rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            position: relative;
+            transition: all 0.3s ease;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .test-case:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .test-case::before {
+            content: "TEST CASE";
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--test-blue);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border-bottom-left-radius: 0.25rem;
+        }
+        
+        /* Status Badges */
+        .status-badge {
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+        
+        .status-pass {
+            background: var(--test-pass);
+            color: white;
+        }
+        
+        .tech-badge {
+            background: #edf2f7;
+            color: #2d3748;
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            display: inline-block;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Console Section */
+        .console {
+            background: var(--dark-bg);
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            font-family: 'Courier New', monospace;
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        
+        .console::before {
+            content: ">_";
+            position: absolute;
+            left: 0.5rem;
+            top: 0.5rem;
+            color: var(--test-pass);
+        }
+        
+        .console-output {
+            margin-left: 1.5rem;
+        }
+        
+        .console-line {
+            margin: 0.5rem 0;
+        }
+        
+        .console-success {
+            color: var(--test-pass);
+        }
+        
+        /* Bug Elements */
+        .bug {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23e53e3e" d="M12 2c-3 0-5 1-5 1v2h2v1H7v1h2v1H7v1h2v1H7v1h2v1H7v3h2v1H7v1h2v1H7v1h2v1H7v1h10v-1h-2v-1h2v-1h-2v-1h2v-3h-2v-1h2v-1h-2v-1h2v-1h-2v-1h2v-1h-2V5h2V3h-2V2s-2-1-5-1zm0 2c1.5 0 2 .5 2 1h-4c0-.5.5-1 2-1zm-4 4h2v1H8V8zm4 0h2v1h-2V8zm-4 3h2v1H8v-1zm4 0h2v1h-2v-1z"/></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.7;
+            animation: crawl 15s linear infinite;
+        }
+        
+        @keyframes crawl {
+            0% { transform: translateX(-50px) translateY(0) rotate(0deg); }
+            50% { transform: translateX(calc(50vw + 100px)) translateY(100px) rotate(180deg); }
+            100% { transform: translateX(calc(100vw + 50px)) translateY(0) rotate(360deg); }
+        }
+        
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 7px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--test-blue);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -2rem;
+            top: 0.3rem;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid var(--test-blue);
+        }
+        
+        /* Test Tools */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .tool-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .tool-icon {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+        
+        /* Contact Form */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.25rem;
+            font-family: inherit;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--test-blue);
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+        }
+        
+        .submit-btn {
+            background: var(--test-blue);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.25rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+        }
+        
+        .submit-btn:hover {
+            background: #3182ce;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark-bg);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.25rem;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--test-blue);
+        }
+        
+        /* Utility Classes */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .section {
+            padding: 3rem 0;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -0.5rem;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--test-blue);
+        }
+        
+        .bg-light {
+            background: #edf2f7;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--dark-bg);
+                flex-direction: column;
+                padding: 1rem;
+                gap: 1rem;
+            }
+            
+            nav.active {
+                display: flex;
+            }
+            
+            .mobile-menu-button {
+                display: block;
+            }
+            
+            .tools-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Floating Bugs -->
+    <div class="bug" style="top:20%;animation-delay:0s;animation-duration:20s"></div>
+    <div class="bug" style="top:40%;animation-delay:5s;animation-duration:25s"></div>
+    <div class="bug" style="top:70%;animation-delay:10s;animation-duration:18s"></div>
 
-  <!-- Canvas background (QA Dashboard style) -->
-  <canvas id="dashboard-bg"></canvas>
-
-  <!-- Custom cursor -->
-  <div id="cursor" class="cursor"></div>
-
-  <!-- Header / Nav -->
-  <header>
-    <nav class="max-w-6xl mx-auto glass rounded-2xl">
-      <div style="display:flex; align-items:center; gap:12px;">
-        <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background:linear-gradient(135deg,var(--accent-start),var(--accent-end));">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L19 7v6c0 5-3 9-7 9s-7-4-7-9V7l7-5z" fill="white"/></svg>
+    <header>
+        <div class="header-container">
+            <div class="header-terminal">QA_TERMINAL > ./portfolio.sh</div>
+            <div class="logo">PKA</div>
+            <nav id="main-nav">
+                <a href="#test-cases">Test Cases</a>
+                <a href="#test-reports">Test Reports</a>
+                <a href="#test-tools">Test Tools</a>
+                <a href="#contact">Contact QA</a>
+            </nav>
+            <button class="mobile-menu-button" id="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
-        <div>
-          <div style="font-weight:700;">Pavankalyan Akasam</div>
-          <div style="font-size:12px; color:var(--muted);">QA Automation Engineer — Test & Automation</div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="section">
+            <div class="container">
+                <div class="console">
+                    <div class="console-output">
+                        <div class="console-line">$ ./run_tests.sh</div>
+                        <div class="console-line">Running test suite... <span class="blink">|</span></div>
+                        <div class="console-line console-success">All tests passed! (37/37)</div>
+                    </div>
+                </div>
+                <h1 class="text-center text-4xl font-bold mb-4">Pavankalyan Akasam</h1>
+                <p class="text-center text-xl text-gray-600 max-w-2xl mx-auto">
+                    QA Automation Engineer specializing in Selenium, TestNG, and Cucumber frameworks
+                </p>
+            </div>
+        </section>
+
+        <!-- Test Cases (Projects) -->
+        <section id="test-cases" class="section">
+            <div class="container">
+                <h2 class="section-title">Test Cases</h2>
+                
+                <div class="test-case">
+                    <h3 class="text-xl font-bold mb-2">AutomationExercise E-Commerce</h3>
+                    <div class="mb-4">
+                        <span class="status-badge status-pass">PASSED</span>
+                        <span class="tech-badge">Java</span>
+                        <span class="tech-badge">Selenium</span>
+                        <span class="tech-badge">TestNG</span>
+                        <span class="tech-badge">POM</span>
+                    </div>
+                    <p class="text-gray-700 mb-4">
+                        Developed end-to-end automation framework for automationexercise using Selenium WebDriver with TestNG. 
+                        Automated key user flows like registration, cart, checkout, and account deletion.
+                    </p>
+                    <a href="https://github.com/AKASAMPAVANKALYAN/automationexercise_ecommercedemo" 
+                       target="_blank" 
+                       class="text-blue-500 hover:underline inline-flex items-center">
+                        <i class="fab fa-github mr-1"></i> View Source Code
+                    </a>
+                </div>
+                
+                <div class="test-case">
+                    <h3 class="text-xl font-bold mb-2">OBZERVR_POM</h3>
+                    <div class="mb-4">
+                        <span class="status-badge status-pass">PASSED</span>
+                        <span class="tech-badge">Selenium</span>
+                        <span class="tech-badge">TestNG</span>
+                        <span class="tech-badge">Apache POI</span>
+                        <span class="tech-badge">Data-Driven</span>
+                    </div>
+                    <p class="text-gray-700 mb-4">
+                        Automated UI testing of obzervr using Selenium WebDriver with Page Object Model. 
+                        Integrated data-driven testing with Excel and dynamic Extent Reports. 
+                        Implemented TestNG Listeners for auto screenshot capture.
+                    </p>
+                    <a href="https://github.com/AKASAMPAVANKALYAN/obzervr_pom" 
+                       target="_blank" 
+                       class="text-blue-500 hover:underline inline-flex items-center">
+                        <i class="fab fa-github mr-1"></i> View Source Code
+                    </a>
+                </div>
+                
+                <div class="test-case">
+                    <h3 class="text-xl font-bold mb-2">SAUCEDEMO_AUTOMATION</h3>
+                    <div class="mb-4">
+                        <span class="status-badge status-pass">PASSED</span>
+                        <span class="tech-badge">Java</span>
+                        <span class="tech-badge">Cucumber</span>
+                        <span class="tech-badge">JUnit</span>
+                        <span class="tech-badge">BDD</span>
+                    </div>
+                    <p class="text-gray-700 mb-4">
+                        Developed data-driven automation framework for saucedemo using Selenium, JUnit and Cucumber BDD. 
+                        Automated end-to-end user flows including login, product selection, and checkout with Excel-based input.
+                    </p>
+                    <a href="https://github.com/AKASAMPAVANKALYAN/saucedemo_automation" 
+                       target="_blank" 
+                       class="text-blue-500 hover:underline inline-flex items-center">
+                        <i class="fab fa-github mr-1"></i> View Source Code
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Test Reports (Education) -->
+        <section id="test-reports" class="section bg-light">
+            <div class="container">
+                <h2 class="section-title">Test Reports</h2>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="test-case">
+                            <p class="text-sm text-gray-500 mb-1">Sep 2020 - May 2024</p>
+                            <h3 class="text-xl font-bold mb-2">Bachelor of Technology, Computer Science</h3>
+                            <p class="text-gray-600 mb-2">Vel Tech Rangarajan Dr. Sagunthala R&D Institute, Chennai</p>
+                            <span class="tech-badge">GPA: 7.9/10</span>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="test-case">
+                            <p class="text-sm text-gray-500 mb-1">Jun 2018 - Mar 2020</p>
+                            <h3 class="text-xl font-bold mb-2">Intermediate (MPC)</h3>
+                            <p class="text-gray-600 mb-2">Narayana Junior College, Andhra Pradesh</p>
+                            <span class="tech-badge">GPA: 8.46/10</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Test Tools (Skills) -->
+        <section id="test-tools" class="section">
+            <div class="container">
+                <h2 class="section-title">Test Tools</h2>
+                
+                <div class="tools-grid">
+                    <div class="tool-card">
+                        <div class="tool-icon">
+                            <i class="fab fa-java text-orange-500"></i>
+                        </div>
+                        <p>Java</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <div class="tool-icon">
+                            <i class="fas fa-robot text-green-500"></i>
+                        </div>
+                        <p>Selenium</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <div class="tool-icon">
+                            <i class="fas fa-vial text-red-500"></i>
+                        </div>
+                        <p>TestNG</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <div class="tool-icon">
+                            <i class="fas fa-leaf text-green-600"></i>
+                        </div>
+                        <p>Cucumber</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <div class="tool-icon">
+                            <i class="fas fa-database text-purple-500"></i>
+                        </div>
+                        <p>SQL</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <div class="tool-icon">
+                            <i class="fab fa-jira text-blue-500"></i>
+                        </div>
+                        <p>JIRA</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <div class="tool-icon">
+                            <i class="fab fa-github text-gray-800"></i>
+                        </div>
+                        <p>GitHub</p>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <div class="tool-icon">
+                            <i class="fas fa-server text-blue-400"></i>
+                        </div>
+                        <p>Jenkins</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact QA -->
+        <section id="contact" class="section bg-light">
+            <div class="container">
+                <h2 class="section-title">Contact QA</h2>
+                
+                <div class="contact-form">
+                    <form>
+                        <div class="form-group">
+                            <label class="form-label">Your Name</label>
+                            <input type="text" class="form-input" placeholder="Enter your name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Your Email</label>
+                            <input type="email" class="form-input" placeholder="Enter your email">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Priority</label>
+                            <select class="form-input">
+                                <option>Low</option>
+                                <option>Medium</option>
+                                <option>High</option>
+                                <option>Critical</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Message</label>
+                            <textarea class="form-input" rows="4" placeholder="Describe the issue..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">
+                            Submit Bug Report
+                        </button>
+                    </form>
+                    
+                    <div class="mt-8 pt-6 border-t border-gray-200 text-center">
+                        <h4 class="text-sm font-medium text-gray-500 mb-2">Direct Contact</h4>
+                        <div class="flex flex-wrap justify-center gap-4">
+                            <a href="mailto:apavanpkalyan@gmail.com" class="text-blue-500 hover:underline">
+                                <i class="fas fa-envelope mr-1"></i> Email
+                            </a>
+                            <a href="tel:+918341653388" class="text-blue-500 hover:underline">
+                                <i class="fas fa-phone mr-1"></i> +91 8341653388
+                            </a>
+                            <a href="https://linkedin.com/in/pavankalyan-akasamm-1a5668216" 
+                               target="_blank" 
+                               class="text-blue-500 hover:underline">
+                                <i class="fab fa-linkedin mr-1"></i> LinkedIn
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p class="mb-4">Pavankalyan Akasam | QA Automation Engineer</p>
+            <div class="social-links">
+                <a href="https://github.com/AKASAMPAVANKALYAN" target="_blank">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/pavankalyan-akasamm-1a5668216" target="_blank">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="mailto:apavanpkalyan@gmail.com">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+            <p class="text-sm text-gray-400 mt-4">
+                &copy; 2024 All tests passed. No bugs detected.
+            </p>
         </div>
-      </div>
-
-      <div style="display:flex; align-items:center; gap:10px; color:var(--muted);">
-        <a href="#about" class="px-3 py-2 rounded-md hover:bg-white/5 transition text-sm">About</a>
-        <a href="#skills" class="px-3 py-2 rounded-md hover:bg-white/5 transition text-sm">Skills</a>
-        <a href="#projects" class="px-3 py-2 rounded-md hover:bg-white/5 transition text-sm">Projects</a>
-        <a href="#education" class="px-3 py-2 rounded-md hover:bg-white/5 transition text-sm">Education</a>
-        <a href="#contact" class="px-3 py-2 rounded-md hover:bg-white/5 transition text-sm">Contact</a>
-      </div>
-    </nav>
-  </header>
-
-  <!-- Main content -->
-  <main class="max-w-6xl mx-auto">
-
-    <!-- HERO -->
-    <section id="home" class="glass-strong rounded-2xl p-6">
-      <div class="hero-grid">
-        <div>
-          <h1 class="hero-title">Pavankalyan Akasam</h1>
-          <p class="mt-4 text-lg" style="color:var(--muted); max-width:64ch;">
-            QA Automation Engineer with hands-on experience building maintainable Selenium + Java automation frameworks, integrating Cucumber and JUnit, and converting procedural test scripts into Page Object Model architectures. I design test solutions that are robust, scalable, and easy to maintain.
-          </p>
-
-          <div class="mt-6 flex gap-3">
-            <a href="#projects" class="px-5 py-3 glass rounded-2xl font-semibold hover:scale-[1.02] transition">See Projects</a>
-            <a href="#contact" class="px-5 py-3 glass rounded-2xl font-semibold hover:scale-[1.02] transition">Contact Me</a>
-          </div>
-
-          <div class="mt-6 grid grid-cols-2 gap-3 max-w-xl">
-            <div class="glass rounded-lg p-3">
-              <div style="font-size:12px; color:var(--muted);">Primary Tech</div>
-              <div style="font-weight:600; margin-top:6px;">Java · Selenium · Cucumber · JUnit · POM</div>
-            </div>
-            <div class="glass rounded-lg p-3">
-              <div style="font-size:12px; color:var(--muted);">Current Goal</div>
-              <div style="font-weight:600; margin-top:6px;">Business Solution Analyst — Tax Domain (Manual Testing)</div>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div class="glass rounded-2xl p-5" style="height: 340px; display:flex; flex-direction:column; justify-content:center; align-items:center;">
-            <div style="width:120px; height:120px; border-radius:12px; display:grid; place-items:center; background:linear-gradient(135deg,#0f1724,#071022); border:1px solid rgba(255,255,255,0.03);">
-              <svg width="72" height="72" viewBox="0 0 24 24" fill="none">
-                <path d="M12 2l7 5v6c0 5-3 9-7 9s-7-4-7-9V7l7-5z" fill="#06b6d4"/>
-              </svg>
-            </div>
-            <div style="margin-top:14px; text-align:center; color:var(--muted);">
-              <div style="font-weight:600;">QA Dashboard Live</div>
-              <div style="font-size:13px; margin-top:6px;">Active test runs • pass/fail indicators • log pulses</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section id="about" class="mt-8 glass rounded-2xl p-6">
-      <div style="display:flex; gap:16px; align-items:flex-start;">
-        <div style="width:64px; height:64px; border-radius:12px; display:grid; place-items:center; background:linear-gradient(135deg,var(--accent-start),var(--accent-end));">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M12 2L19 7v6c0 5-3 9-7 9s-7-4-7-9V7l7-5z" fill="white"/></svg>
-        </div>
-        <div>
-          <h3 style="font-size:18px; font-weight:700;">About</h3>
-          <p style="color:var(--muted); margin-top:8px; max-width:70ch;">
-            I'm Pavankalyan — I build automation frameworks, write maintainable test suites, and focus on quality with a pragmatic, business-aligned approach. I have experience with Selenium WebDriver, Java, Cucumber, JUnit, and the Page Object Model. I enjoy creating highly-readable automation code and bringing reliability to delivery pipelines.
-          </p>
-
-          <ul style="margin-top:12px; display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:8px; color:var(--muted); font-size:14px;">
-            <li><strong>Location:</strong> India</li>
-            <li><strong>Role:</strong> QA Automation Engineer</li>
-            <li><strong>Portfolio:</strong> Pavankalyan Akasam | QA Engineer Portfolio</li>
-            <li><strong>Focus:</strong> Automation & Manual Testing</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- SKILLS -->
-    <section id="skills" class="mt-8">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h3 style="font-size:18px; font-weight:700;">Skills & Tools</h3>
-        <div style="color:var(--muted); font-size:13px;">Grouped by category — single row</div>
-      </div>
-
-      <div class="glass rounded-2xl p-3 mt-3">
-        <div class="skill-row">
-          <div style="min-width:260px; padding:12px;" class="glass rounded-lg">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <div>
-                <div style="font-size:12px; color:var(--muted);">Languages</div>
-                <div style="font-weight:600; margin-top:6px;">Java · SQL · JavaScript</div>
-              </div>
-              <div style="font-size:18px;">🏷️</div>
-            </div>
-            <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap; color:var(--muted);">
-              <span class="glass rounded-full px-3 py-1 text-xs">Java</span>
-              <span class="glass rounded-full px-3 py-1 text-xs">SQL</span>
-              <span class="glass rounded-full px-3 py-1 text-xs">JavaScript</span>
-            </div>
-          </div>
-
-          <div style="min-width:260px; padding:12px;" class="glass rounded-lg">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <div>
-                <div style="font-size:12px; color:var(--muted);">Frameworks</div>
-                <div style="font-weight:600; margin-top:6px;">Selenium · Cucumber · JUnit</div>
-              </div>
-              <div style="font-size:18px;">⚙️</div>
-            </div>
-            <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap; color:var(--muted);">
-              <span class="glass rounded-full px-3 py-1 text-xs">Selenium WebDriver</span>
-              <span class="glass rounded-full px-3 py-1 text-xs">Cucumber</span>
-              <span class="glass rounded-full px-3 py-1 text-xs">JUnit</span>
-            </div>
-          </div>
-
-          <div style="min-width:260px; padding:12px;" class="glass rounded-lg">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <div>
-                <div style="font-size:12px; color:var(--muted);">Tools</div>
-                <div style="font-weight:600; margin-top:6px;">Maven · Git · Jenkins · OBS</div>
-              </div>
-              <div style="font-size:18px;">🛠️</div>
-            </div>
-            <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap; color:var(--muted);">
-              <span class="glass rounded-full px-3 py-1 text-xs">Git</span>
-              <span class="glass rounded-full px-3 py-1 text-xs">Maven</span>
-              <span class="glass rounded-full px-3 py-1 text-xs">Jenkins</span>
-              <span class="glass rounded-full px-3 py-1 text-xs">OBS</span>
-            </div>
-          </div>
-
-          <div style="min-width:260px; padding:12px;" class="glass rounded-lg">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <div>
-                <div style="font-size:12px; color:var(--muted);">Testing</div>
-                <div style="font-weight:600; margin-top:6px;">Manual · Automation · Test Planning</div>
-              </div>
-              <div style="font-size:18px;">✅</div>
-            </div>
-            <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap; color:var(--muted);">
-              <span class="glass rounded-full px-3 py-1 text-xs">Test Plans</span>
-              <span class="glass rounded-full px-3 py-1 text-xs">Edge Cases</span>
-              <span class="glass rounded-full px-3 py-1 text-xs">Regression</span>
-            </div>
-          </div>
-
-          <div style="min-width:260px; padding:12px;" class="glass rounded-lg">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <div>
-                <div style="font-size:12px; color:var(--muted);">Extras</div>
-                <div style="font-weight:600; margin-top:6px;">3D Portfolio · UI Animations</div>
-              </div>
-              <div style="font-size:18px;">✨</div>
-            </div>
-            <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap; color:var(--muted);">
-              <span class="glass rounded-full px-3 py-1 text-xs">Three.js</span>
-              <span class="glass rounded-full px-3 py-1 text-xs">GSAP</span>
-              <span class="glass rounded-full px-3 py-1 text-xs">Tailwind</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- PROJECTS -->
-    <section id="projects" class="mt-8">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h3 style="font-size:18px; font-weight:700;">Projects</h3>
-        <div style="color:var(--muted); font-size:13px;">Click to view demo / repo</div>
-      </div>
-
-      <div class="grid md:grid-cols-2 gap-6 mt-3">
-        <article class="project-card glass rounded-2xl p-4">
-          <div style="display:flex; gap:14px;">
-            <div style="width:200px; height:120px; background:linear-gradient(180deg,#0b1220,#071022); border-radius:8px; display:grid; place-items:center; border:1px solid rgba(255,255,255,0.02);">
-              <img src="https://via.placeholder.com/200x120?text=AutomationExercise" alt="AutomationExercise" style="width:100%; height:100%; object-fit:cover; border-radius:6px;">
-            </div>
-            <div>
-              <h4 style="font-weight:700;">AutomationExercise</h4>
-              <p style="color:var(--muted); margin-top:8px;">A comprehensive Selenium automation project demonstrating login automation, data-driven tests, and robust Page Object Model structure.</p>
-              <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
-                <span class="glass rounded-full px-3 py-1 text-xs">Selenium</span>
-                <span class="glass rounded-full px-3 py-1 text-xs">Java</span>
-                <span class="glass rounded-full px-3 py-1 text-xs">POM</span>
-              </div>
-              <div style="margin-top:12px; display:flex; gap:8px;">
-                <a href="#" class="px-3 py-2 glass rounded-md text-sm">View Repo</a>
-                <a href="#" class="px-3 py-2 glass rounded-md text-sm">Run Demo</a>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <article class="project-card glass rounded-2xl p-4">
-          <div style="display:flex; gap:14px;">
-            <div style="width:200px; height:120px; background:linear-gradient(180deg,#0b1220,#071022); border-radius:8px; display:grid; place-items:center; border:1px solid rgba(255,255,255,0.02);">
-              <img src="https://via.placeholder.com/200x120?text=OBSERVR_POM" alt="OBSERVR_POM" style="width:100%; height:100%; object-fit:cover; border-radius:6px;">
-            </div>
-            <div>
-              <h4 style="font-weight:700;">OBSERVR_POM</h4>
-              <p style="color:var(--muted); margin-top:8px;">A Page Object Model refactor of the OBSERVR automation test set with improved maintainability and CI notes.</p>
-              <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
-                <span class="glass rounded-full px-3 py-1 text-xs">POM</span>
-                <span class="glass rounded-full px-3 py-1 text-xs">Cucumber</span>
-                <span class="glass rounded-full px-3 py-1 text-xs">JUnit</span>
-              </div>
-              <div style="margin-top:12px; display:flex; gap:8px;">
-                <a href="#" class="px-3 py-2 glass rounded-md text-sm">View Repo</a>
-                <a href="#" class="px-3 py-2 glass rounded-md text-sm">Run Demo</a>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <article class="glass rounded-2xl p-4">
-          <h4 style="font-weight:700;">Test Case Document</h4>
-          <p style="color:var(--muted); margin-top:8px;">Includes 40+ test cases across login, profile, contact, enquiry. Export available as CSV/Excel on request.</p>
-          <div style="margin-top:12px;">
-            <a href="#" class="px-3 py-2 glass rounded-md text-sm">Download CSV</a>
-          </div>
-        </article>
-
-        <article class="glass rounded-2xl p-4">
-          <h4 style="font-weight:700;">More Projects</h4>
-          <p style="color:var(--muted); margin-top:8px;">Automation scripts, POM framework, and sample reports available on request.</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- EDUCATION -->
-    <section id="education" class="mt-8 glass rounded-2xl p-6">
-      <h3 style="font-size:18px; font-weight:700;">Education</h3>
-      <div style="margin-top:10px; color:var(--muted);">
-        <ul style="list-style:none; padding:0; margin:0; display:grid; gap:12px;">
-          <li style="display:flex; gap:12px; align-items:flex-start;">
-            <div style="width:44px; height:44px; border-radius:10px; display:grid; place-items:center; background:#2a2f3a;">🎓</div>
-            <div>
-              <div style="font-weight:600;">Bachelor's Degree</div>
-              <div style="font-size:13px; color:var(--muted);">[University Name] — [Year]</div>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact" class="mt-8 glass rounded-2xl p-6">
-      <h3 style="font-size:18px; font-weight:700;">Contact</h3>
-      <p style="color:var(--muted); margin-top:8px;">Interested in collaborating or interviewing me? Reach me at <strong style="color:#fff;">[your-email@example.com]</strong> or use the form below.</p>
-
-      <form id="contactForm" class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
-        <input name="name" placeholder="Your name" class="glass p-3 rounded-md" />
-        <input name="email" placeholder="Email" class="glass p-3 rounded-md" />
-        <input name="subject" placeholder="Subject" class="glass p-3 rounded-md" />
-        <input name="phone" placeholder="Phone (optional)" class="glass p-3 rounded-md" />
-        <textarea name="message" placeholder="Message" rows="4" class="glass p-3 rounded-md md:col-span-2"></textarea>
-        <button type="button" onclick="alert('This is a demo contact form — replace with your backend or mailto.')"
-          class="md:col-span-2 px-5 py-3 rounded-2xl glass font-semibold">Send Message</button>
-      </form>
-    </section>
-
-    <footer class="mt-10 text-center">
-      © <span id="year"></span> Pavankalyan Akasam · QA Automation Engineer
     </footer>
-  </main>
 
-  <!-- Scripts: dashboard animation + cursor + small interactions -->
-  <script>
-    // Year
-    document.getElementById('year').innerText = new Date().getFullYear();
+    <script>
+        // Mobile menu toggle
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            const nav = document.getElementById('main-nav');
+            nav.classList.toggle('active');
+        });
 
-    // Custom cursor logic
-    const cursor = document.getElementById('cursor');
-    window.addEventListener('mousemove', e => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top = e.clientY + 'px';
-    });
-    // enlarge cursor on interactive elements
-    document.querySelectorAll('a, button, input, textarea, .project-card').forEach(el=>{
-      el.addEventListener('mouseenter', ()=> { cursor.style.transform = 'translate(-50%,-50%) scale(2.2)'; })
-      el.addEventListener('mouseleave', ()=> { cursor.style.transform = 'translate(-50%,-50%) scale(1)'; })
-    });
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('#main-nav a').forEach(link => {
+            link.addEventListener('click', function() {
+                const nav = document.getElementById('main-nav');
+                if (nav.classList.contains('active')) {
+                    nav.classList.remove('active');
+                }
+            });
+        });
 
-    // Smooth anchor scroll
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click', (ev)=> {
-        ev.preventDefault();
-        const id = a.getAttribute('href');
-        const target = document.querySelector(id);
-        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-    });
-
-    /* ---------- QA Dashboard Canvas Background ----------
-       Features:
-       - subtle grid (dashboard panels)
-       - glowing pass (green) and fail (red) indicators that pulse & move
-       - occasional "log pulse" lines that sweep
-    -----------------------------------------------------*/
-    (function dashboardBG(){
-      const canvas = document.getElementById('dashboard-bg');
-      const ctx = canvas.getContext('2d');
-      let W = canvas.width = innerWidth;
-      let H = canvas.height = innerHeight;
-      const DPR = Math.max(1, window.devicePixelRatio || 1);
-      canvas.width = W * DPR; canvas.height = H * DPR; canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
-      ctx.scale(DPR, DPR);
-
-      // grid settings
-      const gridCols = Math.max(8, Math.floor(W / 180)); // responsive number of columns
-      const gridRows = Math.max(5, Math.floor(H / 160));
-      const cellW = W / gridCols;
-      const cellH = H / gridRows;
-
-      // indicators (pass/fail dots)
-      const indicators = [];
-      const maxIndicators = Math.floor(gridCols * gridRows * 0.85);
-      for (let i=0;i<Math.min(maxIndicators, 60); i++){
-        spawnIndicator(true, true);
-      }
-
-      function spawnIndicator(initial=false, randomize=false){
-        // choose grid cell
-        const col = randomize ? Math.floor(Math.random()*gridCols) : Math.floor(Math.random()*gridCols);
-        const row = randomize ? Math.floor(Math.random()*gridRows) : Math.floor(Math.random()*gridRows);
-        const cx = col * cellW + cellW * (0.12 + Math.random()*0.76);
-        const cy = row * cellH + cellH * (0.12 + Math.random()*0.76);
-        const kind = Math.random() < 0.76 ? 'pass' : 'fail'; // more passes than fails
-        const life = 6 + Math.random()*10; // seconds of activity
-        const pulse = Math.random() * 0.9 + 0.2;
-        const size = 6 + Math.random()*8;
-        indicators.push({x:cx, y:cy, kind, life, age: initial? (Math.random()*life):0, pulse, size, vx:(Math.random()-0.5)*6, vy:(Math.random()-0.5)*4});
-      }
-
-      // log sweeps
-      const sweeps = [];
-
-      function spawnSweep(){
-        const dir = Math.random() < 0.5 ? 'h' : 'v';
-        const thickness = 2 + Math.random()*6;
-        const pos = dir === 'h' ? (Math.random()*H) : (Math.random()*W);
-        const speed = 0.8 + Math.random()*2.0;
-        sweeps.push({dir, pos, thickness, speed, alpha:0.18});
-        // keep sweeps limited
-        if (sweeps.length > 8) sweeps.shift();
-      }
-
-      // animate loop
-      let t0 = performance.now();
-      function tick(now){
-        const dt = (now - t0) / 1000;
-        t0 = now;
-        // clear
-        ctx.clearRect(0,0,W,H);
-
-        // subtle background gradient
-        const g = ctx.createLinearGradient(0,0,W,H);
-        g.addColorStop(0, '#05121c');
-        g.addColorStop(1, '#061425');
-        ctx.fillStyle = g;
-        ctx.fillRect(0,0,W,H);
-
-        // faint panel grid (like a dashboard layout)
-        ctx.save();
-        ctx.globalAlpha = 0.12;
-        ctx.strokeStyle = 'rgba(255,255,255,0.06)';
-        ctx.lineWidth = 1;
-        for (let i=0;i<=gridCols;i++){
-          const x = Math.round(i*cellW) + 0.5;
-          ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+        // Blinking cursor effect
+        const blink = document.querySelector('.blink');
+        if (blink) {
+            setInterval(() => {
+                blink.style.visibility = blink.style.visibility === 'hidden' ? 'visible' : 'hidden';
+            }, 500);
         }
-        for (let j=0;j<=gridRows;j++){
-          const y = Math.round(j*cellH) + 0.5;
-          ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
-        }
-        ctx.restore();
+        
+    </script>
+    <!-- Bug cursor image -->
+<img id="bug-cursor" src="bug.png" alt="bug" style="position: fixed; top: 0; left: 0; width: 32px; height: 32px; pointer-events: none; z-index: 9999; transition: transform 0.1s linear;">
 
-        // draw sweeps (log pulses)
-        for (let s of sweeps){
-          ctx.save();
-          ctx.globalCompositeOperation = 'lighter';
-          ctx.globalAlpha = s.alpha;
-          if (s.dir === 'h'){
-            const grd = ctx.createLinearGradient(0, s.pos - s.thickness*6, 0, s.pos + s.thickness*6);
-            grd.addColorStop(0, 'rgba(8,200,200,0)');
-            grd.addColorStop(0.5, 'rgba(8,200,200,0.12)');
-            grd.addColorStop(1, 'rgba(8,200,200,0)');
-            ctx.fillStyle = grd;
-            ctx.fillRect(0, s.pos - s.thickness*6, W, s.thickness*12);
-          } else {
-            const grd = ctx.createLinearGradient(s.pos - s.thickness*6, 0, s.pos + s.thickness*6, 0);
-            grd.addColorStop(0, 'rgba(124,58,237,0)');
-            grd.addColorStop(0.5, 'rgba(124,58,237,0.12)');
-            grd.addColorStop(1, 'rgba(124,58,237,0)');
-            ctx.fillStyle = grd;
-            ctx.fillRect(s.pos - s.thickness*6, 0, s.thickness*12, H);
-          }
-          ctx.restore();
-          // move sweep
-          if (s.dir === 'h') s.pos += s.speed;
-          else s.pos += s.speed;
-          s.alpha *= 0.997;
-        }
+<!-- Bug Cursor Script -->
+<script>
+  const bug = document.getElementById('bug-cursor');
+  document.body.style.cursor = 'none';
 
-        // update and draw indicators
-        for (let i = indicators.length-1; i >= 0; i--){
-          const ind = indicators[i];
-          ind.age += dt;
-          // move slightly to create life
-          ind.x += ind.vx * dt * 6 * Math.sin(ind.age*0.6);
-          ind.y += ind.vy * dt * 6 * Math.cos(ind.age*0.4);
+  document.addEventListener('mousemove', e => {
+    bug.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+  });
+</script>
 
-          // pulse factor
-          const p = 0.6 + 0.4*Math.sin(ind.age*3.0*ind.pulse);
-
-          // fade in/out with life
-          let alpha = 0.9;
-          if (ind.age > ind.life) alpha = Math.max(0, 1 - (ind.age - ind.life)/2);
-          if (alpha <= 0.02) {
-            // respawn occasionally as new
-            indicators.splice(i,1);
-            if (Math.random() < 0.9) spawnIndicator(false, true);
-            continue;
-          }
-
-          // draw halo
-          ctx.save();
-          ctx.globalCompositeOperation = 'lighter';
-          if (ind.kind === 'pass'){
-            ctx.fillStyle = `rgba(34,197,94,${0.08 * p * alpha})`;
-          } else {
-            ctx.fillStyle = `rgba(239,68,68,${0.08 * p * alpha})`;
-          }
-          ctx.beginPath();
-          ctx.arc(ind.x, ind.y, ind.size * 2.6 * p, 0, Math.PI*2);
-          ctx.fill();
-          ctx.restore();
-
-          // draw center dot
-          ctx.beginPath();
-          if (ind.kind === 'pass'){
-            ctx.fillStyle = `rgba(34,197,94,${0.98 * alpha})`;
-          } else {
-            ctx.fillStyle = `rgba(239,68,68,${0.98 * alpha})`;
-          }
-          ctx.arc(ind.x, ind.y, ind.size * 0.6 * p, 0, Math.PI*2);
-          ctx.fill();
-
-          // small label for indicator (tiny)
-          ctx.font = '10px Inter, system-ui';
-          ctx.fillStyle = 'rgba(255,255,255,' + (0.06 * alpha) + ')';
-          ctx.fillText(ind.kind === 'pass' ? 'PASS' : 'FAIL', ind.x + ind.size*1.6, ind.y + ind.size*0.6);
-        }
-
-        // occasionally spawn sweeps or extra indicators
-        if (Math.random() < 0.02) spawnSweep();
-        if (indicators.length < 30 && Math.random() < 0.04) spawnIndicator(false, true);
-
-        requestAnimationFrame(tick);
-      }
-
-      // resize handler
-      window.addEventListener('resize', ()=>{
-        W = canvas.width = innerWidth;
-        H = canvas.height = innerHeight;
-        canvas.width = W * DPR; canvas.height = H * DPR; canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
-        ctx.setTransform(1,0,0,1,0,0);
-        ctx.scale(DPR, DPR);
-      });
-
-      // small interactive hint: indicators react to mouse proximity
-      window.addEventListener('mousemove', (e)=>{
-        const mx = e.clientX, my = e.clientY;
-        for (let ind of indicators){
-          const dx = ind.x - mx, dy = ind.y - my;
-          const d = Math.sqrt(dx*dx + dy*dy);
-          if (d < 120){
-            // repel slightly
-            ind.x += (dx/d) * (120 - d) * 0.02;
-            ind.y += (dy/d) * (120 - d) * 0.02;
-          }
-        }
-      });
-    })();
-
-    // small hover animations for project cards (vanilla)
-    document.querySelectorAll('.project-card').forEach(card=>{
-      card.addEventListener('mouseenter', ()=> { card.style.transform = 'translateY(-8px)'; });
-      card.addEventListener('mouseleave', ()=> { card.style.transform = 'translateY(0)'; });
-    });
-  </script>
 </body>
 </html>
+
+
