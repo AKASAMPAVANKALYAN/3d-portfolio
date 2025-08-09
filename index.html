@@ -1,719 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Pavankalyan Akasam | QA Automation Engineer</title>
-
-  <!-- Inter + Font Awesome -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="" crossorigin="anonymous"/>
-
-  <!-- Three.js for starfield -->
-  <script src="https://unpkg.com/three@0.155.0/build/three.min.js"></script>
-
-  <style>
-    :root{
-      --bg-dark: #0b1220;
-      --light-bg: #f7fafc;
-      --card: #ffffff;
-      --muted: #94a3b8;
-      --accent: #4299e1;
-      --success: #48bb78;
-      --danger: #e53e3e;
-    }
-    html,body{
-      height:100%;
-      margin:0;
-      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      background: linear-gradient(180deg,#0b1220 0%, #071029 60%);
-      color:#e6eef8;
-      overflow-x:hidden;
-    }
-
-    /* Layout */
-    header{
-      position: sticky;
-      top:0;
-      z-index:40;
-      background: rgba(13, 22, 34, 0.85);
-      backdrop-filter: blur(6px);
-      border-bottom: 1px solid rgba(255,255,255,0.03);
-    }
-    .header-container{
-      max-width:1200px;
-      margin:0 auto;
-      padding:0.6rem 1rem;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:1rem;
-    }
-    .logo{
-      font-weight:700;
-      font-size:1.25rem;
-      color:#e6eef8;
-      letter-spacing:0.6px;
-    }
-    nav a{
-      color:#cfe8ff;
-      margin-left:1rem;
-      text-decoration:none;
-      font-weight:500;
-    }
-    nav a:hover{ color:var(--accent); }
-
-    /* container */
-    .container{ max-width:1200px; margin:0 auto; padding:1rem; }
-
-    /* Hero / console */
-    .hero{
-      padding:3rem 1rem 2rem;
-      text-align:center;
-      position:relative;
-    }
-    .name{
-      font-size:2.25rem;
-      font-weight:700;
-      margin:0.75rem 0 0.5rem;
-      color:#f0f6ff;
-    }
-    .subtitle{ color: #cbd9ea; margin-bottom:1rem; font-size:1.05rem; }
-
-    .console{
-      width:100%;
-      max-width:920px;
-      margin:0 auto 1.25rem;
-      background: rgba(8, 11, 16, 0.7);
-      border-radius:10px;
-      padding:1rem 1.25rem;
-      text-align:left;
-      box-shadow: 0 6px 20px rgba(2,6,23,0.6);
-      border: 1px solid rgba(255,255,255,0.02);
-      font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, "Courier New", monospace;
-      color:#bfe6c9;
-    }
-    .console .line{ margin:0.15rem 0; font-size:0.95rem; color:#c8f7d1; }
-    .console .muted{ color:#7fb18b; }
-    .blink { display:inline-block; width:8px; }
-
-    /* sections */
-    section.section{ padding:3rem 0; position:relative; z-index:10; }
-
-    /* Test case card (keeps original design) */
-    .test-case{
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-left: 5px solid var(--accent);
-      border-radius: 10px;
-      padding:1.25rem;
-      margin:1rem 0;
-      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-    }
-    .test-case:hover{ transform: translateY(-6px); box-shadow: 0 18px 40px rgba(2,6,23,0.7); }
-
-    .status-badge{ display:inline-block; padding:0.25rem 0.5rem; border-radius:6px; font-weight:700; font-size:0.8rem; margin-right:0.5rem; }
-    .status-pass{ background:var(--success); color:#062014; }
-    .tech-badge{ background: rgba(255,255,255,0.03); color:#dbeffd; padding:0.2rem 0.5rem; border-radius:6px; font-size:0.82rem; margin-right:0.45rem; }
-
-    /* Skills grid */
-    #skills { padding:2.5rem 0; }
-    .skills-grid{
-      display:grid;
-      grid-template-columns: repeat(1,1fr);
-      gap:1rem;
-    }
-    @media(min-width:768px){
-      .skills-grid{ grid-template-columns: repeat(3,1fr); }
-    }
-    .skill-card{
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.015));
-      border-radius:12px;
-      padding:1.1rem;
-      transition: transform 0.28s cubic-bezier(.2,.9,.3,1), box-shadow 0.28s;
-      box-shadow: 0 8px 30px rgba(2,6,23,0.55);
-      border:1px solid rgba(255,255,255,0.02);
-    }
-    .skill-card:hover{ transform: translateY(-6px) scale(1.01); box-shadow: 0 20px 50px rgba(2,6,23,0.65); }
-    .skill-head{ display:flex; align-items:center; gap:0.9rem; margin-bottom:0.75rem; }
-    .skill-icon{
-      width:48px; height:48px; display:flex; align-items:center; justify-content:center; border-radius:10px; font-size:1.25rem;
-      background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      color:#e6f7ff;
-      transition: transform .28s ease;
-    }
-    .skill-card:hover .skill-icon{ transform: translateY(-4px) rotate(-6deg); filter: drop-shadow(0 6px 20px rgba(66,153,225,0.18)); }
-
-    .skill-list{ color:#cfe6ff; line-height:1.7; margin:0; padding-left:1rem; list-style-type: none; }
-    .skill-list li:before{ content:"•"; color:var(--accent); display:inline-block; width:1rem; margin-left:-1rem; margin-right:0.35rem; }
-
-    /* Contact form */
-    .contact-card{ background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:1.1rem; border-radius:12px; max-width:700px; margin:0 auto; border:1px solid rgba(255,255,255,0.02); }
-    label{ display:block; font-weight:600; margin-bottom:0.35rem; color:#d8eaff; }
-    input[type="text"], input[type="email"], select, textarea{
-      width:100%; padding:0.7rem; border-radius:8px; border:1px solid rgba(255,255,255,0.04); background: rgba(255,255,255,0.01); color:#e6f7ff; font-size:0.95rem;
-    }
-    input:focus, textarea:focus, select:focus{ outline:none; box-shadow: 0 6px 18px rgba(66,153,225,0.12); border-color:var(--accent); }
-    .submit-btn{ width:100%; padding:0.75rem 1rem; background:var(--accent); color:#041428; border:none; font-weight:700; border-radius:8px; cursor:pointer; margin-top:0.6rem; }
-    .submit-btn:hover{ background:#2b82b8; }
-
-    /* footer */
-    footer{ text-align:center; padding:2rem 1rem; color:#a8c9e6; margin-top:2rem; }
-
-    /* starfield canvas */
-    #starfield{ position:fixed; inset:0; z-index:0; pointer-events:none; }
-
-    /* crawling bugs */
-    .bug{
-      position:fixed;
-      width:36px;height:36px;
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23e53e3e" d="M12 2c-3 0-5 1-5 1v2h2v1H7v1h2v1H7v1h2v1H7v3h2v1H7v1h2v1H7v1h2v1H7v1h10v-1h-2v-1h2v-1h-2v-1h2v-3h-2v-1h2v-1h-2v-1h2v-1h-2v-1h2v-1h-2V5h2V3h-2V2s-2-1-5-1zm0 2c1.5 0 2 .5 2 1h-4c0-.5.5-1 2-1zm-4 4h2v1H8V8zm4 0h2v1h-2V8zm-4 3h2v1H8v-1zm4 0h2v1h-2v-1z"/></svg>');
-      background-size:contain; background-repeat:no-repeat;
-      transform: translate(-100px,-100px);
-      pointer-events:none; opacity:0.85; z-index:5;
-      filter: drop-shadow(0 6px 14px rgba(0,0,0,0.45));
-      transition: transform 0.25s linear;
-    }
-
-    /* small utilities */
-    .sr-only{ position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
-    .section-title{ font-size:1.6rem; font-weight:700; color:#e6f7ff; margin-bottom:0.75rem; display:inline-block; position:relative; }
-    .muted-small{ color:#9fb8d9; font-size:0.95rem; }
-
-    /* scroll reveal helper */
-    .reveal{ opacity:0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .reveal.show{ opacity:1; transform: translateY(0); }
-
-  </style>
-</head>
-<body>
-
-  <!-- starfield canvas (Three.js) -->
-  <canvas id="starfield" aria-hidden="true"></canvas>
-
-  <!-- floating bugs (initially off-screen, will be animated via JS) -->
-  <div class="bug" id="bug1" aria-hidden="true"></div>
-  <div class="bug" id="bug2" aria-hidden="true"></div>
-  <div class="bug" id="bug3" aria-hidden="true"></div>
-
-  <header>
-    <div class="header-container">
-      <div class="logo">PKA</div>
-      <nav aria-label="Main navigation" id="main-nav">
-        <a href="#test-cases">Test Cases</a>
-        <a href="#test-reports">Test Reports</a>
-        <a href="#test-tools">Test Tools</a>
-        <a href="#skills">Skills</a>
-        <a href="#contact">Contact QA</a>
-      </nav>
-    </div>
-  </header>
-
-  <main>
-
-    <!-- HERO -->
-    <section class="hero" aria-labelledby="hero-heading">
-      <div class="container">
-        <div class="console" role="status" aria-live="polite">
-          <div class="line">$ ./run_tests.sh</div>
-          <div class="line">Running test suite... <span class="blink">|</span></div>
-          <div class="line muted">All tests passed! (37/37)</div>
-        </div>
-
-        <h1 id="hero-heading" class="name">Pavankalyan Akasam</h1>
-        <p class="subtitle">QA Automation Engineer — Selenium, TestNG, Cucumber, Java</p>
-      </div>
-    </section>
-
-    <!-- TEST CASES / Projects -->
-    <section id="test-cases" class="section" aria-labelledby="cases-title">
-      <div class="container">
-        <h2 id="cases-title" class="section-title reveal">Test Cases</h2>
-        <div class="reveal" style="margin-top:1rem;">
-          <!-- Project cards (kept from your original) -->
-          <div class="test-case" role="article">
-            <h3 style="margin:0 0 0.5rem;">AutomationExercise E-Commerce</h3>
-            <div style="margin-bottom:0.6rem;">
-              <span class="status-badge status-pass">PASSED</span>
-              <span class="tech-badge">Java</span>
-              <span class="tech-badge">Selenium</span>
-              <span class="tech-badge">TestNG</span>
-              <span class="tech-badge">POM</span>
-            </div>
-            <p style="color:#cfe6ff; margin-bottom:0.5rem;">Developed end-to-end automation for AutomationExercise. Automation of registration, cart, checkout flows with robust POM structure.</p>
-            <a href="https://github.com/AKASAMPAVANKALYAN/automationexercise_ecommercedemo" target="_blank" rel="noopener" style="color:var(--accent);"> <i class="fab fa-github"></i> View Source</a>
-          </div>
-
-          <div class="test-case" role="article">
-            <h3 style="margin:0 0 0.5rem;">OBZERVR_POM</h3>
-            <div style="margin-bottom:0.6rem;">
-              <span class="status-badge status-pass">PASSED</span>
-              <span class="tech-badge">Selenium</span>
-              <span class="tech-badge">TestNG</span>
-              <span class="tech-badge">Apache POI</span>
-            </div>
-            <p style="color:#cfe6ff; margin-bottom:0.5rem;">UI automation with POM + Excel-driven data and dynamic Extent Reports. TestNG listeners for screenshots on failure.</p>
-            <a href="https://github.com/AKASAMPAVANKALYAN/obzervr_pom" target="_blank" rel="noopener" style="color:var(--accent);"> <i class="fab fa-github"></i> View Source</a>
-          </div>
-
-          <div class="test-case" role="article">
-            <h3 style="margin:0 0 0.5rem;">SAUCEDEMO_AUTOMATION</h3>
-            <div style="margin-bottom:0.6rem;">
-              <span class="status-badge status-pass">PASSED</span>
-              <span class="tech-badge">Cucumber</span>
-              <span class="tech-badge">JUnit</span>
-              <span class="tech-badge">Selenium</span>
-            </div>
-            <p style="color:#cfe6ff; margin-bottom:0.5rem;">BDD-style, data-driven automation for Saucedemo with Excel input and JUnit integration.</p>
-            <a href="https://github.com/AKASAMPAVANKALYAN/saucedemo_automation" target="_blank" rel="noopener" style="color:var(--accent);"> <i class="fab fa-github"></i> View Source</a>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- REPORTS / Education -->
-    <section id="test-reports" class="section bg-light" aria-labelledby="reports-title" style="background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));">
-      <div class="container">
-        <h2 id="reports-title" class="section-title reveal">Test Reports</h2>
-
-        <div style="margin-top:1rem;">
-          <div class="test-case reveal" style="margin-bottom:1rem;">
-            <p class="muted-small">Sep 2020 - May 2024</p>
-            <h3 style="margin:0 0 0.25rem;">Bachelor of Technology, Computer Science</h3>
-            <p class="muted-small">Vel Tech Rangarajan Dr. Sagunthala R&D Institute, Chennai • GPA: 7.9/10</p>
-          </div>
-
-          <div class="test-case reveal">
-            <p class="muted-small">Jun 2018 - Mar 2020</p>
-            <h3 style="margin:0 0 0.25rem;">Intermediate (MPC)</h3>
-            <p class="muted-small">Narayana Junior College, Andhra Pradesh • GPA: 8.46/10</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Tools / Skills (updated grouped skills) -->
-    <section id="test-tools" class="section" aria-labelledby="tools-title">
-      <div class="container">
-        <h2 id="tools-title" class="section-title reveal">Test Tools</h2>
-        <div class="tools-grid reveal" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:1rem;margin-top:1rem;">
-          <!-- small tool cards -->
-          <div class="skill-card" role="img" aria-label="Java">
-            <div style="text-align:center;">
-              <div class="skill-icon" aria-hidden="true"><i class="fab fa-java"></i></div>
-              <div style="margin-top:0.6rem;color:#dbeffd;">Java</div>
-            </div>
-          </div>
-
-          <div class="skill-card" role="img" aria-label="Selenium">
-            <div style="text-align:center;">
-              <div class="skill-icon" aria-hidden="true"><i class="fas fa-robot"></i></div>
-              <div style="margin-top:0.6rem;color:#dbeffd;">Selenium</div>
-            </div>
-          </div>
-
-          <div class="skill-card" role="img" aria-label="TestNG">
-            <div style="text-align:center;">
-              <div class="skill-icon" aria-hidden="true"><i class="fas fa-vial"></i></div>
-              <div style="margin-top:0.6rem;color:#dbeffd;">TestNG</div>
-            </div>
-          </div>
-
-          <div class="skill-card" role="img" aria-label="Cucumber">
-            <div style="text-align:center;">
-              <div class="skill-icon" aria-hidden="true"><i class="fas fa-leaf"></i></div>
-              <div style="margin-top:0.6rem;color:#dbeffd;">Cucumber</div>
-            </div>
-          </div>
-
-          <div class="skill-card" role="img" aria-label="SQL">
-            <div style="text-align:center;">
-              <div class="skill-icon" aria-hidden="true"><i class="fas fa-database"></i></div>
-              <div style="margin-top:0.6rem;color:#dbeffd;">SQL</div>
-            </div>
-          </div>
-
-          <div class="skill-card" role="img" aria-label="GitHub">
-            <div style="text-align:center;">
-              <div class="skill-icon" aria-hidden="true"><i class="fab fa-github"></i></div>
-              <div style="margin-top:0.6rem;color:#dbeffd;">GitHub</div>
-            </div>
-          </div>
-
-          <div class="skill-card" role="img" aria-label="JIRA">
-            <div style="text-align:center;">
-              <div class="skill-icon" aria-hidden="true"><i class="fab fa-jira"></i></div>
-              <div style="margin-top:0.6rem;color:#dbeffd;">JIRA</div>
-            </div>
-          </div>
-
-          <div class="skill-card" role="img" aria-label="Jenkins">
-            <div style="text-align:center;">
-              <div class="skill-icon" aria-hidden="true"><i class="fas fa-server"></i></div>
-              <div style="margin-top:0.6rem;color:#dbeffd;">Jenkins</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SKILLS (grouped detailed) -->
-    <section id="skills" class="section" aria-labelledby="skills-title">
-      <div class="container">
-        <h2 id="skills-title" class="section-title reveal">Skills</h2>
-
-        <div class="skills-grid" style="margin-top:1rem;">
-          <!-- Testing Skills -->
-          <div class="skill-card reveal" aria-labelledby="testing-skills">
-            <div class="skill-head">
-              <div class="skill-icon" aria-hidden="true"><i class="fas fa-clipboard-check"></i></div>
-              <div>
-                <h3 id="testing-skills" style="margin:0;color:#e6f7ff;">Testing Skills</h3>
-                <div class="muted-small">Core QA capabilities</div>
-              </div>
-            </div>
-            <ul class="skill-list" aria-hidden="false">
-              <li>Manual Testing</li>
-              <li>Automation Testing</li>
-              <li>Functional Testing</li>
-              <li>Regression Testing</li>
-              <li>Smoke Testing</li>
-              <li>Sanity Testing</li>
-              <li>Test Case Design</li>
-              <li>Defect Reporting</li>
-              <li>Bug Life Cycle</li>
-            </ul>
-          </div>
-
-          <!-- Methodologies & Tools -->
-          <div class="skill-card reveal" aria-labelledby="process-skills">
-            <div class="skill-head">
-              <div class="skill-icon" aria-hidden="true"><i class="fas fa-list-check"></i></div>
-              <div>
-                <h3 id="process-skills" style="margin:0;color:#e6f7ff;">Process & Methodologies</h3>
-                <div class="muted-small">How you approach testing</div>
-              </div>
-            </div>
-            <ul class="skill-list">
-              <li>SDLC / STLC</li>
-              <li>JIRA</li>
-            </ul>
-          </div>
-
-          <!-- Automation Frameworks -->
-          <div class="skill-card reveal" aria-labelledby="automation-skills">
-            <div class="skill-head">
-              <div class="skill-icon" aria-hidden="true"><i class="fas fa-cogs"></i></div>
-              <div>
-                <h3 id="automation-skills" style="margin:0;color:#e6f7ff;">Automation Tools & Frameworks</h3>
-                <div class="muted-small">The tools you use</div>
-              </div>
-            </div>
-            <ul class="skill-list">
-              <li>Selenium WebDriver</li>
-              <li>TestNG</li>
-              <li>Page Object Model (POM)</li>
-              <li>Cucumber</li>
-              <li>JUnit</li>
-              <li>Git / GitHub</li>
-            </ul>
-          </div>
-
-          <!-- Programming & DB -->
-          <div class="skill-card reveal" aria-labelledby="prog-skills">
-            <div class="skill-head">
-              <div class="skill-icon" aria-hidden="true"><i class="fas fa-code"></i></div>
-              <div>
-                <h3 id="prog-skills" style="margin:0;color:#e6f7ff;">Programming & Databases</h3>
-                <div class="muted-small">Core language & DB</div>
-              </div>
-            </div>
-            <ul class="skill-list">
-              <li>Core Java</li>
-              <li>SQL</li>
-            </ul>
-          </div>
-
-          <!-- Version Control -->
-          <div class="skill-card reveal" aria-labelledby="vc-skills">
-            <div class="skill-head">
-              <div class="skill-icon" aria-hidden="true"><i class="fab fa-git-alt"></i></div>
-              <div>
-                <h3 id="vc-skills" style="margin:0;color:#e6f7ff;">Version Control</h3>
-                <div class="muted-small">Source management</div>
-              </div>
-            </div>
-            <ul class="skill-list">
-              <li>Git / GitHub</li>
-            </ul>
-          </div>
-
-          <!-- Extras placeholder (keeps layout balanced) -->
-          <div class="skill-card reveal" aria-hidden="true" style="opacity:0.98;">
-            <div class="skill-head">
-              <div class="skill-icon" aria-hidden="true"><i class="fas fa-wrench"></i></div>
-              <div>
-                <h3 style="margin:0;color:#e6f7ff;">Other</h3>
-                <div class="muted-small">Tools & workflows</div>
-              </div>
-            </div>
-            <ul class="skill-list">
-              <li>JIRA</li>
-              <li>Basic DevOps familiarity</li>
-            </ul>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact" class="section bg-light" aria-labelledby="contact-title" style="background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));">
-      <div class="container">
-        <h2 id="contact-title" class="section-title reveal">Contact QA</h2>
-
-        <div class="contact-card reveal" style="margin-top:1rem;">
-          <!-- FORM: Replace FORMSPREE_ENDPOINT with your formspree url (see instructions below) -->
-          <form id="contactForm" method="POST" action="__FORMSPREE_ENDPOINT__" aria-label="Contact Form">
-            <div style="display:grid;grid-template-columns:1fr 1fr; gap:0.8rem;">
-              <div>
-                <label for="name">Your Name</label>
-                <input id="name" name="name" type="text" class="" placeholder="Enter your name" required aria-required="true"/>
-              </div>
-              <div>
-                <label for="email">Your Email</label>
-                <input id="email" name="email" type="email" class="" placeholder="Enter your email" required aria-required="true"/>
-              </div>
-            </div>
-
-            <div style="margin-top:0.8rem;">
-              <label for="priority">Priority</label>
-              <select id="priority" name="priority" aria-label="Priority" required>
-                <option>Low</option>
-                <option>Medium</option>
-                <option>High</option>
-                <option>Critical</option>
-              </select>
-            </div>
-
-            <div style="margin-top:0.8rem;">
-              <label for="message">Message</label>
-              <textarea id="message" name="message" rows="5" placeholder="Describe the issue..." required></textarea>
-            </div>
-
-            <button type="submit" class="submit-btn" aria-label="Submit Bug Report">Submit Bug Report</button>
-
-            <p class="muted-small" style="margin-top:0.6rem;">
-              Or contact directly:
-              <a href="mailto:apavanpkalyan@gmail.com" style="color:var(--accent); text-decoration:none;"> <i class="fas fa-envelope"></i> Email</a>
-              &nbsp;•&nbsp;
-              <a href="tel:+918341653388" style="color:var(--accent); text-decoration:none;"> <i class="fas fa-phone"></i> +91 8341653388</a>
-              &nbsp;•&nbsp;
-              <a href="https://www.linkedin.com/in/pavankalyan-akasamm-1a5668216" target="_blank" rel="noopener" style="color:var(--accent);"> <i class="fab fa-linkedin"></i> LinkedIn</a>
-            </p>
-
-            <input type="hidden" name="_subject" value="New bug report from portfolio">
-            <!-- Honeypot anti-spam -->
-            <div style="position:absolute; left:-9999px; top:auto;">
-              <label>Don’t fill this</label>
-              <input name="_gotcha" tabindex="-1" autocomplete="off"/>
-            </div>
-          </form>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <footer aria-labelledby="footer-heading">
-    <div class="container">
-      <p id="footer-heading" style="margin:0 0 0.6rem;">Pavankalyan Akasam | QA Automation Engineer</p>
-      <div style="display:flex;gap:1rem;justify-content:center;align-items:center;">
-        <a href="https://github.com/AKASAMPAVANKALYAN" target="_blank" rel="noopener" style="color:#cfe6ff;"><i class="fab fa-github fa-lg"></i></a>
-        <a href="https://www.linkedin.com/in/pavankalyan-akasamm-1a5668216" target="_blank" rel="noopener" style="color:#cfe6ff;"><i class="fab fa-linkedin fa-lg"></i></a>
-        <a href="mailto:apavanpkalyan@gmail.com" style="color:#cfe6ff;"><i class="fas fa-envelope fa-lg"></i></a>
-      </div>
-      <p style="margin-top:0.9rem; color:#9fb8d9; font-size:0.9rem;">&copy; 2024 Pavankalyan Akasam — All tests passed (for now 😉)</p>
-    </div>
-  </footer>
-
-  <!-- JS -->
-  <script>
-    /* ---------------------------
-       Small helpers: reveal on scroll
-       --------------------------- */
-    (function(){
-      const revealEls = document.querySelectorAll('.reveal');
-      const io = new IntersectionObserver((entries)=>{
-        entries.forEach(e=>{
-          if(e.isIntersecting) e.target.classList.add('show');
-        });
-      }, {threshold:0.12});
-      revealEls.forEach(el=>io.observe(el));
-    })();
-
-    /* ---------------------------
-       STARFIELD (Three.js)
-       simple, optimized starfield
-       --------------------------- */
-    (function(){
-      const canvas = document.getElementById('starfield');
-      if(!canvas) return;
-      const renderer = new THREE.WebGLRenderer({ canvas, alpha:true, antialias:true });
-      const fov = 60;
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(fov, window.innerWidth / window.innerHeight, 1, 2000);
-      camera.position.z = 1;
-
-      // star geometry
-      const starCount = Math.min(1600, Math.floor(window.innerWidth * 0.9));
-      const positions = new Float32Array(starCount * 3);
-      for(let i=0;i<starCount;i++){
-        const r = 800 + Math.random() * 1600;
-        const theta = Math.random() * 2 * Math.PI;
-        const phi = Math.acos(2 * Math.random() - 1);
-        positions[i*3] = r * Math.sin(phi) * Math.cos(theta);
-        positions[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
-        positions[i*3+2] = r * Math.cos(phi);
-      }
-      const geometry = new THREE.BufferGeometry();
-      geometry.setAttribute('position', new THREE.BufferAttribute(positions,3));
-      const material = new THREE.PointsMaterial({ size:1, color:0xcfe6ff, opacity:0.85, transparent:true });
-      const points = new THREE.Points(geometry, material);
-      scene.add(points);
-
-      function onResize(){
-        const w = window.innerWidth, h = window.innerHeight;
-        renderer.setSize(w,h);
-        camera.aspect = w/h;
-        camera.updateProjectionMatrix();
-      }
-      window.addEventListener('resize', onResize);
-      onResize();
-
-      let rot = 0;
-      function animate(){
-        rot += 0.0008 * (1 + Math.sin(Date.now()*0.0002));
-        points.rotation.y = rot;
-        points.rotation.x = Math.sin(rot*0.3) * 0.05;
-        renderer.render(scene, camera);
-        requestAnimationFrame(animate);
-      }
-      animate();
-    })();
-
-    /* ---------------------------
-       Crawling bugs behavior
-       - subtle wandering
-       - move away slightly when the mouse is near
-       --------------------------- */
-    (function(){
-      const bugs = [
-        document.getElementById('bug1'),
-        document.getElementById('bug2'),
-        document.getElementById('bug3')
-      ].filter(Boolean);
-
-      // init positions (off screen)
-      const vw = () => Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-      const vh = () => Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
-
-      const state = bugs.map((b,i)=>{
-        const x = Math.random() * vw();
-        const y = (0.15 + Math.random()*0.7) * vh();
-        b.style.transform = `translate(${x}px, ${y}px)`;
-        return { el:b, x, y, vx:(Math.random()-0.5)*0.35, vy:(Math.random()-0.5)*0.35, phase: Math.random()*1000 };
-      });
-
-      let mouse = {x:-9999, y:-9999};
-      window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
-
-      function step(){
-        const width = vw(), height = vh();
-        state.forEach(s=>{
-          // slight wandering motion
-          s.phase += 0.01 + Math.random()*0.015;
-          s.vx += Math.sin(s.phase) * 0.004;
-          s.vy += Math.cos(s.phase) * 0.004;
-
-          // update position
-          s.x += s.vx;
-          s.y += s.vy;
-
-          // keep inside bounds with gentle bounce
-          if(s.x < 10){ s.x = 10; s.vx *= -0.6; }
-          if(s.y < height*0.08) { s.y = height*0.08; s.vy *= -0.6; }
-          if(s.x > width - 40){ s.x = width - 40; s.vx *= -0.6; }
-          if(s.y > height - 40){ s.y = height - 40; s.vy *= -0.6; }
-
-          // react if mouse near (within 120px)
-          const dx = s.x - mouse.x, dy = s.y - mouse.y;
-          const dist = Math.hypot(dx, dy);
-          if(dist < 120){
-            // move away smoothly
-            const factor = (120 - dist) / 120;
-            s.vx += (dx / (dist + 0.001)) * 0.8 * factor;
-            s.vy += (dy / (dist + 0.001)) * 0.8 * factor;
-            s.el.style.transform = `translate(${s.x}px, ${s.y}px) scale(${1 + factor*0.05}) rotate(${factor*20}deg)`;
-            s.el.style.opacity = 1;
-          } else {
-            s.el.style.transform = `translate(${s.x}px, ${s.y}px)`;
-            s.el.style.opacity = 0.85;
-          }
-        });
-        requestAnimationFrame(step);
-      }
-      // start with staggered delays so they don't all jump at once
-      setTimeout(() => { step(); }, 300);
-    })();
-
-    /* ---------------------------
-       Contact form handling:
-       - If __FORMSPREE_ENDPOINT__ not replaced, fallback to mailto (client opens email)
-       - If form action is set (you replaced it), let it submit normally
-       --------------------------- */
-    (function(){
-      const form = document.getElementById('contactForm');
-      const endpointPlaceholder = '__FORMSPREE_ENDPOINT__';
-      // Replace placeholder server-side path early so HTML shows correct action
-      // If user did not replace, fallback.
-      if(form.getAttribute('action') === endpointPlaceholder || form.getAttribute('action') === '' || form.getAttribute('action') === '__FORMSPREE_ENDPOINT__'){
-        form.setAttribute('action', '#');
-        form.addEventListener('submit', function(e){
-          e.preventDefault();
-          // Build mailto fallback if user hasn't configured Formspree
-          const name = encodeURIComponent(document.getElementById('name').value || 'No name');
-          const email = encodeURIComponent(document.getElementById('email').value || 'no-email');
-          const priority = encodeURIComponent(document.getElementById('priority').value || 'Medium');
-          const message = encodeURIComponent(document.getElementById('message').value || '');
-          const subject = encodeURIComponent('Bug Report from Portfolio — ' + priority);
-          const body = encodeURIComponent(`Name: ${name}%0AEmail: ${email}%0APriority: ${priority}%0A%0AMessage:%0A${message}`);
-          // Open mail client
-          window.location.href = `mailto:apavanpkalyan@gmail.com?subject=${subject}&body=${body}`;
-        });
-      } else {
-        // you provided a Formspree endpoint — keep default submission behavior
-        // ensure we still show a small client-side success message (optional)
-        form.addEventListener('submit', function(){
-          // allow default submit; you can add after-submit UX here
-        });
-      }
-    })();
-
-    /* ---------------------------
-       small accessibility: keyboard focus outline
-       --------------------------- */
-    (function(){
-      document.addEventListener('keyup', function(e){
-        if(e.key === 'Tab'){
-          document.documentElement.classList.add('show-focus');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pavankalyan Akasam | QA Engineer Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f4f4f4;
         }
-      });
-    })();
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .skill-icon {
+            transition: transform 0.3s;
+        }
+        .skill-icon:hover {
+            transform: scale(1.1);
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="text-gray-800">
 
-  </script>
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md fixed w-full z-50">
+        <div class="container mx-auto flex justify-between items-center py-4 px-6">
+            <h1 class="text-xl font-bold">Pavankalyan Akasam</h1>
+            <ul class="flex space-x-6">
+                <li><a href="#about" class="hover:text-blue-600">About</a></li>
+                <li><a href="#skills" class="hover:text-blue-600">Skills</a></li>
+                <li><a href="#projects" class="hover:text-blue-600">Projects</a></li>
+                <li><a href="#education" class="hover:text-blue-600">Education</a></li>
+                <li><a href="#contact" class="hover:text-blue-600">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="h-screen flex flex-col justify-center items-center text-center px-4">
+        <h2 class="text-4xl font-bold mb-4">Hi, I'm Pavankalyan Akasam</h2>
+        <p class="text-lg max-w-2xl">QA Engineer skilled in Manual and Automation Testing, ensuring software quality through meticulous test planning, execution, and defect management.</p>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="py-16 container mx-auto px-4 fade-in">
+        <h3 class="section-title">About Me</h3>
+        <p class="text-center max-w-3xl mx-auto">
+            I am a passionate QA Engineer with expertise in Manual Testing, Automation Testing, and various testing tools.
+            I ensure the delivery of high-quality software products through systematic test processes and effective collaboration.
+        </p>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills" class="py-16 bg-white fade-in">
+        <h3 class="section-title">Skills & Tools</h3>
+        <div class="container mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div class="skill-icon bg-gray-100 p-4 rounded-lg shadow">Manual Testing</div>
+            <div class="skill-icon bg-gray-100 p-4 rounded-lg shadow">Automation Testing</div>
+            <div class="skill-icon bg-gray-100 p-4 rounded-lg shadow">SDLC/STLC</div>
+            <div class="skill-icon bg-gray-100 p-4 rounded-lg shadow">Functional Testing</div>
+            <div class="skill-icon bg-gray-100 p-4 rounded-lg shadow">Regression Testing</div>
+            <div class="skill-icon bg-gray-100 p-4 rounded-lg shadow">Smoke Testing</div>
+            <div class="skill-icon bg-gray-100 p-4 rounded-lg shadow">Sanity Testing</div>
+            <div class="skill-icon bg-gray-100 p-4 rounded-lg shadow">Test Case Design</div>
+            <div class="skill-icon bg-gray-100 p-4 rounded-lg shadow">Defect Reporting</div>
+            <div class="skill-icon bg-gray-100 p-4 rounded-lg shadow">Bug Life Cycle</div>
+            <div class="skill-icon bg-gray-100 p-4 rounded-lg shadow">JIRA</div>
+            <div class="skill-icon bg-gray-100 p-4 rounded-lg shadow">Selenium WebDriver</div>
+            <div class="skill-icon bg-gray-100 p-4 rounded-lg shadow">TestNG</div>
+            <div class="skill-icon bg-gray-100 p-4 rounded-lg shadow">POM</div>
+            <div class="skill-icon bg-gray-100 p-4 rounded-lg shadow">Cucumber</div>
+            <div class="skill-icon bg-gray-100 p-4 rounded-lg shadow">JUnit</div>
+            <div class="skill-icon bg-gray-100 p-4 rounded-lg shadow">SQL</div>
+            <div class="skill-icon bg-gray-100 p-4 rounded-lg shadow">Git/GitHub</div>
+            <div class="skill-icon bg-gray-100 p-4 rounded-lg shadow">Core Java</div>
+        </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="py-16 container mx-auto px-4 fade-in">
+        <h3 class="section-title">Projects</h3>
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="p-6 bg-white rounded-lg shadow">
+                <h4 class="font-bold mb-2">AutomationExercise</h4>
+                <p>Automation testing project demonstrating Selenium WebDriver, TestNG, and POM framework.</p>
+            </div>
+            <div class="p-6 bg-white rounded-lg shadow">
+                <h4 class="font-bold mb-2">OBSERVR_POM</h4>
+                <p>Structured automation testing framework with Cucumber and JUnit for enhanced test management.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education -->
+    <section id="education" class="py-16 bg-white fade-in">
+        <h3 class="section-title">Education</h3>
+        <div class="container mx-auto px-4 text-center">
+            <p>Bachelor's Degree in [Your Field], [Your University], [Year]</p>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="py-16 container mx-auto px-4 fade-in">
+        <h3 class="section-title">Contact Me</h3>
+        <form action="https://formspree.io/f/mvgpyjyr" method="POST" class="max-w-lg mx-auto space-y-4 bg-white p-6 rounded-lg shadow">
+            <input type="text" name="name" placeholder="Your Name" class="w-full p-3 border rounded" required>
+            <input type="email" name="_replyto" placeholder="Your Email" class="w-full p-3 border rounded" required>
+            <textarea name="message" placeholder="Your Message" rows="5" class="w-full p-3 border rounded" required></textarea>
+            <input type="hidden" name="_subject" value="New Contact Message from Portfolio">
+            <input type="hidden" name="_cc" value="apavanpkalyan@gmail.com">
+            <button type="submit" class="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700">Send Message</button>
+        </form>
+    </section>
+
+    <script>
+        // Simple fade-in animation on scroll
+        const elements = document.querySelectorAll('.fade-in');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.2 });
+
+        elements.forEach(el => observer.observe(el));
+    </script>
+
 </body>
 </html>
