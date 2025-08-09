@@ -2,49 +2,557 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Pavankalyan Akasam | QA Engineer Portfolio</title>
- <link rel="stylesheet" href="./style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r146/three.min.js"></script>
+
+  <!-- Tailwind Play CDN (works without build step) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Three.js + GSAP -->
+  <script src="https://unpkg.com/three@0.157.0/build/three.min.js"></script>
+  <script src="https://unpkg.com/three@0.157.0/examples/js/controls/OrbitControls.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <style>
+    :root {
+      --glass: rgba(255,255,255,0.06);
+      --glass-2: rgba(255,255,255,0.08);
+      --accent: linear-gradient(90deg,#7c3aed,#06b6d4);
+      --glass-border: rgba(255,255,255,0.07);
+      --bg: #0b1020;
+      --muted: #aab3c4;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    html,body { height:100%; background: radial-gradient(1200px 600px at 10% 10%, rgba(3,7,18,0.6), transparent 10%), var(--bg); color:#e6eef8; }
+    .glass { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border: 1px solid var(--glass-border); backdrop-filter: blur(6px); }
+    .glass-strong { background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.06)); border:1px solid rgba(255,255,255,0.06); }
+    .neon { text-shadow: 0 6px 24px rgba(124,58,237,0.14); }
+
+    /* Loading overlay */
+    #loader {
+      position: fixed; inset:0; display:flex; align-items:center; justify-content:center; z-index:9999;
+      background: linear-gradient(180deg, rgba(2,6,23,0.95), rgba(2,6,23,0.9));
+    }
+    .logo-spin { width:84px; height:84px; border-radius:14px; display:grid; place-items:center; background:linear-gradient(135deg,#111827,#0b1220); border:1px solid rgba(255,255,255,0.04); }
+    .dot { width:10px; height:10px; border-radius:999px; background: radial-gradient(circle at 30% 30%, #fff, #7c3aed); box-shadow: 0 6px 18px rgba(124,58,237,0.5); }
+
+    /* custom cursor */
+    .cursor {
+      position: fixed; pointer-events:none; z-index:99999; width:14px; height:14px; border-radius:999px;
+      transform: translate(-50%,-50%); transition: transform .12s linear, width .12s linear, height .12s linear;
+      background: radial-gradient(circle at 20% 20%, #fff, #7c3aed);
+      box-shadow: 0 8px 30px rgba(124,58,237,0.18);
+      mix-blend-mode: screen;
+    }
+
+    /* layout fixed nav */
+    nav { backdrop-filter: blur(6px); }
+    a { text-decoration: none; }
+
+    /* 3D canvas sizing */
+    #three-canvas { position: fixed; inset:0; z-index:0; pointer-events:none; }
+
+    /* skill row */
+    .skill-row { display:flex; gap:14px; overflow:auto; padding:12px; scrollbar-width:none; -ms-overflow-style:none; }
+    .skill-row::-webkit-scrollbar { display:none; }
+
+    /* small project card hover */
+    .project-card:hover { transform: translateY(-8px) rotateX(3deg); box-shadow: 0 30px 60px rgba(2,6,23,0.6); }
+
+    /* responsive tweaks */
+    @media (max-width:900px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+      .floating-3d { height:220px; }
+    }
+  </style>
 </head>
-<body>
-  <div id="loading">
-    <div class="loader">
-      <div class="dot"></div>
-      <div class="text">Pavankalyan Akasam</div>
+<body class="antialiased">
+
+  <!-- Loading screen -->
+  <div id="loader" class="flex-col">
+    <div class="logo-spin glass-strong">
+      <div class="dot animate-pulse"></div>
     </div>
+    <p class="mt-4 text-sm text-gray-300">crafting the scene — hold on</p>
   </div>
-  <canvas id="bg"></canvas>
-  <header class="nav">
-    <div class="brand">Pavankalyan Akasam</div>
-    <nav>
-      <a href="#about">About</a>
-      <a href="#skills">Skills</a>
-      <a href="#projects">Projects</a>
-      <a href="#education">Education</a>
-      <a href="#contact">Contact</a>
-      <button id="themeToggle" aria-label="Toggle theme">🌙</button>
-    </nav>
-  </header>
-  <main>
-    <section id="hero" class="panel">
-      <div class="hero-content">
-        <h1>Hi — I’m <span class="accent">Pavankalyan Akasam</span></h1>
-        <p class="role">QA Automation Engineer — Manual & Automation Testing | Java | Selenium | Cucumber | JUnit</p>
-        <div class="cta-row">
-          <a class="btn" href="#projects">See Projects</a>
-          <a class="btn ghost" href="#contact">Get in touch</a>
+
+  <!-- custom cursor -->
+  <div id="cursor" class="cursor"></div>
+
+  <!-- 3D canvas / background -->
+  <canvas id="three-canvas"></canvas>
+
+  <!-- Top navigation -->
+  <header class="fixed w-full z-40 top-4 px-6">
+    <nav class="max-w-6xl mx-auto flex items-center justify-between glass rounded-2xl p-3 shadow-sm">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg flex items-center justify-center bg-gradient-to-br from-violet-600 to-cyan-400">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="text-white"><path d="M12 2L19 7v6c0 5-3 9-7 9s-7-4-7-9V7l7-5z" fill="white"/></svg>
+        </div>
+        <div>
+          <div class="text-sm font-semibold">Pavankalyan Akasam</div>
+          <div class="text-xs text-gray-300">QA Automation Engineer</div>
         </div>
       </div>
+
+      <div class="hidden md:flex items-center gap-4 text-sm text-gray-300">
+        <a href="#about" class="px-3 py-2 hover:rounded-md hover:bg-white/5 transition">About</a>
+        <a href="#skills" class="px-3 py-2 hover:rounded-md hover:bg-white/5 transition">Skills</a>
+        <a href="#projects" class="px-3 py-2 hover:rounded-md hover:bg-white/5 transition">Projects</a>
+        <a href="#education" class="px-3 py-2 hover:rounded-md hover:bg-white/5 transition">Education</a>
+        <a href="#contact" class="px-3 py-2 hover:rounded-md hover:bg-white/5 transition">Contact</a>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div id="vis-count" class="text-xs text-gray-300 px-3 py-2 glass rounded-md">Visitors: —</div>
+        <button id="themeToggle" class="px-3 py-2 text-xs glass rounded-md hidden md:inline">Toggle</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main content -->
+  <main class="relative z-10 pt-28 pb-20">
+    <section class="max-w-6xl mx-auto px-6">
+      <!-- HERO -->
+      <div class="grid hero-grid grid-cols-12 gap-6 items-center">
+        <!-- Left: intro -->
+        <div class="col-span-7">
+          <h1 class="text-5xl md:text-6xl font-extrabold leading-tight neon">Pavankalyan Akasam</h1>
+          <p class="mt-3 text-lg text-gray-300 max-w-2xl">
+            QA Automation Engineer specializing in Selenium WebDriver, Java, Cucumber, JUnit, and building maintainable Page Object Model frameworks. I design automation solutions that scale and are easy to handoff. This portfolio highlights automation projects, test plans, and tooling expertise.
+          </p>
+
+          <div class="mt-6 flex gap-3">
+            <a href="#projects" class="px-5 py-3 glass rounded-2xl font-semibold hover:scale-105 transition">See Projects</a>
+            <a href="#contact" class="px-5 py-3 glass rounded-2xl font-semibold hover:scale-105 transition">Contact Me</a>
+          </div>
+
+          <div class="mt-8 grid grid-cols-2 gap-3">
+            <div class="glass rounded-lg p-4">
+              <div class="text-xs text-gray-300">Primary Tech</div>
+              <div class="mt-2 font-semibold">Java · Selenium · Cucumber · JUnit · POM</div>
+            </div>
+            <div class="glass rounded-lg p-4">
+              <div class="text-xs text-gray-300">Current Goal</div>
+              <div class="mt-2 font-semibold">Business Solution Analyst — Tax Domain (Manual Testing)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: floating 3D / avatar -->
+        <div class="col-span-5">
+          <div class="floating-3d glass rounded-2xl p-4" style="height:360px; display:flex; align-items:center; justify-content:center;">
+            <!-- A minimal fallback static graphic with overlayed controls; Three.js canvas will appear behind the whole page -->
+            <div class="text-center">
+              <div class="w-40 h-40 rounded-lg mx-auto glass-strong flex items-center justify-center">
+                <svg width="72" height="72" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 2l7 5v6c0 5-3 9-7 9s-7-4-7-9V7l7-5z" fill="#06b6d4"/>
+                </svg>
+              </div>
+              <div class="mt-4 text-sm text-gray-300">3D interactive scene & starfield (move your mouse)</div>
+              <div class="mt-3 text-xs text-gray-400">Tip: hover projects/skills to animate</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABOUT -->
+      <div id="about" class="mt-14 glass rounded-2xl p-6">
+        <div class="flex items-start gap-6">
+          <div class="w-16 h-16 rounded-lg flex items-center justify-center bg-gradient-to-tr from-violet-600 to-cyan-400">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 2L19 7v6c0 5-3 9-7 9s-7-4-7-9V7l7-5z" fill="white"/></svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold">About</h3>
+            <p class="mt-2 text-gray-300 max-w-3xl">
+              I'm Pavankalyan Akasam — a QA Automation Engineer with experience converting procedural test scripts into robust Page Object Model frameworks, integrating Selenium with Cucumber and JUnit, and delivering automation solutions aligned with business goals.
+              I enjoy adding 3D effects to portfolios and creating reusable automation frameworks that make testing faster and more reliable.
+            </p>
+            <ul class="mt-4 grid grid-cols-2 gap-2 text-sm text-gray-300">
+              <li><strong>Location:</strong> India</li>
+              <li><strong>Role:</strong> QA Automation Engineer</li>
+              <li><strong>Portfolio:</strong> Pavankalyan Akasam | QA Engineer Portfolio</li>
+              <li><strong>Visitor Count:</strong> <span id="vc-inline" class="font-semibold">—</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SKILLS -->
+      <div id="skills" class="mt-12">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-xl font-semibold">Skills & Tools</h3>
+          <div class="text-sm text-gray-300">Grouped by category — single-row layout</div>
+        </div>
+
+        <!-- Single-row skills (horizontal) -->
+        <div class="glass rounded-2xl p-3">
+          <div class="skill-row">
+            <!-- Category: Languages -->
+            <div class="min-w-[260px] p-3 glass rounded-lg">
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="text-xs text-gray-300">Languages</div>
+                  <div class="font-semibold mt-1">Java · SQL · JavaScript</div>
+                </div>
+                <div class="text-sm opacity-80">🏷️</div>
+              </div>
+              <div class="mt-3 flex gap-2 flex-wrap">
+                <span class="text-xs glass rounded-full px-3 py-1">Java</span>
+                <span class="text-xs glass rounded-full px-3 py-1">SQL</span>
+                <span class="text-xs glass rounded-full px-3 py-1">JavaScript</span>
+              </div>
+            </div>
+
+            <!-- Frameworks & Libraries -->
+            <div class="min-w-[260px] p-3 glass rounded-lg">
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="text-xs text-gray-300">Frameworks</div>
+                  <div class="font-semibold mt-1">Selenium · Cucumber · JUnit</div>
+                </div>
+                <div class="text-sm opacity-80">⚙️</div>
+              </div>
+              <div class="mt-3 flex gap-2 flex-wrap">
+                <span class="text-xs glass rounded-full px-3 py-1">Selenium WebDriver</span>
+                <span class="text-xs glass rounded-full px-3 py-1">Cucumber</span>
+                <span class="text-xs glass rounded-full px-3 py-1">JUnit</span>
+              </div>
+            </div>
+
+            <!-- Tools -->
+            <div class="min-w-[260px] p-3 glass rounded-lg">
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="text-xs text-gray-300">Tools</div>
+                  <div class="font-semibold mt-1">Maven · Git · Jenkins · OBS</div>
+                </div>
+                <div class="text-sm opacity-80">🛠️</div>
+              </div>
+              <div class="mt-3 flex gap-2 flex-wrap">
+                <span class="text-xs glass rounded-full px-3 py-1">Git</span>
+                <span class="text-xs glass rounded-full px-3 py-1">Maven</span>
+                <span class="text-xs glass rounded-full px-3 py-1">Jenkins</span>
+                <span class="text-xs glass rounded-full px-3 py-1">OBS</span>
+              </div>
+            </div>
+
+            <!-- Testing domain -->
+            <div class="min-w-[260px] p-3 glass rounded-lg">
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="text-xs text-gray-300">Testing</div>
+                  <div class="font-semibold mt-1">Manual · Automation · Test Planning</div>
+                </div>
+                <div class="text-sm opacity-80">✅</div>
+              </div>
+              <div class="mt-3 flex gap-2 flex-wrap">
+                <span class="text-xs glass rounded-full px-3 py-1">Test Plans</span>
+                <span class="text-xs glass rounded-full px-3 py-1">Edge Cases</span>
+                <span class="text-xs glass rounded-full px-3 py-1">Performance (basic)</span>
+              </div>
+            </div>
+
+            <!-- UX & Extras -->
+            <div class="min-w-[260px] p-3 glass rounded-lg">
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="text-xs text-gray-300">Extras</div>
+                  <div class="font-semibold mt-1">3D Portfolio · UI Animations</div>
+                </div>
+                <div class="text-sm opacity-80">✨</div>
+              </div>
+              <div class="mt-3 flex gap-2 flex-wrap">
+                <span class="text-xs glass rounded-full px-3 py-1">Three.js</span>
+                <span class="text-xs glass rounded-full px-3 py-1">GSAP</span>
+                <span class="text-xs glass rounded-full px-3 py-1">Tailwind</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Projects -->
+      <div id="projects" class="mt-12">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-xl font-semibold">Projects</h3>
+          <div class="text-sm text-gray-300">Click to view demo / repo</div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <!-- AutomationExercise -->
+          <article class="project-card glass rounded-2xl p-4 transform transition duration-300">
+            <div class="flex items-start gap-4">
+              <div class="w-28 h-20 rounded-lg bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center">
+                <img src="https://via.placeholder.com/200x120?text=AutomationExercise" alt="AutomationExercise" class="rounded" />
+              </div>
+              <div>
+                <h4 class="font-semibold text-lg">AutomationExercise</h4>
+                <p class="text-sm mt-1 text-gray-300">A comprehensive Selenium automation project demonstrating login automation, data-driven tests, and robust Page Object Model structure.</p>
+                <div class="mt-3 flex gap-2 text-xs">
+                  <span class="glass rounded-full px-3 py-1">Selenium</span>
+                  <span class="glass rounded-full px-3 py-1">Java</span>
+                  <span class="glass rounded-full px-3 py-1">POM</span>
+                </div>
+                <div class="mt-3 flex gap-2">
+                  <a href="#" class="px-3 py-2 glass rounded-md text-sm">View Repo</a>
+                  <a href="#" class="px-3 py-2 glass rounded-md text-sm">Run Demo</a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- OBSERVR_POM -->
+          <article class="project-card glass rounded-2xl p-4 transform transition duration-300">
+            <div class="flex items-start gap-4">
+              <div class="w-28 h-20 rounded-lg bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center">
+                <img src="https://via.placeholder.com/200x120?text=OBSERVR_POM" alt="OBSERVR_POM" class="rounded" />
+              </div>
+              <div>
+                <h4 class="font-semibold text-lg">OBSERVR_POM</h4>
+                <p class="text-sm mt-1 text-gray-300">A Page Object Model refactor of the OBSERVR automation test set with improved maintainability and CI integration notes.</p>
+                <div class="mt-3 flex gap-2 text-xs">
+                  <span class="glass rounded-full px-3 py-1">POM</span>
+                  <span class="glass rounded-full px-3 py-1">Cucumber</span>
+                  <span class="glass rounded-full px-3 py-1">JUnit</span>
+                </div>
+                <div class="mt-3 flex gap-2">
+                  <a href="#" class="px-3 py-2 glass rounded-md text-sm">View Repo</a>
+                  <a href="#" class="px-3 py-2 glass rounded-md text-sm">Run Demo</a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Extra: Test Case Sample card -->
+          <article class="glass rounded-2xl p-4">
+            <h4 class="font-semibold">Test Case Document</h4>
+            <p class="text-sm mt-2 text-gray-300">Includes over 40 test cases across main flows (login, profile, contact, enquiry). Export available as CSV/Excel on request.</p>
+            <div class="mt-3 flex gap-2">
+              <a href="#" class="px-3 py-2 glass rounded-md text-sm">Download CSV</a>
+            </div>
+          </article>
+
+          <!-- Placeholder for more projects -->
+          <article class="glass rounded-2xl p-4">
+            <h4 class="font-semibold">More Projects</h4>
+            <p class="text-sm mt-2 text-gray-300">Automation scripts, POM framework, and sample reports available on request.</p>
+          </article>
+        </div>
+      </div>
+
+      <!-- Education -->
+      <div id="education" class="mt-12 glass rounded-2xl p-6">
+        <h3 class="text-xl font-semibold">Education</h3>
+        <div class="mt-3 text-gray-300">
+          <ul class="space-y-3">
+            <li>
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-full bg-violet-600 flex items-center justify-center">🎓</div>
+                <div>
+                  <div class="font-semibold">Bachelor's Degree</div>
+                  <div class="text-sm text-gray-300">[University Name] — [Year]</div>
+                </div>
+              </div>
+            </li>
+            <!-- Add more education entries here -->
+          </ul>
+        </div>
+      </div>
+
+      <!-- Contact -->
+      <div id="contact" class="mt-12 glass rounded-2xl p-6">
+        <h3 class="text-xl font-semibold">Contact</h3>
+        <p class="mt-2 text-gray-300">Interested in collaborating or interviewing me? Fill the form or reach me at <span class="font-medium">[your-email@example.com]</span></p>
+
+        <form class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+          <input class="glass p-3 rounded-md" placeholder="Your name" />
+          <input class="glass p-3 rounded-md" placeholder="Email" />
+          <input class="glass p-3 rounded-md" placeholder="Subject" />
+          <input class="glass p-3 rounded-md" placeholder="Phone (optional)" />
+          <textarea class="glass p-3 rounded-md md:col-span-2" placeholder="Message" rows="4"></textarea>
+          <button type="button" class="md:col-span-2 px-5 py-3 rounded-2xl glass font-semibold">Send Message</button>
+        </form>
+      </div>
+
+      <!-- Footer -->
+      <footer class="mt-12 text-center text-sm text-gray-400">
+        © <span id="year"></span> Pavankalyan Akasam · Built with Three.js & GSAP · Portfolio: Pavankalyan Akasam | QA Engineer Portfolio
+      </footer>
     </section>
-    <!-- Other sections same as previously provided -->
   </main>
-  <footer>
-    <div>© <span id="yr"></span> Pavankalyan Akasam — Built with ❤️ and Three.js</div>
-  </footer>
-  <script src="./script.js"></script>
+
+  <!-- Scripts: 3D starfield, cursor, small interactivity, CountAPI -->
+  <script>
+    // Basic utilities
+    const $ = (sel) => document.querySelector(sel);
+
+    // Year
+    document.getElementById('year').innerText = new Date().getFullYear();
+
+    // Visitor count using CountAPI (simple)
+    async function fetchCount() {
+      try {
+        // namespace/key - please change to your CountAPI key if you have one
+        const namespace = 'pavankalyan-akasam-portfolio';
+        const key = 'visitors';
+        const res = await fetch('https://api.countapi.xyz/hit/' + encodeURIComponent(namespace) + '/' + encodeURIComponent(key));
+        const data = await res.json();
+        const val = data.value || '—';
+        document.getElementById('vis-count').innerText = 'Visitors: ' + val;
+        document.getElementById('vc-inline').innerText = val;
+      } catch (e) {
+        console.warn('CountAPI failed', e);
+      }
+    }
+    fetchCount();
+
+    // Loader fade
+    window.addEventListener('load', () => {
+      gsap.to('#loader', { autoAlpha: 0, duration: .6, onComplete: () => { document.getElementById('loader').style.display='none'; }});
+    });
+
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    window.addEventListener('mousemove', e => {
+      cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+    });
+    // enlarge cursor on interactive elements
+    document.querySelectorAll('a, button, input, textarea, .project-card').forEach(el=>{
+      el.addEventListener('mouseenter', ()=> { cursor.style.width='34px'; cursor.style.height='34px'; })
+      el.addEventListener('mouseleave', ()=> { cursor.style.width='14px'; cursor.style.height='14px'; })
+    });
+
+    // GSAP: scroll reveal
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.utils.toArray('main section, .glass, .project-card, .skill-row > div').forEach((el, i) => {
+      gsap.from(el, {
+        y: 30, autoAlpha: 0, duration: 0.8, delay: i*0.06,
+        scrollTrigger: { trigger: el, start: 'top 90%' }
+      });
+    });
+
+    // Three.js starfield + floating shapes
+    (function initThree() {
+      const canvas = document.getElementById('three-canvas');
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(50, innerWidth/innerHeight, 0.1, 2000);
+      camera.position.z = 60;
+
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setSize(innerWidth, innerHeight);
+
+      // starfield
+      const starCount = 1200;
+      const starsGeom = new THREE.BufferGeometry();
+      const positions = new Float32Array(starCount * 3);
+      for (let i = 0; i < starCount; i++) {
+        const r = 300;
+        positions[i*3] = (Math.random() - 0.5) * r;
+        positions[i*3+1] = (Math.random() - 0.5) * r * 0.4;
+        positions[i*3+2] = (Math.random() - 0.5) * r;
+      }
+      starsGeom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      const starMat = new THREE.PointsMaterial({ size: 0.6, transparent: true, opacity: 0.9, color: 0xffffff });
+      const starPoints = new THREE.Points(starsGeom, starMat);
+      scene.add(starPoints);
+
+      // floating polyhedron (represents "projects")
+      const geo = new THREE.DodecahedronGeometry(6, 0);
+      const mat = new THREE.MeshStandardMaterial({ color: 0x7c3aed, emissive: 0x05203a, metalness: 0.3, roughness: 0.2, transparent: true, opacity: 0.95 });
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.position.set(20, 8, 0);
+      scene.add(mesh);
+
+      // soft lights
+      const light = new THREE.DirectionalLight(0xffffff, 0.6);
+      light.position.set(5,10,5);
+      scene.add(light);
+      const amb = new THREE.AmbientLight(0x4a5568, 0.9);
+      scene.add(amb);
+
+      // animate
+      let t = 0;
+      function animate() {
+        t += 0.01;
+        mesh.rotation.x += 0.007;
+        mesh.rotation.y += 0.01;
+        starPoints.rotation.y += 0.0008;
+        starPoints.rotation.x = Math.sin(t*0.05)*0.02;
+        renderer.render(scene, camera);
+        requestAnimationFrame(animate);
+      }
+      animate();
+
+      // interactivity: move camera slightly on mouse move
+      let mouseX = 0, mouseY = 0;
+      window.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX / innerWidth) * 2 - 1;
+        mouseY = -(e.clientY / innerHeight) * 2 + 1;
+        camera.position.x += (mouseX * 6 - camera.position.x) * 0.06;
+        camera.position.y += (mouseY * 3 - camera.position.y) * 0.06;
+      });
+
+      // resize
+      window.addEventListener('resize', () => {
+        camera.aspect = innerWidth/innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(innerWidth, innerHeight);
+      });
+    })();
+
+    // small UX: animate project card on hover using GSAP
+    document.querySelectorAll('.project-card').forEach(card => {
+      card.addEventListener('mouseenter', () => gsap.to(card, { y: -8, rotationX: 2, duration: 0.35 }));
+      card.addEventListener('mouseleave', () => gsap.to(card, { y: 0, rotationX: 0, duration: 0.35 }));
+    });
+
+    // keyboard hint: press T to toggle theme (just a sample)
+    let dark = true;
+    const themeToggle = document.getElementById('themeToggle');
+    function toggleTheme() {
+      dark = !dark;
+      if (!dark) {
+        document.documentElement.style.setProperty('--bg', '#f7f9fc');
+        document.documentElement.style.setProperty('--glass-border', 'rgba(0,0,0,0.06)');
+        document.body.style.color = '#0b1220';
+      } else {
+        document.documentElement.style.setProperty('--bg', '#0b1020');
+        document.documentElement.style.setProperty('--glass-border', 'rgba(255,255,255,0.07)');
+        document.body.style.color = '#e6eef8';
+      }
+    }
+    themeToggle?.addEventListener('click', toggleTheme);
+    window.addEventListener('keydown', (e) => { if (e.key.toLowerCase() === 't') toggleTheme(); });
+
+    // Smooth in-page anchors
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (ev)=> {
+        ev.preventDefault();
+        const id = a.getAttribute('href');
+        const target = document.querySelector(id);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    // expose a small function to update project links later
+    window.updateProjectLinks = function(links) {
+      // Example usage: window.updateProjectLinks([{sel:'.project-card a:first-child', href:'https://github.com/...'}]);
+      links.forEach(it => {
+        const el = document.querySelector(it.sel);
+        if (el && it.href) el.href = it.href;
+      });
+    };
+
+    // Optional: fetch CountAPI again every 60s
+    setInterval(fetchCount, 60000);
+  </script>
 
 </body>
 </html>
