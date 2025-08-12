@@ -57,37 +57,6 @@
             padding: 0.5rem 1rem;
             position: relative;
         }
-        /* Add this with your other styles */
-.skills-section {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem;
-}
-
-.skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 1rem;
-}
-
-.skill-box {
-    background: white;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    text-align: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    transition: transform 0.3s;
-}
-
-.skill-box:hover {
-    transform: translateY(-5px);
-}
-
-.skill-box span {
-    display: block;
-    margin-top: 0.5rem;
-    font-weight: 500;
-}
         
         .header-terminal {
             position: absolute;
@@ -394,28 +363,7 @@
         .section {
             padding: 3rem 0;
         }
-        /* Contact Links Styling */
-.contact-links {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    margin: 1rem 0;
-}
-
-.contact-link {
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-    padding: 0.5rem 0;
-}
-
-@media (max-width: 600px) {
-    .contact-links {
-        flex-direction: column;
-        gap: 0.5rem;
-        align-items: center;
-    }
-}
+        
         .section-title {
             font-size: 2rem;
             font-weight: bold;
@@ -437,6 +385,53 @@
         
         .bg-light {
             background: #edf2f7;
+        }
+        
+        /* Skills Section */
+        .test-tools-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+        
+        .skill-box {
+            background: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .skill-box:hover {
+            transform: translateY(-5px);
+        }
+        
+        .skill-box span {
+            display: block;
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+        
+        /* Contact Links */
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1rem 0;
+        }
+        
+        .contact-link {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            padding: 0.5rem 0;
         }
         
         /* Responsive Design */
@@ -463,6 +458,12 @@
             
             .tools-grid {
                 grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+            
+            .contact-links {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: center;
             }
         }
     </style>
@@ -603,48 +604,47 @@
         </section>
 
         <!-- Test Tools (Skills) -->
-        
-                   <section id="test-tools" class="section">
-    <div class="container">
-        <h2 class="section-title">Test Tools</h2>
-        <div class="test-tools-container">
-    <!-- Manual Testing Skills -->
-<h3 class="text-xl font-semibold mt-6 mb-3 text-indigo-300">🧪 Manual Testing Skills</h3>
-<div class="skills-grid">
-    <div class="skill-box"><i class="fas fa-search text-2xl mb-2 text-indigo-400"></i><span>Manual Testing</span></div>
-    <div class="skill-box"><i class="fas fa-check text-2xl mb-2 text-indigo-400"></i><span>Functional Testing</span></div>
-    <div class="skill-box"><i class="fas fa-history text-2xl mb-2 text-indigo-400"></i><span>Regression Testing</span></div>
-    <div class="skill-box"><i class="fas fa-code-branch text-2xl mb-2 text-indigo-400"></i><span>Integration Testing</span></div>
-    <div class="skill-box"><i class="fas fa-desktop text-2xl mb-2 text-indigo-400"></i><span>System Testing</span></div>
-    <div class="skill-box"><i class="fas fa-fire text-2xl mb-2 text-indigo-400"></i><span>Smoke Testing</span></div>
-    <div class="skill-box"><i class="fas fa-stethoscope text-2xl mb-2 text-indigo-400"></i><span>Sanity Testing</span></div>
-    <div class="skill-box"><i class="fas fa-project-diagram text-2xl mb-2 text-indigo-400"></i><span>SDLC/STLC</span></div>
-    <div class="skill-box"><i class="fas fa-file-alt text-2xl mb-2 text-indigo-400"></i><span>Test Case Design</span></div> 
-</div>
+        <section id="test-tools" class="section">
+            <div class="container">
+                <h2 class="section-title">Test Tools</h2>
+                <div class="test-tools-container">
+                    <!-- Manual Testing Skills -->
+                    <h3 class="text-xl font-semibold mt-6 mb-3 text-indigo-300">🧪 Manual Testing Skills</h3>
+                    <div class="skills-grid">
+                        <div class="skill-box"><i class="fas fa-search text-2xl mb-2 text-indigo-400"></i><span>Manual Testing</span></div>
+                        <div class="skill-box"><i class="fas fa-check text-2xl mb-2 text-indigo-400"></i><span>Functional Testing</span></div>
+                        <div class="skill-box"><i class="fas fa-history text-2xl mb-2 text-indigo-400"></i><span>Regression Testing</span></div>
+                        <div class="skill-box"><i class="fas fa-code-branch text-2xl mb-2 text-indigo-400"></i><span>Integration Testing</span></div>
+                        <div class="skill-box"><i class="fas fa-desktop text-2xl mb-2 text-indigo-400"></i><span>System Testing</span></div>
+                        <div class="skill-box"><i class="fas fa-fire text-2xl mb-2 text-indigo-400"></i><span>Smoke Testing</span></div>
+                        <div class="skill-box"><i class="fas fa-stethoscope text-2xl mb-2 text-indigo-400"></i><span>Sanity Testing</span></div>
+                        <div class="skill-box"><i class="fas fa-project-diagram text-2xl mb-2 text-indigo-400"></i><span>SDLC/STLC</span></div>
+                        <div class="skill-box"><i class="fas fa-file-alt text-2xl mb-2 text-indigo-400"></i><span>Test Case Design</span></div> 
+                    </div>
 
-<!-- Automation Tools -->
-<h3 class="text-xl font-semibold mt-6 mb-3 text-indigo-300">⚙️ Automation & Testing Tools</h3>
-<div class="skills-grid">
-    <div class="skill-box"><i class="fab fa-java text-2xl mb-2 text-indigo-400"></i><span>Core Java</span></div>
-    <div class="skill-box"><i class="fas fa-robot text-2xl mb-2 text-indigo-400"></i><span>Selenium WebDriver</span></div>
-    <div class="skill-box"><i class="fas fa-vial text-2xl mb-2 text-indigo-400"></i><span>TestNG</span></div>
-    <div class="skill-box"><i class="fas fa-tasks text-2xl mb-2 text-indigo-400"></i><span>JUnit</span></div>
-    <div class="skill-box"><i class="fas fa-leaf text-2xl mb-2 text-indigo-400"></i><span>Cucumber BDD</span></div>
-    <div class="skill-box"><i class="fas fa-layer-group text-2xl mb-2 text-indigo-400"></i><span>Page Object Model (POM)</span></div>
-    <div class="skill-box"><i class="fas fa-chart-bar text-2xl mb-2 text-indigo-400"></i><span>ExtentReports</span></div>
-</div>
+                    <!-- Automation Tools -->
+                    <h3 class="text-xl font-semibold mt-6 mb-3 text-indigo-300">⚙️ Automation & Testing Tools</h3>
+                    <div class="skills-grid">
+                        <div class="skill-box"><i class="fab fa-java text-2xl mb-2 text-indigo-400"></i><span>Core Java</span></div>
+                        <div class="skill-box"><i class="fas fa-robot text-2xl mb-2 text-indigo-400"></i><span>Selenium WebDriver</span></div>
+                        <div class="skill-box"><i class="fas fa-vial text-2xl mb-2 text-indigo-400"></i><span>TestNG</span></div>
+                        <div class="skill-box"><i class="fas fa-tasks text-2xl mb-2 text-indigo-400"></i><span>JUnit</span></div>
+                        <div class="skill-box"><i class="fas fa-leaf text-2xl mb-2 text-indigo-400"></i><span>Cucumber BDD</span></div>
+                        <div class="skill-box"><i class="fas fa-layer-group text-2xl mb-2 text-indigo-400"></i><span>Page Object Model (POM)</span></div>
+                        <div class="skill-box"><i class="fas fa-chart-bar text-2xl mb-2 text-indigo-400"></i><span>ExtentReports</span></div>
+                    </div>
 
-<!-- Other Tools -->
-<h3 class="text-xl font-semibold mt-6 mb-3 text-indigo-300">🛠 Additional Tools</h3>
-<div class="skills-grid">
-    <div class="skill-box"><i class="fas fa-database text-2xl mb-2 text-indigo-400"></i><span>SQL</span></div>
-    <div class="skill-box"><i class="fab fa-jira text-2xl mb-2 text-indigo-400"></i><span>JIRA</span></div>
-    <div class="skill-box"><i class="fab fa-github text-2xl mb-2 text-indigo-400"></i><span>GitHub</span></div>
-    <div class="skill-box"><i class="fas fa-bug text-2xl mb-2 text-indigo-400"></i><span>Bug Tracking</span></div>
- 
-</div>
-</div>
-</section>
+                    <!-- Other Tools -->
+                    <h3 class="text-xl font-semibold mt-6 mb-3 text-indigo-300">🛠 Additional Tools</h3>
+                    <div class="skills-grid">
+                        <div class="skill-box"><i class="fas fa-database text-2xl mb-2 text-indigo-400"></i><span>SQL</span></div>
+                        <div class="skill-box"><i class="fab fa-jira text-2xl mb-2 text-indigo-400"></i><span>JIRA</span></div>
+                        <div class="skill-box"><i class="fab fa-github text-2xl mb-2 text-indigo-400"></i><span>GitHub</span></div>
+                        <div class="skill-box"><i class="fas fa-bug text-2xl mb-2 text-indigo-400"></i><span>Bug Tracking</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <!-- Contact QA -->
         <section id="contact" class="section bg-light">
@@ -652,30 +652,32 @@
                 <h2 class="section-title">Contact QA</h2>
                 
                 <div class="contact-form">
-                    <form>
+                    <form id="bugReportForm" action="https://formspree.io/f/apavanpkalyan@gmail.com" method="POST">
+                        <input type="hidden" name="_subject" value="New Bug Report from Portfolio">
                         <div class="form-group">
                             <label class="form-label">Your Name</label>
-                            <input type="text" class="form-input" placeholder="Enter your name">
+                            <input type="text" name="name" class="form-input" placeholder="Enter your name" required>
                         </div>
                         
                         <div class="form-group">
                             <label class="form-label">Your Email</label>
-                            <input type="email" class="form-input" placeholder="Enter your email">
+                            <input type="email" name="_replyto" class="form-input" placeholder="Enter your email" required>
                         </div>
                         
                         <div class="form-group">
                             <label class="form-label">Priority</label>
-                            <select class="form-input">
-                                <option>Low</option>
-                                <option>Medium</option>
-                                <option>High</option>
-                                <option>Critical</option>
+                            <select name="priority" class="form-input" required>
+                                <option value="">Select priority</option>
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                                <option value="Critical">Critical</option>
                             </select>
                         </div>
                         
                         <div class="form-group">
                             <label class="form-label">Message</label>
-                            <textarea class="form-input" rows="4" placeholder="Describe the issue..."></textarea>
+                            <textarea name="message" class="form-input" rows="4" placeholder="Describe the issue..." required></textarea>
                         </div>
                         
                         <button type="submit" class="submit-btn">
@@ -686,24 +688,25 @@
                     <div class="mt-8 pt-6 border-t border-gray-200 text-center">
                         <h4 class="text-sm font-medium text-gray-500 mb-2">Direct Contact</h4>
                         <div class="contact-links">
-    <div class="contact-link">
-        <a href="mailto:apavanpkalyan@gmail.com" class="text-blue-500 hover:underline">
-            <i class="fas fa-envelope mr-1"></i> Email
-        </a>
-    </div>
-    <div class="contact-link">
-        <a href="tel:+918341653388" class="text-blue-500 hover:underline">
-            <i class="fas fa-phone mr-1"></i> +91 8341653388
-        </a>
-    </div>
-    <div class="contact-link">
-        <a href="https://linkedin.com/in/pavankalyan-akasamm-1a5668216" 
-           target="_blank" 
-           class="text-blue-500 hover:underline">
-            <i class="fab fa-linkedin mr-1"></i> LinkedIn
-        </a>
-    </div>
-</div>
+                            <div class="contact-link">
+                                <a href="mailto:apavanpkalyan@gmail.com" class="text-blue-500 hover:underline">
+                                    <i class="fas fa-envelope mr-1"></i> Email
+                                </a>
+                            </div>
+                            <div class="contact-link">
+                                <a href="tel:+918341653388" class="text-blue-500 hover:underline">
+                                    <i class="fas fa-phone mr-1"></i> +91 8341653388
+                                </a>
+                            </div>
+                            <div class="contact-link">
+                                <a href="https://linkedin.com/in/pavankalyan-akasamm-1a5668216" 
+                                   target="_blank" 
+                                   rel="noopener noreferrer"
+                                   class="text-blue-500 hover:underline">
+                                    <i class="fab fa-linkedin mr-1"></i> LinkedIn
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -714,10 +717,10 @@
         <div class="container">
             <p class="mb-4">Pavankalyan Akasam | QA Automation Engineer</p>
             <div class="social-links">
-                <a href="https://github.com/AKASAMPAVANKALYAN" target="_blank">
+                <a href="https://github.com/AKASAMPAVANKALYAN" target="_blank" rel="noopener noreferrer">
                     <i class="fab fa-github"></i>
                 </a>
-                <a href="https://www.linkedin.com/in/pavankalyan-akasamm-1a5668216" target="_blank">
+                <a href="https://www.linkedin.com/in/pavankalyan-akasamm-1a5668216" target="_blank" rel="noopener noreferrer">
                     <i class="fab fa-linkedin"></i>
                 </a>
                 <a href="mailto:apavanpkalyan@gmail.com">
@@ -754,27 +757,39 @@
                 blink.style.visibility = blink.style.visibility === 'hidden' ? 'visible' : 'hidden';
             }, 500);
         }
-        
+
+        // Form submission handling
+        document.getElementById('bugReportForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const form = e.target;
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            
+            try {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Sending...';
+                
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    alert('Bug report submitted successfully!');
+                    form.reset();
+                } else {
+                    throw new Error('Form submission failed');
+                }
+            } catch (error) {
+                alert('Error submitting bug report. Please try again or email directly to apavanpkalyan@gmail.com');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }
+        });
     </script>
-    <!-- Bug cursor image -->
-<img id="bug-cursor" src="bug.png" alt="bug" style="position: fixed; top: 0; left: 0; width: 32px; height: 32px; pointer-events: none; z-index: 9999; transition: transform 0.1s linear;">
-
-<!-- Bug Cursor Script -->
-<script>
-  const bug = document.getElementById('bug-cursor');
-  document.body.style.cursor = 'none';
-
-  document.addEventListener('mousemove', e => {
-    bug.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-  });
-</script>
-// Form submission handling
-document.querySelector('form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    // Add form submission logic or connect to a service
-    alert('Bug report submitted!'); // Temporary for demo
-});
 </body>
 </html>
-
-
