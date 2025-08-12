@@ -790,6 +790,77 @@
                 submitBtn.textContent = originalText;
             }
         });
+        <script>
+    // Mobile menu toggle
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            const nav = document.getElementById('main-nav');
+            nav.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('#main-nav a').forEach(link => {
+            link.addEventListener('click', function() {
+                const nav = document.getElementById('main-nav');
+                if (nav.classList.contains('active')) {
+                    nav.classList.remove('active');
+                }
+            });
+        });
+
+        // Blinking cursor effect
+        const blink = document.querySelector('.blink');
+        if (blink) {
+            setInterval(() => {
+                blink.style.visibility = blink.style.visibility === 'hidden' ? 'visible' : 'hidden';
+            }, 500);
+        }
+
+        // Enhanced Form Submission Handler
+        document.getElementById('bugReportForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const form = e.target;
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            
+            try {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Sending...';
+                
+                // First try Formspree submission
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    alert('Bug report submitted successfully!');
+                    form.reset();
+                    return;
+                }
+                
+                // If Formspree fails, fall back to mailto
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData);
+                const subject = `Bug Report (Priority: ${data.priority})`;
+                const body = `Name: ${data.name}%0AEmail: ${data._replyto}%0APriority: ${data.priority}%0A%0AMessage:%0A${data.message}`;
+                window.location.href = `mailto:apavanpkalyan@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                
+            } catch (error) {
+                // Final fallback if everything fails
+                alert('Error submitting. Your email client will open instead. Please click send.');
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData);
+                const subject = `Bug Report (Priority: ${data.priority})`;
+                const body = `Name: ${data.name}%0AEmail: ${data._replyto}%0APriority: ${data.priority}%0A%0AMessage:%0A${data.message}`;
+                window.location.href = `mailto:apavanpkalyan@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }
+        });
     </script>
 </body>
 </html>
