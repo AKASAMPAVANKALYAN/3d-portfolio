@@ -57,6 +57,37 @@
             padding: 0.5rem 1rem;
             position: relative;
         }
+        /* Add this with your other styles */
+.skills-section {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.skill-box {
+    background: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.skill-box:hover {
+    transform: translateY(-5px);
+}
+
+.skill-box span {
+    display: block;
+    margin-top: 0.5rem;
+    font-weight: 500;
+}
         
         .header-terminal {
             position: absolute;
@@ -707,7 +738,12 @@
     bug.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
   });
 </script>
-
+// Form submission handling
+document.querySelector('form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    // Add form submission logic or connect to a service
+    alert('Bug report submitted!'); // Temporary for demo
+});
 </body>
 </html>
 
